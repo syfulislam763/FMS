@@ -13,7 +13,7 @@ import { NavigationContainer } from "@react-navigation/native";
 export default function App() {
   return (
     <FontLoader>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      {/* <GestureHandlerRootView style={{ flex: 1 }}> */}
         <NavigationContainer>
           <AuthProvider>
             <SafeAreaView>
@@ -26,7 +26,7 @@ export default function App() {
             </SafeAreaView>
           </AuthProvider>
         </NavigationContainer>
-      </GestureHandlerRootView>
+      {/* </GestureHandlerRootView> */}
     </FontLoader>
   );
 }
