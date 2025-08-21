@@ -1,4 +1,5 @@
 import React from 'react';
+//app sign in
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { useAuth } from '../../../context/AuthProvider';
 import { useNavigation } from '@react-navigation/native';
