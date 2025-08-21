@@ -15,7 +15,8 @@ const FontLoader = ({children}) => {
                     "Archivo_Regular": require("../../assets/fonts/archivo/Archivo-Regular.ttf"),
                     "Archivo-SemiBold":require("../../assets/fonts/archivo/Archivo-SemiBold.ttf"),
                     "Archivo-ExtraBold": require("../../assets/fonts/archivo/Archivo-ExtraBold.ttf"),
-                    "Inter_18pt-Regular":require("../../assets/fonts/inter/Inter_18pt-Regular.ttf")
+                    "Inter_18pt-Regular":require("../../assets/fonts/inter/Inter_18pt-Regular.ttf"),
+                    "Inter_18pt-SemiBold":require("../../assets/fonts/inter/Inter_18pt-SemiBold.ttf")
 
                 })
                 setFontsLoaded(true);

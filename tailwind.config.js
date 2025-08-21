@@ -3,7 +3,19 @@ module.exports = {
   content: ["./App.js", "./src/**/*.{js, jsx, ts, tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        "archivo-semi-bold": ["Archivo-SemiBold"],
+        "archivo-extra-bold":["Archivo-ExtraBold"],
+        "archivo-regular":["Archivo_Regular"],
+        "inter-regular":["Inter_18pt-Regular"],
+        "inter-semi-bold":["Inter_18pt-SemiBold"]
+      },
+      colors: {
+        "title-color":"#171A1F",
+        "primary-color": "#565E6C"
+      }
+    },
   },
   plugins: [],
 }

@@ -1,24 +1,36 @@
 import React from 'react';
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+
+const welcome_iamge = require("../../../../assets/img/welcome.png")
 
 const WelcomeScreen = () => {
     const navigation = useNavigation();
     return (
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView className="p-4" style={{flex:1, backgroundColor:'white'}}>
             <View>
-                <Text style={{color:"red", fontSize:20}} >WelcomeScreen</Text>
-                <Pressable 
-                    onPress={()=> navigation.navigate("SignInScreen")}
-                >
-                    <Text className="bg-red-300 text-4xl mb-3">Continue</Text>
-                </Pressable>
+                <Image 
+                    source={welcome_iamge}
+                    style={styles.img}
+                />
+                <View className="flex-col items-center">
+                    <Text className="font-archivo-semi-bold text-[30px] text-title-color" >Welcome!</Text>
+                    <Text className="font-inter-regular text-primary-color text-center mt-5 leading-7">Capture and organise your thoughts, ideas, and information with ease</Text>
+                </View>
             </View>
+            
+
         </SafeAreaView>
     );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    img:{
+        width:"100%",
+        height: "60%",
+        objectFit:'contain'
+    },
+})
 
 export default WelcomeScreen;
