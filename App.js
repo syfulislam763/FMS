@@ -5,10 +5,11 @@ import FontLoader from "./src/hooks/FontLoader";
 import GestureHandlerRootView from "react-native-gesture-handler";
 import { AuthProvider } from "./src/context/AuthProvider";
 import Toast from "react-native-toast-message";
-import { SafeAreaView } from "react-native-safe-area-context";
+//import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
+import { SafeAreaView } from "react-native";
+import RootNavigation from "./src/navigation/RootNavigation";
 
 export default function App() {
   return (
@@ -16,12 +17,10 @@ export default function App() {
       {/* <GestureHandlerRootView style={{ flex: 1 }}> */}
         <NavigationContainer>
           <AuthProvider>
-            <SafeAreaView>
-              <StatusBar/>
+            <SafeAreaView style={{flex:1, backgroundColor:"white"}}>
+              {/* <StatusBar/> */}
 
-              <View>
-                <Text className=" color-red-400 text-3xl">Hello</Text>
-              </View>
+              <RootNavigation/>
 
             </SafeAreaView>
           </AuthProvider>
