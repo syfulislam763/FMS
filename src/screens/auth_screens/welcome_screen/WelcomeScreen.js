@@ -2,13 +2,14 @@ import React from 'react';
 import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import PrimaryButton from '../../../components/PrimaryButton';
 
 const welcome_iamge = require("../../../../assets/img/welcome.png")
 
 const WelcomeScreen = () => {
     const navigation = useNavigation();
     return (
-        <SafeAreaView className="p-4" style={{flex:1, backgroundColor:'white'}}>
+        <SafeAreaView className="p-5 flex-col justify-between" style={{flex:1, backgroundColor:'white'}}>
             <View>
                 <Image 
                     source={welcome_iamge}
@@ -21,6 +22,10 @@ const WelcomeScreen = () => {
             </View>
             
 
+            <PrimaryButton
+                onPress={()=> navigation.navigate("SignInScreen")}
+                text='Get Started'
+            />
         </SafeAreaView>
     );
 }
