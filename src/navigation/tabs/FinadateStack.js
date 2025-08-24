@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 
 export default function FinadateStack (){
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown:false}}>
             <Stack.Screen 
                 name="FindateScreen"
                 component={FinadateScreen}

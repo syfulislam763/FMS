@@ -3,8 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "../screens/auth_screens/welcome_screen/WelcomeScreen";
 import SignInScreen from "../screens/auth_screens/signin_screen/SignInScreen";
 import SignUpScreen from "../screens/auth_screens/sign_up_screen/SignUpScreen";
-import OTPVerification from "../screens/auth_screens/otp_verification/OTPVerification";
+import SingUpOTPVerification from "../screens/auth_screens/otp_verification/SignUpOTPVerification";
 import ForgetPassword from "../screens/auth_screens/forget_pass/ForgetPassword";
+import ForgetPassOTPVerification from "../screens/auth_screens/otp_verification/ForgetPassOTPVerification";
+import PartnerForm from "../screens/auth_screens/otp_verification/PartnerForm";
+import CreateNewPassword from "../screens/auth_screens/forget_pass/CreateNewPassword";
+import ConfirmPasswordChange from "../screens/auth_screens/forget_pass/ConfirmPasswordChange";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,14 +32,31 @@ export default function AuthStack () {
                 component={SignUpScreen}
             />
             <Stack.Screen 
-                name="OTPVerification"
-                component={OTPVerification}
+                name="SignUpOTPVerification"
+                component={SingUpOTPVerification}
+            />
+            <Stack.Screen 
+                name="ForgetPassOTPVerification"
+                component={ForgetPassOTPVerification}
             />
             <Stack.Screen 
                 name="ForgetPassword"
                 component={ForgetPassword}
             />
+            <Stack.Screen 
+                name="CreateNewPassword"
+                component={CreateNewPassword}
+            />
 
+            <Stack.Screen
+                name="PartnerForm"
+                component={PartnerForm}
+            />
+
+            <Stack.Screen 
+                name="ConfirmPasswordChange"
+                component={ConfirmPasswordChange}
+            />
 
         </Stack.Navigator>
     )

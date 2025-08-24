@@ -1,11 +1,47 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+import AppHeader from '../../../components/AppHeader';
+import { BellDot } from 'lucide-react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Cards from './Cards';
+import SavingsGoalCard from './SavingsGoalCard';
+import QuickCalculators from './QuickCalculators';
+import FinancialCalendar from './FinancialCalendar';
 
 const HomeScreen = () => {
     return (
-        <View>
-            <Text>HomeScreen</Text>
-        </View>
+        <SafeAreaView  className="flex-1 bg-[#4F55BA]">
+            <StatusBar style="light" backgroundColor="#4F55BA" />
+            <View className="px-5 pb-4">
+                <AppHeader 
+                    left={() => {
+                        return <View className="flex-row justify-between items-start"> 
+
+                            <Ionicons name="person-circle-outline" size={30} color="grey" />
+
+                            <View className="ml-3">
+                                <Text className="text-white font-inter-regular text-lg">Welcome Back</Text>
+                                <Text className="text-white text-sm font-inter-regular">v1kta30</Text>
+                            </View>
+
+                        </View>
+                    }}
+                    right={() => <BellDot size={24} color={"white"}/>}
+                />
+            </View>
+            <View className="h-full bg-white ">
+                <ScrollView>
+                    <Text className="text-center font-archivo-regular text-2xl my-2">Dashboard</Text>
+                    <Cards/>
+                    <SavingsGoalCard/>
+                    <QuickCalculators/>
+                    <FinancialCalendar/>
+
+                </ScrollView>
+            </View>
+        </SafeAreaView>
     );
 }
 

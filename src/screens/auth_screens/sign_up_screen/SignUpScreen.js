@@ -84,8 +84,8 @@ const SignUpScreen = () => {
 
             {/* Log In Button */}
             <PrimaryButton 
-                onPress={()=>{}}
-                text="Log In"
+                onPress={()=>{navigation.navigate("SignUpOTPVerification")}}
+                text="Sign Up"
             />
 
             {/* Or Separator */}

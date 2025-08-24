@@ -19,6 +19,7 @@ const SignInScreen = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [agreeTerms, setAgreeTerms] = useState(false);
+    const {setIsAuthenticated} = useAuth()
 
     return (
     <SafeAreaView className="flex-1 bg-white px-5">
@@ -32,7 +33,7 @@ const SignInScreen = () => {
             </View>
 
             {/* Email / Phone Input */}
-            <Text className="text-sm font-archivo-semi-bold text-black mt-6">Email or Phone</Text>
+            <Text className="text-sm ml-1 font-archivo-semi-bold text-black mt-6">Email or Phone</Text>
             <TextInput
                 className="rounded-2xl px-4 py-5 mt-2 bg-[#E6E6E680] font-inter-regular text[12px]"
                 placeholder="Enter your new email or phone"
@@ -42,7 +43,7 @@ const SignInScreen = () => {
             />
 
             {/* Password Input */}
-            <Text className="text-sm font-medium text-black mt-4 font-archivo-semi-bold">Password</Text>
+            <Text className="text-sm ml-1 font-medium text-black mt-4 font-archivo-semi-bold">Password</Text>
             <View className="relative mt-2">
             <TextInput
                 className="rounded-2xl px-4 py-5 bg-[#E6E6E680] font-inter-regular text[12px] pr-12"
@@ -65,8 +66,8 @@ const SignInScreen = () => {
             </View>
 
             {/* Forgot Password */}
-            <TouchableOpacity className="mt-4 mb-2 self-end">
-            <Text className="text-[14px] font-inter-semi-bold text-[#4F55BA]">Forgot Password?</Text>
+            <TouchableOpacity onPress={()=> navigation.navigate("ForgetPassword")} className="mt-4 mb-2 self-end">
+                <Text className="text-[14px] font-inter-semi-bold text-[#4F55BA]">Forgot Password?</Text>
             </TouchableOpacity>
 
             {/* Checkbox */}
@@ -84,7 +85,7 @@ const SignInScreen = () => {
 
             {/* Log In Button */}
             <PrimaryButton 
-                onPress={()=>{}}
+                onPress={()=>{setIsAuthenticated(true)}}
                 text="Log In"
             />
 

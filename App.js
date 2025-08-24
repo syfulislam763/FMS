@@ -17,12 +17,12 @@ export default function App() {
       {/* <GestureHandlerRootView style={{ flex: 1 }}> */}
         <NavigationContainer>
           <AuthProvider>
-            <SafeAreaView style={{flex:1, backgroundColor:"white"}}>
+            <View style={{flex:1, backgroundColor:"white"}}>
               {/* <StatusBar/> */}
 
               <RootNavigation/>
 
-            </SafeAreaView>
+            </View>
           </AuthProvider>
         </NavigationContainer>
       {/* </GestureHandlerRootView> */}
