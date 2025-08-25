@@ -1,8 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { CircleArrowDown, CircleArrowUp, PoundSterling, CreditCard, DollarSign, CirclePoundSterling } from 'lucide-react-native';
+import { View, Text , Pressable} from 'react-native';
+import { CircleArrowDown, CircleArrowUp, PoundSterling, CreditCard, DollarSign, CirclePoundSterling, } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Cards = () => {
+
+
+
   const cards = [
     {
       title: 'Income',
@@ -12,7 +16,8 @@ const Cards = () => {
       bgColor: 'bg-green-50',
       borderColor: 'border-green-100',
       textColor: 'text-gray-800',
-      amountColor: 'text-green-600'
+      amountColor: 'text-green-600',
+      route:"IncomeTracker"
     },
     {
       title: 'Expenses',
@@ -22,7 +27,8 @@ const Cards = () => {
       bgColor: 'bg-red-50',
       borderColor: 'border-red-100',
       textColor: 'text-gray-800',
-      amountColor: 'text-red-600'
+      amountColor: 'text-red-600',
+      route:"ExpenseItem",
     },
     {
       title: 'Disposable',
@@ -32,7 +38,8 @@ const Cards = () => {
       bgColor: 'bg-indigo-50',
       borderColor: 'border-indigo-100',
       textColor: 'text-gray-800',
-      amountColor: 'text-gray-800'
+      amountColor: 'text-gray-800',
+      route:"IncomeTracker"
     },
     {
       title: 'Budget',
@@ -42,18 +49,22 @@ const Cards = () => {
       bgColor: 'bg-green-50',
       borderColor: 'border-green-100',
       textColor: 'text-gray-800',
-      amountColor: 'text-green-600'
+      amountColor: 'text-green-600',
+      route:"IncomeTracker"
     }
   ];
+
+  const navigation = useNavigation()
 
   const renderCard = (card, index) => {
     const IconComponent = card.icon;
     
     return (
-      <View 
+      <Pressable 
         key={index}
         className={`${card.bgColor} ${card.borderColor} border-[1px] rounded-2xl p-6 flex-1 m-2 shadow-sm relative overflow-hidden`}
         style={{ minHeight: 140 }}
+        onPress={()=> navigation.navigate(card.route)}
       >
         {/* Background Shadow Dollar Icons */}
         <View className="absolute inset-0 opacity-5">
@@ -91,7 +102,7 @@ const Cards = () => {
         <Text className={`text-2xl font-archivo-semi-bold ${card.amountColor} relative z-10`}>
           {card.amount}
         </Text>
-      </View>
+      </Pressable>
     );
   };
 

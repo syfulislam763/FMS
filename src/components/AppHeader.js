@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const AppHeader = ({left=()=>{}, middle=()=>{}, right=()=>{}}) => {
     return (
-        <View className="flex-row justify-between align-middle h-auto py-3">
+        <View className="flex-row justify-between items-center h-auto py-3">
             <View>
                 {left()}
             </View>
