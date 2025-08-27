@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { TrendingUp, Calculator } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const QuickCalculators = () => {
+
+  const navigation = useNavigation()
   const calculators = [
     {
       title: 'Inflation Impact',
@@ -11,6 +14,7 @@ const QuickCalculators = () => {
       iconColor: '#8B5CF6',
       bgColor: 'bg-[#EFF0FD80]',
       borderColor: 'border-purple-100',
+      route: "FutureValueCalculator"
     },
     {
       title: 'Debt Manage',
@@ -19,6 +23,7 @@ const QuickCalculators = () => {
       iconColor: '#8B5CF6',
       bgColor: 'bg-[#EFF0FD80]',
       borderColor: 'border-purple-100',
+      route: "DebtManagement"
     }
   ];
 
@@ -30,6 +35,7 @@ const QuickCalculators = () => {
         key={index}
         className={`${calculator.bgColor} ${calculator.borderColor} rounded-2xl p-4 flex-1 mx-1`}
         style={{ minHeight: 130 }}
+        onPress={() => navigation.navigate(calculator.route)}
       >
         {/* Icon Container */}
         <View className="mb-5">

@@ -6,6 +6,14 @@ import AddIncomeForm from "../../screens/main_tab_screens/home_screen/income/Add
 import ExpenseItem from "../../screens/main_tab_screens/home_screen/expences/ExpenseItem";
 import AddExpenseForm from "../../screens/main_tab_screens/home_screen/expences/AddExpenseFrom";
 import ExpenseAnalytics from "../../screens/main_tab_screens/home_screen/expences/ExpenseAnalytics";
+import FutureValueCalculator from "../../screens/main_tab_screens/home_screen/inflation/FutureValueCalculator";
+import FutureValueProjection from "../../screens/main_tab_screens/home_screen/inflation/FutureValueProjection";
+import DebtManagement from "../../screens/main_tab_screens/home_screen/debt_management/DebtManagement";
+import AddDebtScreen from "../../screens/main_tab_screens/home_screen/debt_management/AddDebtScreen";
+import DebtListComponent from "../../screens/main_tab_screens/home_screen/debt_management/DebtListComponent";
+import LoanDetailComponent from "../../screens/main_tab_screens/home_screen/debt_management/LoanDetailsComponent";
+import AISuggestionsComponent from "../../screens/main_tab_screens/home_screen/debt_management/AISuggestionsComponent";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +52,45 @@ export default function HomeStack(){
                 name="ExpenseAnalytics"
                 component={ExpenseAnalytics}
             />
+
+            <Stack.Screen 
+            
+                name="FutureValueCalculator"
+                component={FutureValueCalculator}
+            
+            />
+
+            <Stack.Screen 
+                name="FutureValueProjection"
+                component={FutureValueProjection}
+            />
+
+            <Stack.Screen 
+                name="DebtManagement"
+                component={DebtManagement}
+            />
+
+            <Stack.Screen
+                name="AddDebtScreen"
+                component={AddDebtScreen}
+            />
+
+            <Stack.Screen 
+                name="DebtListComponent"
+                component={DebtListComponent}
+            />
+
+
+            <Stack.Screen 
+                name="LoanDetailComponent"
+                component={LoanDetailComponent}
+            />
+
+            <Stack.Screen 
+                name="AISuggestionsComponent"
+                component={AISuggestionsComponent}
+            />
+
 
 
         </Stack.Navigator>
