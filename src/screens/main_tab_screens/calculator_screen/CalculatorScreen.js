@@ -1,16 +1,23 @@
 
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, Platform, StyleSheet, Animated } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TextInput, Platform, StyleSheet, Animated, Pressable } from 'react-native';
 import { PanResponder } from 'react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import AppHeader from '../../../components/AppHeader';
 import PrimaryButton from '../../../components/PrimaryButton';
+import { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const CustomSlider = ({ value, setValue, min, max, label, step = 1 }) => {
-  const pan = new Animated.Value(0);
+  const pan = useRef(new Animated.Value((value - min) / (max - min) * 300)).current;
   const sliderWidth = 300;
-  const thumbSize = 20;
+  const thumbSize = 0;
+
+  useEffect(() => {
+    const newPosition = ((value - min) / (max - min)) * sliderWidth;
+    pan.setValue(newPosition);
+  }, [value, min, max, sliderWidth]);
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
@@ -34,13 +41,19 @@ const CustomSlider = ({ value, setValue, min, max, label, step = 1 }) => {
   return (
     <View style={styles.sliderContainer}>
       <Text style={styles.sliderLabel}>{label}</Text>
+      <TextInput
+        style={styles.input}
+        value={value.toString()}
+        keyboardType="numeric"
+        onChangeText={(text) => setValue(Number(text))}
+      />
       <View style={styles.sliderTrack}>
         <Animated.View
           style={[styles.thumb, { transform: [{ translateX: thumbPosition }] }]}
           {...panResponder.panHandlers}
         />
       </View>
-      <Text style={styles.sliderValue}>{value}</Text>
+      {/* <Text style={styles.sliderValue}>{value}</Text> */}
     </View>
   );
 };
@@ -58,6 +71,15 @@ const CalculatorScreen = () => {
     alert(`Monthly Repayment: ${monthlyRepayment.toFixed(2)}`);
   };
 
+
+  useFocusEffect(
+    useCallback(()=>{
+      setAmount(100);
+      setInterestRate(1);
+      setLoanTerm(1)
+    }, [])
+  )
+  const navigation = useNavigation()
   return (
    <ComponentWrapper headerComponent={() => <AppHeader middle={()=><Text className="text-white font-archivo-semi-bold text-2xl">{"Finance Calculator"}</Text>}/>} bg_color='bg-[#1976D2]'>
      <View style={styles.container}>
@@ -72,30 +94,11 @@ const CalculatorScreen = () => {
         {/* Loan Term Slider */}
         <CustomSlider value={loanTerm} setValue={setLoanTerm} min={1} max={30} label="Loan Term (years)" />
 
-        <TextInput
-            style={styles.input}
-            value={amount.toString()}
-            keyboardType="numeric"
-            onChangeText={(text) => setAmount(Number(text))}
-        />
-        <TextInput
-            style={styles.input}
-            value={interestRate.toString()}
-            keyboardType="numeric"
-            onChangeText={(text) => setInterestRate(Number(text))}
-        />
-        <TextInput
-            style={styles.input}
-            value={loanTerm.toString()}
-            keyboardType="numeric"
-            onChangeText={(text) => setLoanTerm(Number(text))}
-        />
-
-        <View style={styles.buttonContainer}>
-            <Text onPress={calculateRepayment} style={styles.calculateButton}>
+        <Pressable onPress={() => navigation.navigate("LoanResultComponent")} style={styles.buttonContainer}>
+            <Text  style={styles.calculateButton}>
             Calculate Repayment
             </Text>
-        </View>
+        </Pressable>
         </View>
    </ComponentWrapper>
   );
@@ -129,14 +132,14 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   thumb: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#007bff',
-    borderRadius: 10,
+    width: 15,
+    height: 15,
+    backgroundColor: '#fff',
+    borderRadius: 15/2,
     borderWidth:1,
-    borderColor: "red",
+    borderColor: "#007bff",
     position: 'absolute',
-    top: -8,
+    top: -6,
   },
   sliderValue: {
     fontSize: 16,
