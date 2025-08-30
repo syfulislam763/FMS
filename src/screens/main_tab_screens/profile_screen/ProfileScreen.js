@@ -16,6 +16,7 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import AppHeader from '../../../components/AppHeader';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
   const [showRelationshipDropdown, setShowRelationshipDropdown] = useState(false);
@@ -23,6 +24,8 @@ const ProfileScreen = () => {
   const [showDollarDropdown, setShowDollarDropdown] = useState(false);
   const [profileImage, setProfileImage] = useState('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face');
   const [isImagePressed, setIsImagePressed] = useState(false);
+
+  const navigation = useNavigation()
 
   const pickImage = async () => {
     // Request permission to access media library
@@ -70,8 +73,8 @@ const ProfileScreen = () => {
     </View>
   );
 
-  const SubMenuItem = ({ title }) => (
-    <TouchableOpacity className="py-3 px-6 ml-1">
+  const SubMenuItem = ({ title, route="ContactFormScreen" }) => (
+    <TouchableOpacity onPress={() => navigation.navigate(route)} className="py-3 px-6 ml-1">
       <Text className="text-gray-600 text-sm">{title}</Text>
     </TouchableOpacity>
   );
@@ -150,7 +153,8 @@ const ProfileScreen = () => {
             {showSuggestionDropdown && (
               <View className="">
                 <SubMenuItem title="Ask Financial Planner (AI Tool)" />
-                <SubMenuItem title="Book Appointment With Planner" />
+                <SubMenuItem title="Book Appointment With Planner" route='PartnerForm' />
+                <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>
             )}
           </MenuItem>
@@ -159,6 +163,7 @@ const ProfileScreen = () => {
             icon={Bell} 
             title="Notification"
             hasArrow={false}
+            onPress={() => navigation.navigate("NotificationsFeedScreen")}
           />
 
           <MenuItem 
@@ -173,6 +178,13 @@ const ProfileScreen = () => {
               </View>
             )}
           </MenuItem>
+
+          <MenuItem 
+            icon={DollarSign}
+            title={"Subscription"}
+            hasArrow={false}
+            onPress={() => navigation.navigate("PremiumFinancialAdvice")}
+          />
           
           <MenuItem 
             icon={FileText} 
@@ -190,12 +202,14 @@ const ProfileScreen = () => {
             icon={Clock} 
             title="Reminder Notification set"
             hasArrow={false}
+            onPress={() => navigation.navigate("FinancialRemindersSettings")}
           />
           
           <MenuItem 
             icon={Play} 
             title="Financial Videos"
             hasArrow={false}
+            onPress={() => navigation.navigate("VideoTutorialsScreen")}
           />
           
           <MenuItem 
@@ -203,6 +217,7 @@ const ProfileScreen = () => {
             title="Log out"
             hasArrow={false}
             isRed={true}
+            
           />
         </View>
       </ScrollView>
