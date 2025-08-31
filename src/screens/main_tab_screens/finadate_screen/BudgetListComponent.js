@@ -48,12 +48,12 @@ const BudgetListComponent = () => {
   const navigation = useNavigation()
 
   const BudgetCard = ({ item }) => (
-    <View className="bg-white rounded-2xl mb-4 p-4">
-      <View className="flex-row justify-between items-start mb-3">
-        <Text className="text-lg font-semibold text-gray-900 flex-1">
+    <View className="bg-white rounded-[7px] mb-3 p-4">
+      <View className="flex-row justify-between items-start mb-1">
+        <Text className="text-lg font-archivo-semi-bold text-gray-900 flex-1">
           {item.title}
         </Text>
-        <Text className="text-lg font-semibold text-gray-900">
+        <Text className="text-lg font-archivo-semi-bold text-gray-900">
           {item.amount}
         </Text>
       </View>
@@ -101,11 +101,11 @@ const BudgetListComponent = () => {
             
             {/* Add New Budget Button */}
             <View className="flex-row justify-end">
-                <TouchableOpacity onPress={()=> navigation.navigate("FinadateScreen")} className="bg-[#1976D2] w-1/2 rounded-xl p-4 mt-4 mb-6 flex-row items-center justify-center shadow-sm">
+                <TouchableOpacity onPress={()=> navigation.navigate("FinadateScreen")} className="bg-[#1976D2] w-1/2 rounded-[5px] p-3 mt-4 mb-6 flex-row items-center justify-center ">
                     <View className="w-6 h-6 bg-white rounded-full mr-3 flex-col items-center justify-center">
                         <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
                     </View>
-                    <Text className="text-white font-semibold text-lg">
+                    <Text className="text-white font-archivo-semi-bold text-lg">
                         Add New Income
                     </Text>
                 </TouchableOpacity>

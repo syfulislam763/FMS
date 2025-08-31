@@ -57,10 +57,10 @@ const IncomeTracker = () => {
       <View className="flex-1 px-5 pt-4 bg-[##e7eaef]">
         {/* Monthly Income Header */}
         <View className="bg-[#2E7D32] rounded-2xl p-6 mb-6">
-          <Text className="text-white text-center text-lg font-medium mb-2">
+          <Text className="text-white font-inter-regular text-center text-lg font-medium mb-2">
             Monthly Income
           </Text>
-          <Text className="text-white text-center text-3xl font-bold">
+          <Text className="text-white text-center text-3xl font-archivo-extra-bold">
             £5000.00
           </Text>
         </View>
@@ -77,7 +77,7 @@ const IncomeTracker = () => {
                   : 'bg-transparent'
               }`}
             >
-              <Text className={`text-center font-inter-regular text-xs  ${
+              <Text className={`text-center font-archivo-regular text-sm  ${
                 activeTab === tab 
                   ? 'text-white' 
                   : 'text-[#2E7D32]'
@@ -91,7 +91,7 @@ const IncomeTracker = () => {
         {/* Income Entries */}
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {incomeEntries.map((entry) => (
-            <View key={entry.id} className="bg-[#ffffff] rounded-xl p-4 mb-4 ">
+            <View key={entry.id} className="bg-[#ffffff] rounded-[7px] p-3 mb-3 ">
               <View className="flex-row items-center">
                 {/* Icon Container */}
                 <View className={`w-12 h-12 ${entry.bgColor} rounded-xl items-center justify-center mr-4`}>
@@ -100,16 +100,16 @@ const IncomeTracker = () => {
                 
                 {/* Content */}
                 <View className="flex-1">
-                  <Text className="text-gray-900 font-semibold text-lg mb-1">
+                  <Text className="text-gray-900 font-inter-semi-bold text-lg mb-1">
                     {entry.title}
                   </Text>
-                  <Text className="text-gray-500 text-sm">
+                  <Text className="text-gray-500 font-inter-regular text-sm">
                     {entry.date}
                   </Text>
                 </View>
                 
                 {/* Amount */}
-                <Text className="text-[#2E7D32] font-bold text-lg">
+                <Text className="text-[#2E7D32] font-inter-semi-bold text-lg">
                   {entry.amount}
                 </Text>
               </View>
@@ -119,7 +119,7 @@ const IncomeTracker = () => {
 
         {/* Add New Income Button */}
         <View className="flex-row justify-end">
-            <TouchableOpacity onPress={()=> navigation.navigate("AddIncomeForm")} className="bg-[#2E7D32] w-1/2 rounded-xl p-4 mt-4 mb-6 flex-row items-center justify-center shadow-sm">
+            <TouchableOpacity onPress={()=> navigation.navigate("AddIncomeForm")} className="bg-[#2E7D32] w-1/2 rounded-[5px] p-3 mt-4 mb-6 flex-row items-center justify-center ">
             <View className="w-6 h-6 bg-white rounded-full mr-3 flex-col items-center justify-center">
               <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
             </View>

@@ -50,9 +50,9 @@ const MonthlyBudgetComponent = () => {
   ];
 
   const BudgetItem = ({ item }) => (
-    <View className="bg-white rounded-2xl mb-3 p-4 ">
+    <View className="bg-white rounded-[5px] mb-3  ">
       <View className="flex-row items-center justify-between">
-        <View className="flex-row items-center flex-1">
+        <View className="flex-row items-center flex-1 p-3">
           <View className={`w-10 h-10 ${item.iconBg} rounded-full items-center justify-center mr-4`}>
             <item.icon size={20} color={item.iconColor} />
           </View>
@@ -67,7 +67,7 @@ const MonthlyBudgetComponent = () => {
           </Text>
           
           {item.showDelete && (
-            <TouchableOpacity className="w-8 h-8 bg-red-500 rounded-lg items-center justify-center">
+            <TouchableOpacity className="w-12 h-16 bg-red-500 rounded-tr-[5px] rounded-br-[5px] items-center justify-center">
               <Trash2 size={16} color="#FFFFFF" />
             </TouchableOpacity>
           )}
@@ -79,10 +79,10 @@ const MonthlyBudgetComponent = () => {
   const TabButton = ({ title, isActive }) => (
     <TouchableOpacity
       onPress={() => setSelectedTab(title)}
-      className={`px-6 py-2 rounded-full mr-3 ${
+      className={`px-6 py-2 rounded-[7px] mr-3 ${
         isActive 
           ? 'bg-blue-500' 
-          : 'bg-white border border-blue-500'
+          : 'bg-gray-100 border border-blue-500'
       }`}
     >
       <Text className={`text-sm font-medium ${
@@ -101,10 +101,10 @@ const MonthlyBudgetComponent = () => {
     
             {/* Monthly Budget Header */}
             <View className="items-center pt-8 pb-6">
-            <Text className="text-gray-500 text-sm mb-2">
+            <Text className="text-gray-500 text-lg font-archivo-regular mb-2">
                 Monthly Budget
             </Text>
-            <Text className="text-3xl font-bold text-blue-500">
+            <Text className="text-3xl font-archivo-extra-bold text-blue-500">
                 £5000.00
             </Text>
             </View>

@@ -99,7 +99,7 @@ const AddIncomeForm = () => {
         </View>
 
         {/* Save Button */}
-        <TouchableOpacity onPress={()=>navigation.goBack()} className="bg-[#2E7D32] rounded-xl py-4 px-6 shadow-sm">
+        <TouchableOpacity onPress={()=>navigation.goBack()} className="bg-[#2E7D32] rounded-[5px] py-3 px-6 ">
           <Text className="text-white text-center text-lg font-semibold">
             Save
           </Text>

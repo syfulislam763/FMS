@@ -8,10 +8,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
+  Image
 } from 'react-native';
 import CommponentWrapper from '../../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
+
+const coin = require("../../../../../assets/img/coin.png")
 
 const FutureValueCalculator = () => {
   const [activeTab, setActiveTab] = useState('future');
@@ -39,7 +42,7 @@ const FutureValueCalculator = () => {
   const TabButton = ({ title, isActive, onPress }) => (
     <TouchableOpacity
       onPress={onPress}
-      className={`flex-1 py-3 px-4 rounded-lg ${
+      className={`flex-1 py-3 px-4 rounded-[5px] ${
         isActive 
           ? 'bg-red-50 border-2 border-red-500' 
           : 'bg-transparent border-2 border-transparent'
@@ -55,12 +58,12 @@ const FutureValueCalculator = () => {
 
   const InputField = ({ label, value, onChangeText, placeholder }) => (
     <View className="mb-6">
-      <Text className="text-gray-800 text-base font-medium mb-3">{label}</Text>
+      <Text className="text-gray-800 text-lg font-medium mb-3">{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        className="w-full bg-white rounded-xl p-4 text-lg border border-gray-200 text-gray-800"
+        className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
         placeholderTextColor="#9CA3AF"
       />
     </View>
@@ -99,10 +102,10 @@ const FutureValueCalculator = () => {
   );
 
   return (
-    <CommponentWrapper title='Inflation Calculator'>
-      <ScrollView showsVerticalScrollIndicator={false} className="flex-1 pt-8">
+    <CommponentWrapper container_bg='bg-white' title='Inflation Calculator'>
+      <ScrollView showsVerticalScrollIndicator={false} className="flex-1 pt-8 bg-gray-50 px-3 border border-gray-200 rounded-[5px]">
         {/* Tab Switcher */}
-        <View className="flex-row bg-gray-100 rounded-xl p-1 mb-6">
+        <View className="flex-row bg-gray-100 rounded-[5px] mb-6">
           <TabButton
             title="Future Value"
             isActive={activeTab === 'future'}
@@ -136,7 +139,7 @@ const FutureValueCalculator = () => {
               onChangeText={(text) => setFutureValues(prev => ({...prev, yearsToProject: text}))}
             />
 
-            <TouchableOpacity onPress={()=> navigation.navigate("FutureValueProjection")} className="w-full bg-red-500 rounded-xl py-4">
+            <TouchableOpacity onPress={()=> navigation.navigate("FutureValueProjection")} className="w-full bg-red-500 rounded-[5px] py-3">
               <Text className="text-white text-lg font-semibold text-center">
                 Calculate Future Value
               </Text>
@@ -169,7 +172,7 @@ const FutureValueCalculator = () => {
               onChangeText={(text) => setHistoricalValues(prev => ({...prev, multiplier: text}))}
             />
 
-            <TouchableOpacity onPress={()=> navigation.navigate("FutureValueProjection")} className="w-full bg-red-500 rounded-xl py-4 mb-8">
+            <TouchableOpacity onPress={()=> navigation.navigate("FutureValueProjection")} className="w-full bg-red-500 rounded-[5px] py-3 mb-8">
               <Text className="text-white text-lg font-semibold text-center">
                 Calculate Historical Value
               </Text>
@@ -182,7 +185,7 @@ const FutureValueCalculator = () => {
               </Text>
               
               {/* Results Table */}
-              <View className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <View className="bg-white rounded-[5px] border border-gray-200 overflow-hidden mb-10">
                 {/* Table Header */}
                 <TableRow year="Year" value="Value" rate="Rate" isHeader={true} />
                 

@@ -35,7 +35,7 @@ const BudgetScreen = () => {
   ];
   const navigation = useNavigation()
   const BudgetItem = ({ item }) => (
-    <TouchableOpacity className="bg-white rounded-2xl mb-4 p-4 ">
+    <TouchableOpacity className="bg-white rounded-[7px] mb-3 p-3 ">
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center flex-1">
           <View className={`w-10 h-10 ${item.iconBg} rounded-full items-center justify-center mr-4`}>
@@ -57,11 +57,11 @@ const BudgetScreen = () => {
         <View className="flex-1">
 
         <View className="flex-row items-center justify-between pt-6 pb-4">
-            <Text className="text-2xl font-semibold text-gray-900">
+            <Text className="text-2xl font-archivo-semi-bold text-gray-900">
                 Budget Plan
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("MonthlyBudgetComponent")}>
-                <Text className="text-blue-500 text-base font-medium">
+                <Text className="text-blue-500 text-base font-archivo-semi-bold">
                 All
                 </Text>
             </TouchableOpacity>
@@ -78,11 +78,11 @@ const BudgetScreen = () => {
         </ScrollView>
             
             <View className="mx-4 mt-8 mb-6">
-                <Text className="text-xl font-semibold text-gray-900 mb-4 text-center">
+                <Text className="text-xl font-archivo-semi-bold text-gray-900 mb-4 text-center">
                     Optimize Your Budget with AI
                 </Text>
                 
-                <Text className="text-gray-600 text-center text-sm leading-6 mb-6 px-2">
+                <Text className="text-gray-600 font-inter-regular text-center text-sm leading-6 mb-6 px-2">
                     Let our AI analyze your budget and suggest personalized improvements to help you achieve your financial goals.
                 </Text>
             </View>
@@ -92,11 +92,11 @@ const BudgetScreen = () => {
                 onPress={()=> navigation.navigate("BudgetAnalytics")}
             />
             <View className="flex-row justify-end">
-                <TouchableOpacity onPress={()=> navigation.navigate("BudgetFormComponent")} className="bg-[#1976D2] w-1/2 rounded-xl p-4 mt-4 mb-6 flex-row items-center justify-center shadow-sm">
-                    <View className="w-6 h-5 bg-white rounded-full mr-3 flex-col items-center justify-center">
+                <TouchableOpacity onPress={()=> navigation.navigate("BudgetFormComponent")} className="bg-[#1976D2] w-1/2 rounded-[5px] p-3 mt-4 mb-6 flex-row items-center justify-center ">
+                    <View className="w-5 h-5 bg-white rounded-full mr-3 flex-col items-center justify-center">
                         <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
                     </View>
-                    <Text className="text-white font-semibold text-lg">
+                    <Text className="text-white font-archivo-semi-bold text-lg">
                         Add New Income
                     </Text>
                 </TouchableOpacity>

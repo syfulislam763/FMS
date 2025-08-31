@@ -7,7 +7,9 @@ const ComponentWrapper = ({
     bg_color="bg-red-500", 
     title="Add Expense",
     headerComponent, 
-    children}
+    children,
+    container_bg ="bg-[##e7eaef]"
+}
 ) => {
     return (
         <SafeAreaView className={`flex-1 ${bg_color}`}>
@@ -19,7 +21,7 @@ const ComponentWrapper = ({
                     />
                 </View>
             }
-            <View className="flex-1 px-6 py-8 bg-[##e7eaef]">
+            <View className={`flex-1 px-6 py-8 ${container_bg}`}>
                 {children}
             </View>
         </SafeAreaView>

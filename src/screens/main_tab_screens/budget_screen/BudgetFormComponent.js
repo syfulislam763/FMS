@@ -22,7 +22,7 @@ const BudgetFormComponent = () => {
           <View className="w-2.5 h-2.5 rounded-full bg-blue-500" />
         )}
       </View>
-      <Text className="text-base text-gray-900">
+      <Text className="text-sm font-inter-regular text-gray-900">
         {label}
       </Text>
     </TouchableOpacity>
@@ -35,11 +35,11 @@ const BudgetFormComponent = () => {
             
             {/* Budget Name Field */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Budget
             </Text>
             <TextInput
-                className="bg-white rounded-2xl px-4 py-4 text-base text-gray-900 "
+                className="bg-white  rounded-[5px] px-4 py-4  font-archivo-semi-bold text-gray-900 "
                 value={budgetName}
                 onChangeText={setBudgetName}
                 placeholder="Enter budget name"
@@ -49,7 +49,7 @@ const BudgetFormComponent = () => {
 
             {/* Budget Type Radio Buttons */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-4">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-4">
                 Budget Type
             </Text>
             <View className="flex-row">
@@ -68,11 +68,11 @@ const BudgetFormComponent = () => {
 
             {/* Amount Field */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Amount
             </Text>
             <TextInput
-                className="bg-white rounded-2xl px-4 py-4 text-base text-gray-900 "
+                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900 "
                 value={amount}
                 onChangeText={setAmount}
                 placeholder="Enter amount"
@@ -83,11 +83,11 @@ const BudgetFormComponent = () => {
 
             {/* Budget Category Dropdown */}
             <View className="mb-8">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Budget Category
             </Text>
             <TouchableOpacity
-                className="bg-white rounded-2xl px-4 py-4 flex-row items-center justify-between"
+                className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
                 onPress={() => setShowCategoryDropdown(!showCategoryDropdown)}
             >
                 <Text className="text-base text-gray-900">{category}</Text>
@@ -95,7 +95,7 @@ const BudgetFormComponent = () => {
             </TouchableOpacity>
             
             {showCategoryDropdown && (
-                <View className="bg-white rounded-2xl mt-2 shadow-sm">
+                <View className="bg-white rounded-[7px] mt-2 shadow-sm">
                 {categories.map((cat, index) => (
                     <TouchableOpacity
                     key={index}
@@ -113,7 +113,7 @@ const BudgetFormComponent = () => {
             </View>
 
             {/* Save Button */}
-            <TouchableOpacity className="bg-blue-500 rounded-2xl py-4 items-center shadow-sm">
+            <TouchableOpacity className="bg-blue-500 rounded-[5px] py-3 items-center ">
             <Text className="text-white text-lg font-semibold">
                 Save
             </Text>

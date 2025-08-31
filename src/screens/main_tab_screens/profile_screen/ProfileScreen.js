@@ -58,15 +58,15 @@ const ProfileScreen = () => {
         <View className="flex-row items-center">
           <Icon 
             size={20} 
-            color={isRed ? "#EF4444" : "#6B7280"} 
+            color={isRed ? "#EF4444" : "#5055ba"} 
             className="mr-3"
           />
-          <Text className={`text-base ${isRed ? 'text-red-500' : 'text-gray-700'}`}>
+          <Text className={`text-lg ml-2 ${isRed ? 'text-red-500' : 'text-gray-700'}`}>
             {title}
           </Text>
         </View>
         {hasArrow && (
-          <ChevronRight size={20} color="#9CA3AF" />
+          <ChevronRight size={25} color="#9CA3AF" />
         )}
       </TouchableOpacity>
       {children}
@@ -74,7 +74,7 @@ const ProfileScreen = () => {
   );
 
   const SubMenuItem = ({ title, route="ContactFormScreen" }) => (
-    <TouchableOpacity onPress={() => navigation.navigate(route)} className="py-3 px-6 ml-1">
+    <TouchableOpacity onPress={() => navigation.navigate(route)} className="py-3 px-6 ml-4">
       <Text className="text-gray-600 text-sm">{title}</Text>
     </TouchableOpacity>
   );
@@ -96,7 +96,7 @@ const ProfileScreen = () => {
         {/* Profile Section */}
         <View className="pt-8 pb-6 items-center">
           <TouchableOpacity 
-            className="relative w-20 h-20 rounded-full mb-4 overflow-hidden"
+            className="relative w-24 h-24 rounded-full mb-4 overflow-hidden"
             onPress={pickImage}
             onPressIn={() => setIsImagePressed(true)}
             onPressOut={() => setIsImagePressed(false)}
@@ -123,7 +123,7 @@ const ProfileScreen = () => {
             mostafarah@gmail.com
           </Text>
           
-          <TouchableOpacity className="bg-indigo-600 py-3 rounded-lg w-80">
+          <TouchableOpacity className="bg-[#5055ba] py-3 rounded-[5px] w-full">
             <Text className="text-white text-center font-medium text-base">
               Subscribe Now
             </Text>

@@ -40,13 +40,13 @@ const AddExpenseForm = () => {
       <View className="flex-1 px-6 py-8 bg-[##e7eaef]">
         {/* Income Source */}
         <View className="mb-6">
-          <Text className="text-gray-900 text-base font-medium mb-3">
+          <Text className="text-gray-900 text-base font-archivo-semi-bold mb-3">
             Expanses name
           </Text>
           <TextInput
             value={incomeSource}
             onChangeText={setIncomeSource}
-            className="bg-white rounded-xl px-4 py-4 text-gray-900 text-base border border-gray-300"
+            className="bg-white rounded-xl px-4 py-4 font-archivo-semi-bold text-gray-900  border border-gray-300"
             placeholder="Enter income source"
             placeholderTextColor="#9CA3AF"
           />
@@ -54,13 +54,13 @@ const AddExpenseForm = () => {
 
         {/* Amount */}
         <View className="mb-6">
-          <Text className="text-gray-900 text-base font-medium mb-3">
+          <Text className="text-gray-900 font-archivo-semi-bold mb-3">
             Amount
           </Text>
           <TextInput
             value={amount}
             onChangeText={setAmount}
-            className="bg-white rounded-xl px-4 py-4 text-gray-900 text-base border border-gray-300"
+            className="bg-white rounded-xl px-4 py-4 text-gray-900 font-archivo-semi-bold border border-gray-300"
             placeholder="Enter amount"
             placeholderTextColor="#9CA3AF"
             keyboardType="numeric"
@@ -69,7 +69,7 @@ const AddExpenseForm = () => {
 
         {/* Frequency */}
         <View className="mb-6">
-          <Text className="text-gray-900 text-base font-medium mb-4">
+          <Text className="text-gray-900 font-archivo-semi-bold mb-4">
             Frequency
           </Text>
           <View className="flex-row">
@@ -86,7 +86,7 @@ const AddExpenseForm = () => {
 
         {/* Date Received */}
         <View className="mb-8">
-          <Text className="text-gray-900 text-base font-medium mb-3">
+          <Text className="text-gray-900 font-archivo-semi-bold mb-3">
             Date Received
           </Text>
           <TouchableOpacity className="bg-white rounded-xl px-4 py-4 border border-gray-300 flex-row items-center">

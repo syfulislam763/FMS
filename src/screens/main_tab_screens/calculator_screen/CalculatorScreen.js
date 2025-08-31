@@ -8,11 +8,13 @@ import PrimaryButton from '../../../components/PrimaryButton';
 import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import { ThumbsUpIcon } from 'lucide-react-native';
 
 const CustomSlider = ({ value, setValue, min, max, label, step = 1 }) => {
   const pan = useRef(new Animated.Value((value - min) / (max - min) * 300)).current;
   const sliderWidth = 300;
   const thumbSize = 0;
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     const newPosition = ((value - min) / (max - min)) * sliderWidth;
@@ -38,6 +40,7 @@ const CustomSlider = ({ value, setValue, min, max, label, step = 1 }) => {
     extrapolate: 'clamp',
   });
 
+  thumbPosition.addListener(value =>setWidth(value.value));
   return (
     <View style={styles.sliderContainer}>
       <Text style={styles.sliderLabel}>{label}</Text>
@@ -47,11 +50,14 @@ const CustomSlider = ({ value, setValue, min, max, label, step = 1 }) => {
         keyboardType="numeric"
         onChangeText={(text) => setValue(Number(text))}
       />
-      <View style={styles.sliderTrack}>
+      
+      <View className="flex-row" style={styles.sliderTrack}>
+        <View style={{backgroundColor:"#1976D2", height: 5, width: width, borderRadius:5}}></View>
         <Animated.View
-          style={[styles.thumb, { transform: [{ translateX: thumbPosition }] }]}
-          {...panResponder.panHandlers}
-        />
+            style={[styles.thumb, { transform: [{ translateX: thumbPosition }] }]}
+            {...panResponder.panHandlers}
+          />
+        
       </View>
       {/* <Text style={styles.sliderValue}>{value}</Text> */}
     </View>
@@ -81,7 +87,7 @@ const CalculatorScreen = () => {
   )
   const navigation = useNavigation()
   return (
-   <ComponentWrapper headerComponent={() => <AppHeader middle={()=><Text className="text-white font-archivo-semi-bold text-2xl">{"Finance Calculator"}</Text>}/>} bg_color='bg-[#1976D2]'>
+   <ComponentWrapper container_bg='bg-white' headerComponent={() => <AppHeader middle={()=><Text className="text-white font-archivo-semi-bold text-2xl">{"Finance Calculator"}</Text>}/>} bg_color='bg-[#1976D2]'>
      <View style={styles.container}>
         <Text style={styles.title}>Loan Repayment Details</Text>
 
@@ -107,27 +113,28 @@ const CalculatorScreen = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '#fff',
-    flex: 1,
+    backgroundColor: '#F7F7F9',
     justifyContent: 'center',
+    borderRadius: 5
   },
   title: {
-    fontSize: 24,
-    fontWeight: '600',
+    fontSize: 17,
+    fontFamily:"font-archivo-semi-bold",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   sliderContainer: {
     marginBottom: 30,
   },
   sliderLabel: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#333',
+    fontFamily:'font-inter-semi-bold',
     marginBottom: 10,
   },
   sliderTrack: {
     height: 5,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: '#CED0F8',
     borderRadius: 5,
     position: 'relative',
   },

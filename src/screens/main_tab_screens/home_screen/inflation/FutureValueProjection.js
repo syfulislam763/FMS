@@ -3,12 +3,15 @@ import { View, Text, Image } from 'react-native';
 import { Lightbulb } from 'lucide-react-native';
 import CommponentWrapper from '../../../../components/ComponentWrapper';
 
+
+const coin = require("../../../../../assets/img/coin.png")
+
 const FutureValueProjection = () => {
   return (
-    <CommponentWrapper title='Inflation Calculator Results'>
-        <View className="flex-1 bg-gray-50 p-4">
+    <CommponentWrapper container_bg='bg-white' title='Inflation Calculator Results'>
+        <View className="flex-1">
             {/* Main Card */}
-            <View className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
+            <View className="bg-gray-50 rounded-[5px] border border-gray-200 p-6 mb-4 ">
                 {/* Header */}
                 <Text className="text-gray-700 text-lg font-medium text-center mb-4">
                 Future Value Projection
@@ -35,16 +38,25 @@ const FutureValueProjection = () => {
                 </View>
                 
                 {/* Coin Image */}
-                <View className="w-10 h-10">
+                <View>
+                    <Image  
+                        source={coin}
+                        style={{
+                            objectFit:'contain'
+                        }}
+                        className="w-32 h-32 ml-4"
+                    />
+                </View>
+                {/* <View className="w-10 h-10">
                     <View className="w-full h-full bg-yellow-600 rounded-full border-2 border-yellow-700 flex items-center justify-center">
                     <Text className="text-yellow-100 text-xs font-bold">£</Text>
                     </View>
-                </View>
+                </View> */}
                 </View>
             </View>
             
             {/* Information Card */}
-            <View className="bg-white rounded-2xl p-4 shadow-sm">
+            <View className="bg-gray-50 rounded-[5px] border border-gray-200 p-4 ">
                 {/* Header with Icon */}
                 <View className="flex-row items-center mb-3">
                 <Lightbulb size={18} color="#ef4444" fill="#ef4444" />

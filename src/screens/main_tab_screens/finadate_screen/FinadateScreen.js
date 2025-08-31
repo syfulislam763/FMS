@@ -24,17 +24,17 @@ const FinadateScreen = () => {
         <View className="">
             
             {/* Header */}
-            <Text className="text-2xl font-semibold text-gray-900 mb-8">
+            <Text className="text-2xl font-archivo-extra-bold text-gray-900 mb-8">
             Set Your Reminder
             </Text>
 
             {/* Plan Field */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Plan
             </Text>
             <TextInput
-                className="bg-white rounded-xl px-4 py-4 text-base text-gray-900 "
+                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900 "
                 placeholder="name"
                 placeholderTextColor="#9CA3AF"
                 value={planName}
@@ -44,11 +44,11 @@ const FinadateScreen = () => {
 
             {/* Budget Field */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Budget
             </Text>
             <TextInput
-                className="bg-white rounded-xl px-4 py-4 text-base text-gray-900"
+                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
                 placeholder="£85"
                 placeholderTextColor="#9CA3AF"
                 value={budget}
@@ -59,19 +59,19 @@ const FinadateScreen = () => {
 
             {/* Repeat Every Dropdown */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Repeat Every
             </Text>
             <TouchableOpacity
-                className="bg-white rounded-xl px-4 py-4 flex-row items-center justify-between"
+                className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
                 onPress={() => setShowDropdown(!showDropdown)}
             >
-                <Text className="text-base text-gray-900">{repeatEvery}</Text>
+                <Text className="text-lg text-gray-900">{repeatEvery}</Text>
                 <ChevronDown size={20} color="#6B7280" />
             </TouchableOpacity>
             
             {showDropdown && (
-                <View className="bg-white rounded-xl mt-2 shadow-sm">
+                <View className="bg-white rounded-[5px] mt-2 shadow-sm">
                 {repeatOptions.map((option, index) => (
                     <TouchableOpacity
                     key={index}
@@ -81,7 +81,7 @@ const FinadateScreen = () => {
                         setShowDropdown(false);
                     }}
                     >
-                    <Text className="text-base text-gray-900">{option}</Text>
+                    <Text className="text-lg text-gray-900">{option}</Text>
                     </TouchableOpacity>
                 ))}
                 </View>
@@ -90,16 +90,16 @@ const FinadateScreen = () => {
 
             {/* Select Date or Time */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Select Date or Time
             </Text>
             <View className="flex-row space-x-3">
                 {/* Date Input */}
                 <View className="flex-1">
-                <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+                <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
                     <Calendar size={20} color="#9CA3AF" className="mr-3" />
                     <TextInput
-                    className="flex-1 text-base text-gray-900 ml-3"
+                    className="flex-1 text-lg text-gray-900 ml-3"
                     placeholder="date"
                     placeholderTextColor="#9CA3AF"
                     value={selectedDate}
@@ -110,10 +110,10 @@ const FinadateScreen = () => {
                 
                 {/* Time Input */}
                 <View className="flex-1 ml-3">
-                <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+                <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
                     <Clock size={20} color="#9CA3AF" className="mr-3" />
                     <TextInput
-                    className="flex-1 text-base text-gray-900 ml-3"
+                    className="flex-1 text-lg text-gray-900 ml-3"
                     placeholder="date"
                     placeholderTextColor="#9CA3AF"
                     value={selectedTime}
@@ -126,13 +126,13 @@ const FinadateScreen = () => {
 
             {/* Location Field */}
             <View className="mb-6">
-            <Text className="text-base font-medium text-gray-900 mb-3">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Location
             </Text>
-            <View className="bg-white rounded-xl px-4 py-4 flex-row items-center">
+            <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
                 <MapPin size={20} color="#9CA3AF" className="mr-3" />
                 <TextInput
-                className="flex-1 text-base text-gray-900 ml-3"
+                className="flex-1 text-lg text-gray-900 ml-3"
                 placeholder="Location name"
                 placeholderTextColor="#9CA3AF"
                 value={location}
@@ -144,7 +144,7 @@ const FinadateScreen = () => {
             {/* Enable Notification Toggle */}
             <View className="mb-8">
             <View className="flex-row items-center justify-between">
-                <Text className="text-base font-medium text-gray-900">
+                <Text className="text-lg font-archivo-semi-bold text-gray-900">
                 Enable Notification
                 </Text>
                 <Switch
@@ -158,7 +158,7 @@ const FinadateScreen = () => {
             </View>
 
             {/* Save Button */}
-            <TouchableOpacity onPress={() => navigation.goBack()} className="bg-blue-500 rounded-xl py-4 items-center ">
+            <TouchableOpacity onPress={() => navigation.goBack()} className="bg-blue-500 rounded-[5px] py-3 items-center ">
             <Text className="text-white text-lg font-semibold">
                 Save Date Night
             </Text>

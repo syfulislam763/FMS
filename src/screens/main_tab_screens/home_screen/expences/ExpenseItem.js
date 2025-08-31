@@ -9,7 +9,7 @@ import PrimaryButton from '../../../../components/PrimaryButton';
 
 
 const ExpenseItemCard = ({ icon: Icon, title, date, amount, iconBg, iconColor }) => (
-  <View className="flex-row items-center justify-between bg-white rounded-xl p-4 mb-3">
+  <View className="flex-row items-center justify-between bg-white rounded-[7px] p-3 mb-2">
     <View className="flex-row items-center flex-1">
       <View className={`w-12 h-12 rounded-xl ${iconBg} items-center justify-center mr-4`}>
         <Icon size={20} color={iconColor} />
@@ -107,10 +107,10 @@ export default function ExpenseItem() {
         <View className="flex-1 bg-[##e7eaef] px-5">
             <View className="bg-red-500 rounded-xl h-32 my-5 justify-center items-center">
                 <View>
-                    <Text className="text-white text-lg font-medium mb-2 text-center">
+                    <Text className="text-white text-lg font-archivo-semi-bold mb-2 text-center">
                         Monthly Expanses
                     </Text>
-                    <Text className="text-white text-4xl font-bold text-center">
+                    <Text className="text-white text-4xl font-archivo-extra-bold text-center">
                         £1500.00
                     </Text>
                 </View>
@@ -131,7 +131,7 @@ export default function ExpenseItem() {
                 <View className="flex-row-reverse items-end">
                     {/* Add New Expenses Button */}
                     <TouchableOpacity 
-                        className="bg-red-500 h-14 rounded-[4px] p-4 mb-4 "
+                        className="bg-red-500 h-14 rounded-[4px] p-3 mb-4 "
                         activeOpacity={0.8}
                         onPress={()=> navigation.navigate("AddExpenseForm")}
                     >

@@ -75,7 +75,7 @@ const BarChart = () => {
   return (
     <View className="bg-white rounded-2xl p-6 mb-6 ">
       {/* Chart Header */}
-      <Text className="text-gray-900 font-semibold text-lg mb-6">
+      <Text className="text-gray-900 font-archivo-semi-bold text-lg mb-6">
         Monthly Expenses
       </Text>
 
@@ -85,7 +85,7 @@ const BarChart = () => {
         <View className="mr-3">
           <View className="h-40 justify-between">
             {yAxisLabels.map((label, index) => (
-              <Text key={index} className="text-gray-600 text-xs ">
+              <Text key={index} className="text-gray-600 font-archivo-regular text-sm ">
                 {label}
               </Text>
             ))}
@@ -110,7 +110,7 @@ const BarChart = () => {
           {/* X-axis Labels */}
           <View className="flex-row justify-between px-2 mt-2">
             {chartData.map((data, index) => (
-              <Text key={index} className="text-gray-600 text-xs">
+              <Text key={index} className="text-gray-600 font-inter-regular text-xs">
                 {data.month}
               </Text>
             ))}
@@ -123,7 +123,7 @@ const BarChart = () => {
 
 const AIsuggestion = ({ number, text }) => (
   <View className="flex-row mb-3">
-    <Text className="text-gray-700 font-medium text-base mr-2">{number}.</Text>
+    <Text className="text-gray-700 font-archivo-regular text-base mr-2">{number}.</Text>
     <Text className="text-gray-700 text-base flex-1">{text}</Text>
   </View>
 );
@@ -153,7 +153,7 @@ export default function ExpenseAnalytics() {
 
         {/* AI Suggestions Section */}
         <View className="rounded-2xl ">
-          <Text className="text-gray-900 font-bold text-lg mb-4">
+          <Text className="text-gray-900 font-archivo-semi-bold text-lg mb-4">
             AI Suggestions:
           </Text>
           
