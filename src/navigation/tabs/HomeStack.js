@@ -13,7 +13,10 @@ import AddDebtScreen from "../../screens/main_tab_screens/home_screen/debt_manag
 import DebtListComponent from "../../screens/main_tab_screens/home_screen/debt_management/DebtListComponent";
 import LoanDetailComponent from "../../screens/main_tab_screens/home_screen/debt_management/LoanDetailsComponent";
 import AISuggestionsComponent from "../../screens/main_tab_screens/home_screen/debt_management/AISuggestionsComponent";
-
+import FinancialForm from "../../screens/main_tab_screens/home_screen/goal_saving/FinancialForm";
+import FinancialSummary from "../../screens/main_tab_screens/home_screen/goal_saving/FinancialSummary";
+import SavingsGoals from "../../screens/main_tab_screens/home_screen/goal_saving/SavingsGoals";
+import SavingsGoalForm from "../../screens/main_tab_screens/home_screen/goal_saving/SavingsGoalForm";
 
 const Stack = createNativeStackNavigator();
 
@@ -89,6 +92,11 @@ export default function HomeStack(){
             <Stack.Screen 
                 name="AISuggestionsComponent"
                 component={AISuggestionsComponent}
+            />
+
+            <Stack.Screen 
+                name="SavingsGoals"
+                component={SavingsGoals}
             />
 
 

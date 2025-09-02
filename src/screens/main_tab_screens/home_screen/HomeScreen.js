@@ -9,8 +9,12 @@ import Cards from './Cards';
 import SavingsGoalCard from './SavingsGoalCard';
 import QuickCalculators from './QuickCalculators';
 import FinancialCalendar from './FinancialCalendar';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+
+    const navigation = useNavigation()
+
     return (
         <SafeAreaView  className="flex-1 bg-[#4F55BA]">
             <StatusBar style="light" backgroundColor="#4F55BA" />
@@ -35,7 +39,9 @@ const HomeScreen = () => {
                 <ScrollView>
                     <Text className="text-center font-archivo-regular text-2xl my-2">Dashboard</Text>
                     <Cards/>
-                    <SavingsGoalCard/>
+                    <SavingsGoalCard 
+                        onPress={() => navigation.navigate("SavingsGoals")}
+                    />
                     <QuickCalculators/>
                     <FinancialCalendar/>
 

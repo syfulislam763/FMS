@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { PiggyBank } from 'lucide-react-native';
 import Svg, { Circle } from 'react-native-svg';
+import { useNavigation } from '@react-navigation/native';
+
 
 const SavingsGoalCard = ({ 
   title = "Savings Goals", 
   amount = "£300", 
-  progress = 60
+  progress = 60,
+  onPress = ()=>{},
+  container_style = 'bg-green-50 rounded-2xl p-3 mx-6 border-[1px] border-green-100'
 }) => {
   // Circle properties
   const radius = 28;
@@ -14,9 +18,9 @@ const SavingsGoalCard = ({
   const circumference = 2 * Math.PI * radius;
   const strokeDasharray = circumference;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
-
+  const navigation = useNavigation();
   return (
-    <View className="bg-green-50 rounded-2xl p-3 mx-6 border-[1px] border-green-100 ">
+    <Pressable onPress={onPress} className={`${container_style}`}>
       {/* Header with Icon and Progress Circle */}
       <View className="flex-row justify-between items-center">
         {/* Left Side - Icon and Title */}
@@ -85,7 +89,7 @@ const SavingsGoalCard = ({
         </View>
       </View>
 
-    </View>
+    </Pressable>
   );
 };
 
