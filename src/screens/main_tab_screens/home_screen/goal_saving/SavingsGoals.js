@@ -9,6 +9,7 @@ import {
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import SavingsGoalCard from '../SavingsGoalCard';
 import PrimaryButton from '../../../../components/PrimaryButton';
+import { useNavigation } from '@react-navigation/native';
 
 
 const SavingsGoals = () => {
@@ -41,6 +42,8 @@ const SavingsGoals = () => {
       progress: 1000/20000,
     },
   ];
+
+  const navigation = useNavigation()
 
   const renderSavingItem = ({ item }) => (
     <View className="bg-white rounded-[7px] p-4  mb-3 ">
@@ -90,12 +93,12 @@ const SavingsGoals = () => {
       
       {/* Add Saving Goal Button */}
       <View className="flex-row justify-end">
-          <TouchableOpacity onPress={()=> navigation.navigate("AddIncomeForm")} className="bg-[#2E7D32] w-1/2 rounded-[5px] p-3 mt-4 mb-6 flex-row items-center justify-center ">
+          <TouchableOpacity onPress={()=> navigation.navigate("SavingsGoalForm")} className="bg-[#2E7D32] w-1/2 rounded-[5px] p-3 mt-4 mb-6 flex-row items-center justify-center ">
           <View className="w-6 h-6 bg-white rounded-full mr-3 flex-col items-center justify-center">
             <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
           </View>
           <Text className="text-white font-semibold text-lg">
-            Add New Income
+            Add Saving Goal
           </Text>
         </TouchableOpacity>
       </View>
@@ -103,6 +106,7 @@ const SavingsGoals = () => {
       <PrimaryButton 
         text='Calculate Savings'
         bgColor='bg-[#2E7D32]'
+        onPress={() => navigation.navigate("FinancialForm")}
       />
 
     </ComponentWrapper>

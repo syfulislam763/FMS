@@ -1,105 +1,126 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView } from 'react-native';
+import { ChevronDown, Calendar, Clock, MapPin } from 'lucide-react-native';
+import AppHeader from '../../../../components/AppHeader';
+import ComponentWrapper from '../../../../components/ComponentWrapper';
+import { useNavigation } from '@react-navigation/native';
 
 const SavingsGoalForm = () => {
-  const [goalName, setGoalName] = useState('');
-  const [totalAmount, setTotalAmount] = useState('');
-  const [monthlySaving, setMonthlySaving] = useState('');
-  const [targetDate, setTargetDate] = useState('');
-  const [completionDate, setCompletionDate] = useState('');
+  const [planName, setPlanName] = useState('');
+  const [budget, setBudget] = useState('');
+  const [repeatEvery, setRepeatEvery] = useState('Monthly');
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
+  const [location, setLocation] = useState('');
+  const [notificationEnabled, setNotificationEnabled] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleSave = () => {
-    // Handle save functionality
-    console.log('Saving goal:', {
-      goalName,
-      totalAmount,
-      monthlySaving,
-      targetDate,
-      completionDate
-    });
-  };
+  const repeatOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+  const navigation = useNavigation()
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-200">
-      <ScrollView className="flex-1 px-4 py-6">
-        {/* Goal Name */}
-        <View className="mb-4">
-          <Text className="text-gray-900 text-base font-medium mb-2">
-            Goal Name
-          </Text>
-          <TextInput
-            className="bg-white rounded-2xl px-4 py-4 text-gray-900 text-base"
-            placeholder=""
-            value={goalName}
-            onChangeText={setGoalName}
-            placeholderTextColor="#9CA3AF"
-          />
-        </View>
+    <ComponentWrapper title='Add Savings Goal' bg_color='bg-[#2E7D32]' >
+        <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+        <View className="">
+            
 
-        {/* Total Goal Amount */}
-        <View className="mb-4">
-          <Text className="text-gray-900 text-base font-medium mb-2">
-            Total Goal Amount
-          </Text>
-          <TextInput
-            className="bg-white rounded-2xl px-4 py-4 text-gray-900 text-base"
-            placeholder=""
-            value={totalAmount}
-            onChangeText={setTotalAmount}
-            keyboardType="numeric"
-            placeholderTextColor="#9CA3AF"
-          />
-        </View>
-
-        {/* Monthly Saving Target */}
-        <View className="mb-4">
-          <Text className="text-gray-900 text-base font-medium mb-2">
-            Monthly Saving Target
-          </Text>
-          <View className="flex-row space-x-3">
+            {/* Budget Field */}
+            <View className="mb-6">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                Goal Name
+            </Text>
             <TextInput
-              className="flex-1 bg-white rounded-2xl px-4 py-4 text-gray-900 text-base"
-              placeholder=""
-              value={monthlySaving}
-              onChangeText={setMonthlySaving}
-              keyboardType="numeric"
-              placeholderTextColor="#9CA3AF"
+                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
+                placeholder=""
+                placeholderTextColor="#9CA3AF"
+                value={budget}
+                onChangeText={setBudget}
+                keyboardType="numeric"
             />
-            <TouchableOpacity className="bg-white rounded-2xl px-4 py-4 flex-row items-center justify-center min-w-[100px]">
-              <Text className="text-gray-500 text-base mr-2">📅</Text>
-              <Text className="text-gray-500 text-base">Date</Text>
+            </View>
+
+
+            <View className="mb-6">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                Total Goal Amount
+            </Text>
+            <TextInput
+                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
+                placeholder=""
+                placeholderTextColor="#9CA3AF"
+                value={budget}
+                onChangeText={setBudget}
+                keyboardType="numeric"
+            />
+            </View>
+
+
+            {/* Select Date or Time */}
+            <View className="mb-6">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                Monthly Saving Target
+            </Text>
+            <View className="flex-row space-x-3">
+                {/* Date Input */}
+                <View className="flex-1">
+                <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
+                    
+                    <TextInput
+                    className="flex-1 text-lg text-gray-900 ml-3"
+                    placeholder=""
+                    placeholderTextColor="#9CA3AF"
+                    value={selectedDate}
+                    onChangeText={setSelectedDate}
+                    />
+                </View>
+                </View>
+                
+                {/* Time Input */}
+                <View className="flex-1 ml-3">
+                <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
+                    <Calendar size={20} color="#9CA3AF" className="mr-3" />
+                    <TextInput
+                    className="flex-1 text-lg text-gray-900 ml-3"
+                    placeholder="date"
+                    placeholderTextColor="#9CA3AF"
+                    value={selectedTime}
+                    onChangeText={setSelectedTime}
+                    />
+                </View>
+                </View>
+            </View>
+            </View>
+
+            {/* Location Field */}
+            <View className="mb-6">
+              <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                Target Completion Date
+              </Text>
+              <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
+                  <Calendar size={20} color="#9CA3AF" className="mr-3" />
+                  <TextInput
+                  className="flex-1 text-lg text-gray-900 ml-3"
+                  placeholder="date"
+                  placeholderTextColor="#9CA3AF"
+                  value={selectedDate}
+                  onChangeText={setSelectedDate}
+                  />
+              </View>
+            </View>
+
+
+            {/* Save Button */}
+            <TouchableOpacity onPress={() => navigation.goBack()} className="bg-[#2E7D32] rounded-[5px] py-3 items-center ">
+            <Text className="text-white text-lg font-semibold">
+                Save
+            </Text>
             </TouchableOpacity>
-          </View>
-        </View>
 
-        {/* Target Completion Date */}
-        <View className="mb-8">
-          <Text className="text-gray-900 text-base font-medium mb-2">
-            Target Completion Date
-          </Text>
-          <TouchableOpacity className="bg-white rounded-2xl px-4 py-4 flex-row items-center">
-            <Text className="text-gray-500 text-base mr-2">📅</Text>
-            <Text className="text-gray-500 text-base">Date</Text>
-          </TouchableOpacity>
         </View>
-
-        {/* Save Button */}
-        <TouchableOpacity
-          className="bg-green-600 rounded-2xl py-4 items-center justify-center"
-          onPress={handleSave}
-        >
-          <Text className="text-white text-lg font-semibold">Save</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+    </ComponentWrapper>
   );
 };
 
-export default SavingsGoalForm;
+export default SavingsGoalForm
+;

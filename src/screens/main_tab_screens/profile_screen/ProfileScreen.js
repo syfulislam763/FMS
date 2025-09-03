@@ -90,7 +90,7 @@ const ProfileScreen = () => {
           }
         />
       } 
-      bg_color='bg-[#9CA3AF]'
+      bg_color='bg-button-bg'
     >
       <ScrollView showsVerticalScrollIndicator={false} className="flex-">
         {/* Profile Section */}
@@ -123,7 +123,7 @@ const ProfileScreen = () => {
             mostafarah@gmail.com
           </Text>
           
-          <TouchableOpacity className="bg-[#5055ba] py-3 rounded-[5px] w-full">
+          <TouchableOpacity onPress={() => navigation.navigate("PremiumFinancialAdvice")} className="bg-[#5055ba] py-3 rounded-[5px] w-full">
             <Text className="text-white text-center font-medium text-base">
               Subscribe Now
             </Text>
@@ -139,8 +139,8 @@ const ProfileScreen = () => {
           >
             {showRelationshipDropdown && (
               <View className="">
-                <SubMenuItem title="Family Relations" />
-                <SubMenuItem title="Friend Circle" />
+                {/* <SubMenuItem title="Family Relations" />
+                <SubMenuItem title="Friend Circle" /> */}
               </View>
             )}
           </MenuItem>
@@ -153,7 +153,7 @@ const ProfileScreen = () => {
             {showSuggestionDropdown && (
               <View className="">
                 <SubMenuItem title="Ask Financial Planner (AI Tool)" />
-                <SubMenuItem title="Book Appointment With Planner" route='PartnerForm' />
+                <SubMenuItem title="Send Expences" route='SendExpences' />
                 <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>
             )}
@@ -173,18 +173,11 @@ const ProfileScreen = () => {
           >
             {showDollarDropdown && (
               <View className="">
-                <SubMenuItem title="Currency Settings" />
+                <SubMenuItem title="Curr" />
                 <SubMenuItem title="Exchange Rates" />
               </View>
             )}
           </MenuItem>
-
-          <MenuItem 
-            icon={DollarSign}
-            title={"Subscription"}
-            hasArrow={false}
-            onPress={() => navigation.navigate("PremiumFinancialAdvice")}
-          />
           
           <MenuItem 
             icon={FileText} 

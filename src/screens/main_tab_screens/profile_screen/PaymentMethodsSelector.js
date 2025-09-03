@@ -4,8 +4,17 @@ import ComponentWrapper from '../../../components/ComponentWrapper';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 
+
+
+
+
+const paypal = require("../../../../assets/img/paypal.png");
+const master_card = require("../../../../assets/img/master_card.png");
+const google = require("../../../../assets/img/google.png");
+const apple = require("../../../../assets/img/apple.png")
+
 const PaymentMethodsSelector = () => {
-  const [selectedMethod, setSelectedMethod] = useState('Mastercard');
+  const [selectedMethod, setSelectedMethod] = useState('');
 
   const navigation = useNavigation()
 
@@ -38,9 +47,9 @@ const PaymentMethodsSelector = () => {
 
   const PaymentMethodItem = ({ method, isSelected, onSelect, hasCustomStyle = false }) => (
     <TouchableOpacity
-      className={`flex-row items-center justify-between p-4 mb-3 rounded-xl ${
+      className={`flex-row items-center justify-between p-4 mb-3 rounded-[5px] ${
         hasCustomStyle 
-          ? 'border-2 border-indigo-500 bg-white' 
+          ? 'border border-indigo-500 bg-white' 
           : 'bg-white'
       }`}
       onPress={() => onSelect(method.id)}
@@ -48,26 +57,34 @@ const PaymentMethodsSelector = () => {
     >
       <View className="flex-row items-center flex-1">
         {/* Logo placeholder - using colored circles to represent logos */}
-        <View className={`w-8 h-8 mr-4 rounded-full items-center justify-center ${
-          method.id === 'PayPal' ? 'bg-blue-600' : 
-          method.id === 'GooglePay' ? 'bg-red-500' :
-          method.id === 'ApplePay' ? 'bg-black' :
-          'bg-red-500'
-        }`}>
+        <View className={`w-8 h-8 mr-4 rounded-full items-center justify-center bg-white`}>
           {method.id === 'PayPal' && (
-            <Text className="text-white text-xs font-bold">P</Text>
+            <Image
+              source={paypal}
+              style={{objectFit:'contain'}}
+              className="h-8 w-8 rounded-full"
+            />
           )}
           {method.id === 'GooglePay' && (
-            <Text className="text-white text-xs font-bold">G</Text>
+            <Image
+              source={google}
+              style={{objectFit:'contain'}}
+              className="h-8 w-8 rounded-full"
+            />
           )}
           {method.id === 'ApplePay' && (
-            <Text className="text-white text-xs font-bold">🍎</Text>
+            <Image
+              source={apple}
+              style={{objectFit:'contain'}}
+              className="h-8 w-8 rounded-full"
+            />
           )}
           {method.id === 'Mastercard' && (
-            <View className="flex-row">
-              <View className="w-3 h-3 bg-red-500 rounded-full" />
-              <View className="w-3 h-3 bg-yellow-500 rounded-full -ml-1" />
-            </View>
+            <Image
+              source={master_card}
+              style={{objectFit:'contain'}}
+              className="h-8 w-8 rounded-full"
+            />
           )}
         </View>
         
@@ -94,7 +111,7 @@ const PaymentMethodsSelector = () => {
                 method={method}
                 isSelected={selectedMethod === method.id}
                 onSelect={setSelectedMethod}
-                hasCustomStyle={selectedMethod === method.id && method.id === 'Mastercard'}
+                hasCustomStyle={selectedMethod === method.id }
             />
         ))}
 

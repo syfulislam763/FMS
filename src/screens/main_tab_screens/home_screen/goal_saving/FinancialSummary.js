@@ -5,6 +5,8 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+import ComponentWrapper from '../../../../components/ComponentWrapper';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 
 const FinancialSummary = () => {
   const financialData = {
@@ -14,6 +16,8 @@ const FinancialSummary = () => {
     netGain: 30,
     monthlyDecrease: 5060.00
   };
+
+  const navigation = useNavigation()
 
   const SummaryRow = ({ label, amount, isLast = false }) => (
     <View className={`flex-row justify-between items-center ${!isLast ? 'mb-4' : ''}`}>
@@ -25,10 +29,10 @@ const FinancialSummary = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-200">
-      <ScrollView className="flex-1 px-4 py-6">
+    <ComponentWrapper  title='Calculator Results' bg_color='bg-[#2E7D32]' >
+      <ScrollView className="flex-1 py-6">
         {/* Financial Summary Card */}
-        <View className="bg-white rounded-2xl p-6 mb-4">
+        <View className="bg-white rounded-[7px] p-6 mb-4">
           <SummaryRow 
             label="Total Saved(Before Tax)" 
             amount={financialData.totalSaved} 
@@ -49,22 +53,22 @@ const FinancialSummary = () => {
         </View>
 
         {/* Financial Tip Card */}
-        <View className="bg-white rounded-2xl p-6 mb-4">
+        <View className="bg-white rounded-[7px] p-6 mb-4">
           <View className="flex-row items-center mb-3">
             <Text className="text-green-600 text-lg mr-2">💡</Text>
             <Text className="text-green-600 text-lg font-semibold">Financial Tip</Text>
           </View>
-          <Text className="text-gray-500 text-base leading-6">
+          <Text className="text-gray-500 text-sm leading-6">
             Your monthly disposable Income will decrease by %{financialData.monthlyDecrease.toFixed(2)} due to this loan. Plan accordingly!
           </Text>
         </View>
 
         {/* Ads Section */}
-        <View className="bg-gray-300 rounded-2xl h-32 items-center justify-center">
+        <View className="bg-gray-300 rounded-[7px] h-52 items-center justify-center">
           <Text className="text-gray-700 text-xl font-medium">Ads</Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ComponentWrapper>
   );
 };
 

@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ProfileScreen from "../../screens/main_tab_screens/profile_screen/ProfileScreen";
 import ContactFormScreen from "../../screens/main_tab_screens/profile_screen/ContactFormScreen";
 import TimeSelector from "../../screens/main_tab_screens/profile_screen/TimeSelector";
-import PartnerForm from "../../screens/auth_screens/otp_verification/PartnerForm";
+import SendExpences from "../../screens/main_tab_screens/profile_screen/SendExpences";
 import VideoTutorialsScreen from "../../screens/main_tab_screens/profile_screen/VideoTutorialsScreen";
 import FinancialRemindersSettings from "../../screens/main_tab_screens/profile_screen/FInancialRemindersSettiings";
 import NotificationsFeedScreen from "../../screens/main_tab_screens/profile_screen/NotificationsFeedScreen";
@@ -33,7 +33,7 @@ export default function ProfileStack(){
                 name="TimeSelector"
                 component={TimeSelector}
             />
-            <Stack.Screen name="PartnerForm" component={PartnerForm} />
+            <Stack.Screen name="SendExpences" component={SendExpences} />
 
             <Stack.Screen name="VideoTutorialsScreen" component={VideoTutorialsScreen} />
 

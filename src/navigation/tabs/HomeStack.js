@@ -99,7 +99,20 @@ export default function HomeStack(){
                 component={SavingsGoals}
             />
 
+            <Stack.Screen 
+                name="FinancialForm"
+                component={FinancialForm}
+            />
 
+            <Stack.Screen 
+                name="FinancialSummary"
+                component={FinancialSummary}
+            />
+
+            <Stack.Screen 
+                name="SavingsGoalForm"
+                component={SavingsGoalForm}
+            />
 
         </Stack.Navigator>
     )
