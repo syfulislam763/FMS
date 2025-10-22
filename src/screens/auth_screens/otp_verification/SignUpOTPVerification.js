@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import AppHeader from '../../../components/AppHeader';
 import BackButtion from '../../../components/BackButtion';
 import PrimaryButton from '../../../components/PrimaryButton';
+import { verify_email, resend_otp } from '../AuthAPI';
+import { useRoute } from '@react-navigation/native';
 
 const roket = require("../../../../assets/img/roket.png")
 
@@ -13,7 +15,9 @@ const SignUpOTPVerification = () => {
     const [otp, setOtp] = useState(['', '', '', '']);
     const [timer, setTimer] = useState(126); // 01:26 = 86 seconds
     const inputRefs = useRef([]);
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+
+    const route = useRoute()
 
     const handleOtpChange = (value, index) => {
         const newOtp = [...otp];
@@ -38,6 +42,47 @@ const SignUpOTPVerification = () => {
         const secs = seconds % 60;
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
+
+
+
+    const submitOTP = () => {
+        console.log(otp.join(""))
+        console.log(route.params)
+
+        const payload = {
+            email: route.params?.email,
+            oneTimeCode: otp.join("")
+        }
+        console.log(payload, ":")
+        verify_email(payload, (data) => {
+            if(data){
+
+                console.log(JSON.stringify(data, null, 2), " email verified")
+                navigation.navigate("SignInScreen")
+            }else{
+                console.log(data, 'er')
+            }
+        })
+
+        
+        //
+    }
+
+    const resend = () => {
+        const payload = {
+            email: route.params?.email,
+        }
+        console.log(payload)
+        resend_otp(payload, (data) => {
+            if(data){
+                console.log(data, "success")
+            }else{
+
+            }
+        })
+    }
+
+
 
 
     return (
@@ -95,18 +140,18 @@ const SignUpOTPVerification = () => {
 
                 {/* Verify Button */}
                 <PrimaryButton
-                    onPress={()=>{navigation.navigate("PartnerForm")}}
+                    onPress={submitOTP}
                     text='Verify'
-                    bgColor='bg-[#EBEBEA]'
+                    bgColor={otp.length>=4?"bg-button-bg":'bg-[#EBEBEA]'}
                 />
                 
 
                 {/* Resend Code */}
                 <View className="flex-row justify-between items-center mt-2">
-                    <TouchableOpacity>
-                    <Text className="text-gray-500 text-base underline font-inter-regular">
-                        Resend code to
-                    </Text>
+                    <TouchableOpacity onPress={resend}>
+                        <Text className="text-gray-500 text-base underline font-inter-regular">
+                            Resend code 
+                        </Text>
                     </TouchableOpacity>
                     <Text className="text-gray-500 text-base font-inter-regular">
                     {formatTime(timer)}

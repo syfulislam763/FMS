@@ -7,19 +7,46 @@ import Checkbox from 'expo-checkbox';
 import PrimaryInputField from '../../../components/PrimaryInputField';
 import PrimaryInputFieldWithVisibility from '../../../components/PrimaryInputFieldWithVisibility';
 import CoupleToggle from '../signin_screen/CoupleToggle';
+import ToastMessage from '../../../constants/ToastMessage';
+import { create_user } from '../AuthAPI';
 
 const google = require("../../../../assets/img/google.png");
 const apple = require("../../../../assets/img/apple.png")
 
+
 const SignUpScreen = () => {
     const navigation = useNavigation()
-    const [number, setNumber] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfrimPassword, setShowConfirmPassword] = useState(false)
     const [agreeTerms, setAgreeTerms] = useState(false);
+
+
+    const handleSignUp = () =>{
+        if(password == confirmPassword){
+            const payload = {
+                name,
+                email,
+                password
+            }
+            create_user(payload, (data) => {
+                if(data){
+                    console.log("res ->", JSON.stringify(data, null, 2))
+                    navigation.navigate("SignUpOTPVerification", {...data.data})
+                }else{
+                    console.log("went wrong")
+                }
+            });
+            // navigation.navigate("SignUpOTPVerification", {a:1,b:2})
+        }else{
+            ToastMessage("error", "Password is not same for both field!")
+        }
+
+        //
+    }
 
     return (
     <SafeAreaView className="flex-1 bg-white px-5">
@@ -34,16 +61,15 @@ const SignUpScreen = () => {
 
             {/* Email / Phone Input */}
             <PrimaryInputField
-                value={number}
-                onChange={setNumber}
-                type='numeric'
-                label='Phone Number'
-                placeholder='Enter your number'
+                value={name}
+                onChange={setName}
+                type='default'
+                label='Name'
+                placeholder='Enter your name'
             />
             <PrimaryInputField
                 value={email}
                 onChange={setEmail}
-                type='default'
                 label='Email'
                 placeholder='Enter your new email'
             />
@@ -68,7 +94,7 @@ const SignUpScreen = () => {
                 placeholder='Re-enter password'
             />
 
-            <CoupleToggle/>
+            {/* <CoupleToggle/> */}
             {/* Checkbox */}
             <View className="flex-row items-center my-6">
                 <Checkbox
@@ -84,7 +110,7 @@ const SignUpScreen = () => {
 
             {/* Log In Button */}
             <PrimaryButton 
-                onPress={()=>{navigation.navigate("SignUpOTPVerification")}}
+                onPress={handleSignUp}
                 text="Sign Up"
             />
 

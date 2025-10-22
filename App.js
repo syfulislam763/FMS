@@ -11,6 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView } from "react-native";
 import RootNavigation from "./src/navigation/RootNavigation";
 
+
 export default function App() {
   return (
     <FontLoader>
@@ -26,6 +27,7 @@ export default function App() {
           </AuthProvider>
         </NavigationContainer>
       {/* </GestureHandlerRootView> */}
+      <Toast/>
     </FontLoader>
   );
 }
