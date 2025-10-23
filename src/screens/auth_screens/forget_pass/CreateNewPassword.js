@@ -1,21 +1,51 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
 import BackButtion from '../../../components/BackButtion';
 import AppHeader from '../../../components/AppHeader';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryInputFieldWithVisibility from '../../../components/PrimaryInputFieldWithVisibility';
-
+import Indicator from '../../../components/Indicator';
+import { reset_password } from '../AuthAPI';
+import ToastMessage from '../../../constants/ToastMessage';
+import { useRoute } from '@react-navigation/native';
 
 const CreateNewPassword = () => {
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState("");
-    const [showConfrimPassword, setShowConfirmPassword] = useState("")
-
+    const [showConfrimPassword, setShowConfirmPassword] = useState("");
+    const [loader, setLoader] = useState(false);
+    const route = useRoute()
     const navigation = useNavigation()
 
+
+    const handleChangePassword = () => {
+        if(password == confirmPassword){
+            setLoader(true);
+            const payload = {
+                newPassword: password,
+                confirmPassword
+            }
+
+            const token = route.params.verifyToken;
+
+            reset_password(payload, token, (data) => {
+                if(data){
+                
+                    navigation.navigate("ConfirmPasswordChange")
+                }else{
+                    // ToastMessage("error", "Something went wrong try again!", 3000)
+                }
+                setLoader(false);
+            })
+
+
+        }else{
+            ToastMessage("error", "Password is not same!", 3000)
+        }
+    }
 
     return (
         <SafeAreaView className="flex-1 bg-white">
@@ -54,7 +84,7 @@ const CreateNewPassword = () => {
                 <View className="h-7"/>
 
                 <PrimaryButton 
-                    onPress={()=>{navigation.navigate("ConfirmPasswordChange")}}
+                    onPress={()=>{handleChangePassword()}}
                     text='Update Password'
                 />
 
@@ -63,6 +93,9 @@ const CreateNewPassword = () => {
 
 
             </View>
+            {loader && <Indicator onClose={() => setLoader(false)} visible={loader}>
+                    <ActivityIndicator size={"large"}/>
+                </Indicator>}
         </SafeAreaView>
     );
 }

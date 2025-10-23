@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Image, ScrollView} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Image, ScrollView, ActivityIndicator} from "react-native";
 //import { CheckBox } from "react-native-elements";
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,6 +7,10 @@ import { StyleSheet } from 'react-native';
 import { useAuth } from '../../../context/AuthProvider';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from "../../../components/PrimaryButton";
+import Indicator from "../../../components/Indicator";
+import { login_user, resend_otp } from "../AuthAPI";
+import Toast from "react-native-toast-message";
+import ToastMessage from "../../../constants/ToastMessage";
 
 
 const google = require("../../../../assets/img/google.png");
@@ -19,7 +23,44 @@ const SignInScreen = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [agreeTerms, setAgreeTerms] = useState(false);
-    const {setIsAuthenticated} = useAuth()
+    const {setIsAuthenticated} = useAuth();
+
+    const [loader, setLoader] = useState(false);
+
+
+    const handleLogin = () => {
+        const payload = {
+            email: email,
+            password: password
+        }
+        console.log("payload ->", payload);
+        setLoader(true)
+        //setIsAuthenticated(true)
+        login_user(payload, (data) => {
+            console.log(data, "tt");
+            if(data?.statusCode==409){
+                ToastMessage("error", "User is exist, verification needed", 3000)
+                resend_otp({email: payload.email}, (data) => {
+                    if(data){
+                        navigation.navigate("SignUpOTPVerification", {...payload})
+                    }else{
+
+                    }
+                })
+                
+            }
+            else if(data){
+                console.log("logged in: ", JSON.stringify(data, null, 2))
+            }
+            else{
+                console.log("user logged failed", data)
+            }
+            setLoader(false);
+        })
+
+    }
+
+    
 
     return (
     <SafeAreaView className="flex-1 bg-white px-5">
@@ -85,7 +126,7 @@ const SignInScreen = () => {
 
             {/* Log In Button */}
             <PrimaryButton 
-                onPress={()=>{setIsAuthenticated(true)}}
+                onPress={()=>{handleLogin()}}
                 text="Log In"
             />
 
@@ -125,6 +166,13 @@ const SignInScreen = () => {
             </TouchableOpacity>
             </View>
         </ScrollView>
+
+        {loader && <Indicator 
+            visible={loader}
+            onClose={()=>setLoader()}>
+                <ActivityIndicator size={"large"}/>
+            </Indicator>
+        }
     </SafeAreaView>
     );
 }

@@ -9,6 +9,8 @@ import PrimaryInputFieldWithVisibility from '../../../components/PrimaryInputFie
 import CoupleToggle from '../signin_screen/CoupleToggle';
 import ToastMessage from '../../../constants/ToastMessage';
 import { create_user } from '../AuthAPI';
+import Indicator from '../../../components/Indicator';
+import { ActivityIndicator } from 'react-native';
 
 const google = require("../../../../assets/img/google.png");
 const apple = require("../../../../assets/img/apple.png")
@@ -23,6 +25,7 @@ const SignUpScreen = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfrimPassword, setShowConfirmPassword] = useState(false)
     const [agreeTerms, setAgreeTerms] = useState(false);
+    const [loader, setLoader] = useState(false);
 
 
     const handleSignUp = () =>{
@@ -32,13 +35,19 @@ const SignUpScreen = () => {
                 email,
                 password
             }
+            setLoader(true);
             create_user(payload, (data) => {
-                if(data){
+                if(data?.statusCode == 409){
+                    navigation.navigate("SignInScreen")
+                }
+                else if(data){
                     console.log("res ->", JSON.stringify(data, null, 2))
                     navigation.navigate("SignUpOTPVerification", {...data.data})
-                }else{
+                }
+                else{
                     console.log("went wrong")
                 }
+                setLoader(false);
             });
             // navigation.navigate("SignUpOTPVerification", {a:1,b:2})
         }else{
@@ -150,6 +159,11 @@ const SignUpScreen = () => {
             </TouchableOpacity>
             </View>
         </ScrollView>
+        {loader && <Indicator onClose={() => setLoader(false)} visible={loader}>
+
+                    <ActivityIndicator size={"large"}/>
+            
+            </Indicator>}
     </SafeAreaView>
     );
 }

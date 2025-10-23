@@ -8,6 +8,7 @@ import BackButtion from '../../../components/BackButtion';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { verify_email, resend_otp } from '../AuthAPI';
 import { useRoute } from '@react-navigation/native';
+import ToastMessage from '../../../constants/ToastMessage';
 
 const roket = require("../../../../assets/img/roket.png")
 
@@ -16,6 +17,8 @@ const SignUpOTPVerification = () => {
     const [timer, setTimer] = useState(126); // 01:26 = 86 seconds
     const inputRefs = useRef([]);
     const navigation = useNavigation();
+
+    const [loader, setLoader] = useState(false);
 
     const route = useRoute()
 
@@ -51,17 +54,26 @@ const SignUpOTPVerification = () => {
 
         const payload = {
             email: route.params?.email,
-            oneTimeCode: otp.join("")
+            oneTimeCode: +otp.join("")
         }
         console.log(payload, ":")
+        setLoader(true);
         verify_email(payload, (data) => {
             if(data){
-
                 console.log(JSON.stringify(data, null, 2), " email verified")
-                navigation.navigate("SignInScreen")
+                ToastMessage("success", "Verified email!", 3000, ()=>{
+                    if(route.params?.flag){
+                        navigation.navigate("CreateNewPassword", {verifyToken: data.data.verifyToken})
+                    }else{
+                        navigation.navigate("SignInScreen")
+                    }
+                })
+                
             }else{
+                ToastMessage("error", "Email varification failed, try again!", 3000);
                 console.log(data, 'er')
             }
+            setLoader(false);
         })
 
         
@@ -69,16 +81,18 @@ const SignUpOTPVerification = () => {
     }
 
     const resend = () => {
+        setLoader(true)
         const payload = {
             email: route.params?.email,
         }
         console.log(payload)
         resend_otp(payload, (data) => {
             if(data){
-                console.log(data, "success")
+                ToastMessage("success", "OTP has been sent!", 3000)
             }else{
-
+                ToastMessage("error", "Try again to send OTP!", 3000)
             }
+            setLoader(false);
         })
     }
 
@@ -105,13 +119,13 @@ const SignUpOTPVerification = () => {
                 <View className="px-7">
                     {/* Title */}
                     <Text className="text-3xl font-archivo-semi-bold text-gray-900 text-center mb-4">
-                        Verify your number
+                        Verify your email
                     </Text>
 
                     {/* Subtitle */}
                     <Text className="text-gray-500 font-inter-regular text-center mb-12 px-4 leading-6">
                         Please enter the verification code{' '}
-                        <Text className="font-inter-semi-bold text-gray-700">we sent to your number</Text>
+                        <Text className="font-inter-semi-bold text-gray-700">we sent to your email</Text>
                         {' '}to complete the verification process.
                     </Text>
                 </View>
@@ -153,9 +167,9 @@ const SignUpOTPVerification = () => {
                             Resend code 
                         </Text>
                     </TouchableOpacity>
-                    <Text className="text-gray-500 text-base font-inter-regular">
+                    {/* <Text className="text-gray-500 text-base font-inter-regular">
                     {formatTime(timer)}
-                    </Text>
+                    </Text> */}
                 </View>
             </View>
         </SafeAreaView>

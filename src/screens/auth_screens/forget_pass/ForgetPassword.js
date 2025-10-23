@@ -1,16 +1,35 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
 import BackButtion from '../../../components/BackButtion';
 import AppHeader from '../../../components/AppHeader';
 import PrimaryInputField from '../../../components/PrimaryInputField';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
-
+import Indicator from '../../../components/Indicator';
+import { forget_password } from '../AuthAPI';
+import ToastMessage from '../../../constants/ToastMessage';
 
 const ForgetPassword = () => {
 
     const [email, setEmail] = useState("")
     const navigation = useNavigation()
+    const [loader, setLoader] = useState(false);
+
+
+    const handleForgetPassword = () => {
+        setLoader(true);
+
+        forget_password({email:email}, (data) => {
+            if(data){
+                navigation.navigate("SignUpOTPVerification", {email, flag:true})
+            }else{
+                ToastMessage("error", "Try again!", 3000)
+            }
+            setLoader(false);
+        })
+
+
+    }
 
 
     return (
@@ -38,7 +57,7 @@ const ForgetPassword = () => {
                 <View className="h-7"/>
 
                 <PrimaryButton 
-                    onPress={()=>{navigation.navigate("ForgetPassOTPVerification")}}
+                    onPress={()=> handleForgetPassword()}
                     text='Forgot Password'
                 />
 
@@ -47,6 +66,11 @@ const ForgetPassword = () => {
 
 
             </View>
+
+            {loader && <Indicator visible={loader} onClose={() => setLoader(false)}>
+                
+                    <ActivityIndicator size={"large"}/>
+                </Indicator>}
         </SafeAreaView>
     );
 }
