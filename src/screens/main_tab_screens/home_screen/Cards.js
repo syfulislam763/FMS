@@ -2,20 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { View, Text , Pressable} from 'react-native';
 import { CircleArrowDown, CircleArrowUp, PoundSterling, CreditCard, DollarSign, CirclePoundSterling, } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
-import { get_analytics } from '../ScreensAPI';
-import { ActivityIndicator } from 'react-native';
-import Indicator from '../../../components/Indicator';
+import { useAuth } from '../../../context/AuthProvider';
 
 const Cards = () => {
 
 
+  const {userProfile} = useAuth();
 
+  console.log(JSON.stringify(userProfile, null, 2), "usr")
+
+  const income = userProfile?.analytics?.totalIncome? "£"+userProfile?.analytics?.totalIncome:"£00"
+  const expense = userProfile?.analytics?.totalExpenses? "£"+userProfile?.analytics?.totalExpenses:"£00"
+  const budget = userProfile?.analytics?.totalBudget? "£"+userProfile?.analytics?.totalBudget: "£00"
+  const disposal = userProfile?.analytics?.disposal? "£"+userProfile?.analytics?.disposal: "£00"
 
 
   const cards = [
     {
       title: 'Income',
-      amount: '£5000',
+      amount: income,
       icon: CircleArrowDown,
       iconColor: '#10B981',
       bgColor: 'bg-green-50',
@@ -26,7 +31,7 @@ const Cards = () => {
     },
     {
       title: 'Expenses',
-      amount: '£3500',
+      amount: expense,
       icon: CircleArrowUp,
       iconColor: '#EF4444',
       bgColor: 'bg-red-50',
@@ -37,7 +42,7 @@ const Cards = () => {
     },
     {
       title: 'Disposable',
-      amount: '£1500',
+      amount: disposal,
       icon: PoundSterling,
       iconColor: '#6366F1',
       bgColor: 'bg-indigo-50',
@@ -48,7 +53,7 @@ const Cards = () => {
     },
     {
       title: 'Budget',
-      amount: '£4000',
+      amount: budget,
       icon: CreditCard,
       iconColor: '#10B981',
       bgColor: 'bg-green-50',

@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { ChevronLeft, ChevronRight, Calendar, MapPin, Repeat, Clock } from 'lucide-react-native';
+import { useAuth } from '../../../context/AuthProvider';
+import { get_formated_time } from '../ScreensAPI';
 
 const FinancialCalendar = () => {
   const [selectedTab, setSelectedTab] = useState('Date Night'); // 'Date Night' or 'Expenses'
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date().getDate());
+  const {financialForecast} = useAuth()
 
   // Get current month/year info
   const today = new Date();
@@ -18,6 +21,8 @@ const FinancialCalendar = () => {
   ];
   
   const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  //console.log(JSON.stringify(financialForecast, null, 2), "fore")
 
   // Generate calendar days for current month
   const generateCalendarDays = () => {
@@ -68,49 +73,82 @@ const FinancialCalendar = () => {
 
   const calendarDays = generateCalendarDays();
 
-  // Events data
-  const dateNightEvents = [
-    {
-      title: 'Family Budget Plan',
-      date: 'Mar 16, 2025',
-      time: '6:00 PM',
-      amount: '£85',
-      type: 'monthly',
-      hasLocation: true
-    },
-    {
-      title: 'Family Budget Plan',
-      date: 'May 11, 2025',
-      time: '7:00 PM',
-      amount: '£25',
-      type: 'yearly',
-      hasLocation: true
-    }
-  ];
 
-  const expenseEvents = [
-    {
-      title: 'Weekly Shopping',
-      date: 'Jul 3, 2024',
-      amount: '-£350',
-      icon: Calendar
-    },
-    {
-      title: 'Electricity Bill',
-      date: 'July 15, 2025',
-      amount: '-£500',
-      icon: Calendar
-    }
-  ];
+  const [dateNightEvents, setDateNightEvents] = useState([]);
+  const [expenseEvents, setExpenseEvents] = useState([]);
+  const [dayEvents, setDayEvents] = useState([]);
 
-  const renderCalendarDay = (day, weekIndex, dayIndex) => {
+
+  useEffect(() => {
+    if(financialForecast?.dateNights){
+      const temp = financialForecast?.dateNights?.map(item => {
+        const d = get_formated_time(item.date)
+        const date = d.month+" "+d.day+", " + d.year;
+        return {
+          title: item.plan,
+          date: date,
+          time: d.time,
+          amount: '£'+item.budget,
+          type: item.repeatEvery,
+          hasLocation: true
+        }
+
+      })
+      setDateNightEvents(temp)
+    }
+
+
+
+    if(financialForecast?.expenses){
+      const temp = financialForecast?.expenses?.map(item => {
+        const d = get_formated_time(item.createdAt)
+         const date = d.month+" "+d.day+", " + d.year;
+         console.log(d.time)
+        return {
+          title: item.name,
+          date: date,
+          time: d.time,
+          amount: '£'+item.amount,
+          type: item.amount,
+          hasLocation: true,
+          icon: Calendar
+        }
+
+      })
+      setExpenseEvents(temp)
+    }
+
+    if(financialForecast?.appointments){
+      const temp = financialForecast?.appointments?.map(item => {
+        return item.date
+      })
+      setDayEvents(temp)
+    }
+
+
+
+  }, [financialForecast])
+
+
+
+
+  
+
+
+
+
+  const renderCalendarDay = (day, weekIndex, dayIndex, events=[]) => {
     if (!day) return <View key={`${weekIndex}-${dayIndex}`} className="flex-1" />;
     
-    const isSelected = day === selectedDate;
+    // const isSelected = day === selectedDate;
+    const isSelected = false
     const isToday = day === today.getDate() && 
                    currentMonth === today.getMonth() && 
                    currentYear === today.getFullYear();
-    const hasEvent = day === 1 || day === 11 || day === 16; // Sample event days
+
+    const event_d = currentYear+"-"+(currentMonth+1)+"-"+day;
+
+    const hasEvent = events.includes(event_d) // Sample event days
     
     return (
       <TouchableOpacity
@@ -299,7 +337,7 @@ const FinancialCalendar = () => {
           {calendarDays.map((week, weekIndex) => (
             <View key={weekIndex} className="flex-row">
               {week.map((day, dayIndex) => 
-                renderCalendarDay(day, weekIndex, dayIndex)
+                renderCalendarDay(day, weekIndex, dayIndex, dayEvents)
               )}
             </View>
           ))}

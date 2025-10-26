@@ -39,7 +39,7 @@ export default function MainTabs() {
         <Tab.Screen name="HomeStack" component={HomeStack} options={{ title: "Home" }} />
         <Tab.Screen name="BudgetStack" component={BudgetStack} options={{ title: "Budget" }} />
         <Tab.Screen name="CalculatorStack" component={CalculatorStack} options={{ title: "Calculator" }} />
-        <Tab.Screen name="FindateStack" component={FinadateStack} options={{ title: "Finadate" }} />
+        <Tab.Screen name="FindateStack" component={FinadateStack} options={{ title: "Date Night" }} />
         
         <Tab.Screen name="ProfileStack" component={ProfileStack} options={{ title: "Profile" }} />
         

@@ -15,6 +15,7 @@ export const AuthProvider = ({children}) => {
         refreshToken: "",
     });
     const [userProfile, setUserProfile] = useState({})
+    const [financialForecast, setFinancialForecast] = useState({})
 
     const handleLogout = () => {
 
@@ -73,7 +74,9 @@ export const AuthProvider = ({children}) => {
                 SignOutUser:handleLogout,
                 SignInUser:handleLogin, 
                 userProfile,
-                setUserProfile
+                setUserProfile,
+                financialForecast,
+                setFinancialForecast
             }}
         >
             {children}
