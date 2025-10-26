@@ -13,39 +13,38 @@ const api = axios.create({
 });
 
 
+export const loadAuthToken = async (cb) => {
+  const accessToken = await AsyncStorage.getItem('accessToken');
+  const refreshToken = await AsyncStorage.getItem('refreshToken');
+  const store = await AsyncStorage.getItem('store');
 
-// export const loadAuthToken = async (cb) => {
-//   const accessToken = await AsyncStorage.getItem('accessToken');
-//   const refreshToken = await AsyncStorage.getItem('refreshToken');
-//   const store = await AsyncStorage.getItem('store');
-
-//   if (accessToken) {
-//     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-//   }
-//   cb({
-//     accessToken,
-//     refreshToken,
-//     store: store ? JSON.parse(store) : null,
-//   });
-// };
+  if (accessToken) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  }
+  cb({
+    accessToken,
+    refreshToken,
+    store: store ? JSON.parse(store) : null,
+  });
+};
 
 
-// export const setAuthToken = async (accessToken, refreshToken, cb) => {
-//   await AsyncStorage.setItem('accessToken', accessToken);
-//   await AsyncStorage.setItem('refreshToken', refreshToken);
-//   api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-//   cb()
-// };
+export const setAuthToken = async (accessToken, refreshToken, cb=()=>{}) => {
+  await AsyncStorage.setItem('accessToken', accessToken);
+  await AsyncStorage.setItem('refreshToken', refreshToken);
+  api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  cb()
+};
 
-// export const logoutUser = async (cb) => {
-//   await AsyncStorage.removeItem('accessToken');
-//   await AsyncStorage.removeItem('refreshToken');
-//   await AsyncStorage.removeItem('store');
-//   await AsyncStorage.clear();
-//   delete api.defaults.headers.common['Authorization'];
+export const logoutUser = async (cb) => {
+  await AsyncStorage.removeItem('accessToken');
+  await AsyncStorage.removeItem('refreshToken');
+  await AsyncStorage.removeItem('store');
+  await AsyncStorage.clear();
+  delete api.defaults.headers.common['Authorization'];
 
-//   cb && cb();
-// };
+  cb && cb();
+};
 
 api.interceptors.response.use(
   response => response,

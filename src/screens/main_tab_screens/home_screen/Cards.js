@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text , Pressable} from 'react-native';
 import { CircleArrowDown, CircleArrowUp, PoundSterling, CreditCard, DollarSign, CirclePoundSterling, } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
+import { get_analytics } from '../ScreensAPI';
+import { ActivityIndicator } from 'react-native';
+import Indicator from '../../../components/Indicator';
 
 const Cards = () => {
+
+
 
 
 
@@ -119,6 +124,9 @@ const Cards = () => {
         {renderCard(cards[2], 2)}
         {renderCard(cards[3], 3)}
       </View>
+
+
+
     </View>
   );
 };

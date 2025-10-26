@@ -15,7 +15,7 @@ export const reset_password = async (payload,token, cb) => {
     try{
         const res = await api.post(RESET_PASS, payload, {
             headers: {
-                resetToken: token,
+                restToken: token,
             }
         })
         cb(res.data)

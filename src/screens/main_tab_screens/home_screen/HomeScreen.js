@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -10,10 +10,34 @@ import SavingsGoalCard from './SavingsGoalCard';
 import QuickCalculators from './QuickCalculators';
 import FinancialCalendar from './FinancialCalendar';
 import { useNavigation } from '@react-navigation/native';
+import { get_analytics } from '../ScreensAPI';
+import { ActivityIndicator } from 'react-native';
+import Indicator from '../../../components/Indicator';
+
 
 const HomeScreen = () => {
 
     const navigation = useNavigation()
+
+
+    const [history, setHistory] = useState({});
+    const [visible, setVisible] = useState(false);
+
+    const handleGetHistory = () => {
+        setVisible(true);
+        get_analytics((res) => {
+        if(res){
+            console.log(JSON.stringify(res, null, 2), "dfd")
+        }else{
+
+        }
+        setVisible(false);
+        })
+    }
+
+    useEffect(() => {
+        handleGetHistory()
+    })
 
     return (
         <SafeAreaView  className="flex-1 bg-[#4F55BA]">

@@ -23,7 +23,7 @@ const SignInScreen = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [agreeTerms, setAgreeTerms] = useState(false);
-    const {setIsAuthenticated} = useAuth();
+    const {setIsAuthenticated, SignInUser} = useAuth();
 
     const [loader, setLoader] = useState(false);
 
@@ -50,6 +50,7 @@ const SignInScreen = () => {
                 
             }
             else if(data){
+                SignInUser(data?.data);
                 console.log("logged in: ", JSON.stringify(data, null, 2))
             }
             else{
