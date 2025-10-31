@@ -25,6 +25,18 @@ export const get_expence = async (cb=() => {}) => {
         ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
+
+export const delete_expence = async (id, cb=() => {}) => {
+    try{
+        const res = await api.delete(EXPENSE+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
 export const post_expence = async (payload, cb=() => {}) => {
     try{
         const res = await api.post(EXPENSE, payload);
@@ -40,6 +52,16 @@ export const post_expence = async (payload, cb=() => {}) => {
 export const get_incomes = async (cb=() => {}) => {
     try{
         const res = await api.get(INCOME);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const delete_income = async (id, cb=() => {}) => {
+    try{
+        const res = await api.delete(INCOME+id);
         cb(res.data)
     }catch(e){
         cb(null)

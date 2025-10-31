@@ -1,19 +1,103 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../../../components/PrimaryButton';
+import { post_expence } from '../../ScreensAPI';
+import Indicator from '../../../../components/Indicator';
+import { ActivityIndicator } from 'react-native';
+import DateTimePicker from 'react-native-ui-datepicker';
+import dayjs from 'dayjs';
+import ToastMessage from '../../../../constants/ToastMessage';
 
 const AddExpenseForm = () => {
-  const [incomeSource, setIncomeSource] = useState('Salary');
-  const [amount, setAmount] = useState('£5000');
+  const [expenseName, setExpenseName] = useState('Mortgage or Rent');
+  const [amount, setAmount] = useState('5000');
   const [frequency, setFrequency] = useState('Monthly');
-  const [dateReceived, setDateReceived] = useState('July 15, 2025');
+  const [date, setDate] = useState(dayjs());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showExpenseDropdown, setShowExpenseDropdown] = useState(false);
 
   const navigation = useNavigation();
 
-  const frequencies = ['Weekly', 'Monthly', 'Yearly', 'One-off'];
+  const frequencies = ['Weekly', 'Monthly', 'Yearly', 'On-off'];
+  
+  const expenseNames = [
+    'Mortgage or Rent',
+    'Building or Home insurance',
+    'Travel expenses',
+    'Car insurance',
+    'Food and grocery shopping',
+    'Childcare cost',
+    'Clothing',
+    'Gas Bill',
+    'Electricity Bill',
+    'Water Bill',
+    'Broadband cost',
+    'Mobile phone bill',
+    'Entertainment',
+    'Credit card',
+    'Student Loan',
+    'Loans',
+    'Personal Upkeep',
+    'Health Insurance',
+    'Gym Membership',
+    'Sport Membership',
+    'Life insurance',
+    'TV Licence',
+    'Council Tax',
+    'Subscription i.e. TV packages, netflix',
+    'Other'
+  ];
+
+  const [visible, setVisible] = useState(false);
+
+  // Format date to YYYY-MM-DD for payload
+  const formatDateForPayload = (date) => {
+    return dayjs(date).format('YYYY-MM-DD');
+  };
+
+  // Format date for display
+  const formatDateForDisplay = (date) => {
+    return dayjs(date).format('MMMM D, YYYY');
+  };
+
+  const handleDateSelect = (params) => {
+    setDate(dayjs(params.date));
+    setShowDatePicker(false);
+  };
+
+  const handleExpenseNameSelect = (name) => {
+    setExpenseName(name);
+    setShowExpenseDropdown(false);
+  };
+
+  const handleCreateExpense = () => {
+    const payload = {
+      name: expenseName,
+      amount: Number(amount),
+      endDate: formatDateForPayload(date),
+      frequency: frequency.toLowerCase()
+    }
+
+    console.log(payload);
+
+    setVisible(true);
+
+    post_expence(payload, (res) => {
+      if(res){
+        //success
+        console.log("created", JSON.stringify(res, null, 2));
+        ToastMessage("success", "Expense added successfully!", 2000);
+        navigation.goBack();
+      }else{
+        //failed
+        ToastMessage("error", "Failed to add expense", 2000);
+      }
+      setVisible(false);
+    })
+  }
 
   const RadioButton = ({ selected, onPress, label }) => (
     <TouchableOpacity onPress={onPress} className="flex-row items-center mr-5">
@@ -35,21 +119,21 @@ const AddExpenseForm = () => {
             />
         </View>
 
-
-
       <View className="flex-1 px-6 py-8 bg-[##e7eaef]">
-        {/* Income Source */}
+        {/* Expense Name Dropdown */}
         <View className="mb-6">
           <Text className="text-gray-900 text-base font-archivo-semi-bold mb-3">
-            Expanses name
+            Expense Name
           </Text>
-          <TextInput
-            value={incomeSource}
-            onChangeText={setIncomeSource}
-            className="bg-white rounded-xl px-4 py-4 font-archivo-semi-bold text-gray-900  border border-gray-300"
-            placeholder="Enter income source"
-            placeholderTextColor="#9CA3AF"
-          />
+          <TouchableOpacity
+            onPress={() => setShowExpenseDropdown(true)}
+            className="bg-white rounded-xl px-4 py-4 border border-gray-300 flex-row items-center justify-between"
+          >
+            <Text className="text-gray-900 text-base flex-1 font-archivo-semi-bold">
+              {expenseName}
+            </Text>
+            <Text className="text-gray-600 text-lg">▼</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Amount */}
@@ -89,12 +173,15 @@ const AddExpenseForm = () => {
           <Text className="text-gray-900 font-archivo-semi-bold mb-3">
             Date Received
           </Text>
-          <TouchableOpacity className="bg-white rounded-xl px-4 py-4 border border-gray-300 flex-row items-center">
+          <TouchableOpacity 
+            onPress={() => setShowDatePicker(true)}
+            className="bg-white rounded-xl px-4 py-4 border border-gray-300 flex-row items-center"
+          >
             <View className="mr-3">
               <Text className="text-gray-600 text-lg">📅</Text>
             </View>
             <Text className="text-gray-900 text-base flex-1">
-              {dateReceived}
+              {formatDateForDisplay(date)}
             </Text>
           </TouchableOpacity>
         </View>
@@ -103,9 +190,62 @@ const AddExpenseForm = () => {
         <PrimaryButton 
           bgColor='bg-red-500'
           text='Save'
-          onPress={()=>navigation.goBack()}
+          onPress={handleCreateExpense}
         />
       </View>
+
+      {/* Expense Name Dropdown Modal */}
+      {showExpenseDropdown && (
+        <Indicator visible={showExpenseDropdown} onClose={() => setShowExpenseDropdown(false)}>
+          <View className="bg-white rounded-2xl mx-4 w-full max-h-96">
+            <View className="px-4 py-4 border-b border-gray-200">
+              <Text className="text-gray-900 text-lg font-semibold">Select Expense Name</Text>
+            </View>
+            <ScrollView showsVerticalScrollIndicator={false} className="max-h-80">
+              {expenseNames.map((name, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleExpenseNameSelect(name)}
+                  className={`px-4 py-4 border-b border-gray-100 ${
+                    expenseName === name ? 'bg-red-50' : ''
+                  }`}
+                >
+                  <Text className={`text-base ${
+                    expenseName === name ? 'text-red-500 font-semibold' : 'text-gray-900'
+                  }`}>
+                    {name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </Indicator>
+      )}
+
+      {/* Date Picker Modal */}
+      {showDatePicker && (
+        <Indicator visible={showDatePicker} onClose={() => setShowDatePicker(false)}>
+          <View className="bg-white rounded-2xl p-4 mx-4">
+            <DateTimePicker
+              mode="single"
+              date={date}
+              onChange={handleDateSelect}
+            />
+            <TouchableOpacity 
+              onPress={() => setShowDatePicker(false)}
+              className="bg-red-500 rounded-lg py-3 mt-4"
+            >
+              <Text className="text-white text-center text-base font-semibold">
+                Done
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Indicator>
+      )}
+
+      {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
+          <ActivityIndicator size={"large"}/>
+        </Indicator>}
     </SafeAreaView>
   );
 };

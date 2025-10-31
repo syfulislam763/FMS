@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView,ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, ActivityIndicator, Image } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
-import { get_incomes, get_formated_time } from '../../ScreensAPI';
+import { get_incomes, get_formated_time, delete_income } from '../../ScreensAPI';
 import Indicator from '../../../../components/Indicator';
 import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { Swipeable } from 'react-native-gesture-handler';
+import { Trash2 } from 'lucide-react-native';
+import ToastMessage from '../../../../constants/ToastMessage';
+
+
+
+const icons = {
+  'Salary': require("../../../../../assets/income/salary-Income.png"),
+  'Bonus': require("../../../../../assets/income/Bonus-Income.png"),
+  'Overtime Pay': require("../../../../../assets/income/Overtime-Pay-Income.png"),
+  'Rental income': require("../../../../../assets/income/Rental-Income.png"),
+  'Investment Income': require("../../../../../assets/income/Investment-Income.png"),
+  'Gift': require("../../../../../assets/income/Gift-Income.png"),
+  'Other income': require("../../../../../assets/income/Other-Income.png")
+}
 
 const IncomeTracker = () => {
   const [activeTab, setActiveTab] = useState('All');
@@ -31,7 +46,7 @@ const IncomeTracker = () => {
             title: item.name,
             date: d.month+" "+d.day+", "+d.year,
             amount: '+£'+item.amount,
-            icon: '🏛️',
+            icon: icons[item.name]?icons[item.name]:'',
             bgColor: 'bg-pink-100',
             frequency: item.frequency
           }
@@ -60,9 +75,6 @@ const IncomeTracker = () => {
       handleGetIncomeList()
     }, [])
   )
-  // useEffect(() => {
-  //   handleGetIncomeList()
-  // }, [])
 
 
   const handleTabFilter = (tab) => {
@@ -73,14 +85,51 @@ const IncomeTracker = () => {
       setFilteredIncomeList(filtered)
     }
     setActiveTab(tab)
-    
   }
 
-  
+  const handleDelete = (id) => {
 
+    setVisible(true);
+
+    delete_income(id, res => {
+      if(res){
+        const updatedList = incomeList.filter(item => item.id !== id);
+        const updatedFilteredList = filteredIncomeList.filter(item => item.id !== id);
+        
+        setIncomeList(updatedList);
+        setFilteredIncomeList(updatedFilteredList);
+        
+
+        let newTotal = 0;
+        updatedList.forEach(item => {
+          const amount = parseFloat(item.amount.replace('+£', ''));
+          newTotal += amount;
+        });
+        setTotalIncome(newTotal);
+        ToastMessage("success", "Deleted successfuly!", 2000)
+      }else{
+
+      }
+      setVisible(false);
+    })
+
+
+  }
+
+  const renderRightActions = (id) => {
+    return (
+      <TouchableOpacity
+        onPress={() => handleDelete(id)}
+        className="bg-red-500 justify-center items-center px-6 rounded-r-[7px] mb-3"
+        style={{ opacity: 0.9 }}
+      >
+        <Trash2/>
+      </TouchableOpacity>
+    );
+  };
 
   const tabs = ['All', 'Monthly', 'Yearly', 'On-off'];
-
+   
   return (
     <SafeAreaView className="flex-1 bg-[#2E7D32]">
       <View className="px-5 pb-3">
@@ -127,29 +176,42 @@ const IncomeTracker = () => {
         {/* Income Entries */}
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {filteredIncomeList.map((entry) => (
-            <View key={entry.id} className="bg-[#ffffff] rounded-[7px] p-3 mb-3 ">
-              <View className="flex-row items-center">
-                {/* Icon Container */}
-                <View className={`w-12 h-12 ${entry.bgColor} rounded-xl items-center justify-center mr-4`}>
-                  <Text className="text-xl">{entry.icon}</Text>
-                </View>
-                
-                {/* Content */}
-                <View className="flex-1">
-                  <Text className="text-gray-900 font-inter-semi-bold text-lg mb-1">
-                    {entry.title}
+            <Swipeable
+              key={entry.id}
+              renderRightActions={() => renderRightActions(entry.id)}
+              overshootRight={false}
+              rightThreshold={40}
+            >
+              <View className="bg-[#ffffff] rounded-[7px] p-3 mb-3">
+                <View className="flex-row items-center">
+                  {/* Icon Container */}
+                  <View className={`w-12 h-12 ${entry.bgColor} rounded-xl items-center justify-center mr-4`}>
+                    {entry.icon && <Image
+                      source={entry.icon}
+                      className="w-12 h-12"
+                      style={{
+                        objectFit:'contain'
+                      }}
+                    />}
+                  </View>
+                  
+                  {/* Content */}
+                  <View className="flex-1">
+                    <Text className="text-gray-900 font-inter-semi-bold text-lg mb-1">
+                      {entry.title}
+                    </Text>
+                    <Text className="text-gray-500 font-inter-regular text-sm">
+                      {entry.date}
+                    </Text>
+                  </View>
+                  
+                  {/* Amount */}
+                  <Text className="text-[#2E7D32] font-inter-semi-bold text-lg">
+                    {entry.amount}
                   </Text>
-                  <Text className="text-gray-500 font-inter-regular text-sm">
-                    {entry.date}
-                  </Text>
                 </View>
-                
-                {/* Amount */}
-                <Text className="text-[#2E7D32] font-inter-semi-bold text-lg">
-                  {entry.amount}
-                </Text>
               </View>
-            </View>
+            </Swipeable>
           ))}
         </ScrollView>
 

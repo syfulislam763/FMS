@@ -21,7 +21,7 @@ const AddIncomeForm = () => {
 
   const navigation = useNavigation();
 
-  const frequencies = ['Monthly', 'Yearly', 'One-off'];
+  const frequencies = ['Monthly', 'Yearly', 'On-off'];
   
   const incomeSources = [
     'Salary',
