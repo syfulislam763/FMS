@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Globe, Truck, Building2, Plus } from 'lucide-react-native';
+import { Globe, Building2, Plus } from 'lucide-react-native';
+import {ShoppingBasket, Truck , Theater, Ambulance, GraduationCap, BrickWall} from 'lucide-react-native'
 import AppHeader from '../../../components/AppHeader';    
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../../components/PrimaryButton';
+import { get_monthly_budget } from '../ScreensAPI';
 
 const BudgetScreen = () => {
   const budgetItems = [

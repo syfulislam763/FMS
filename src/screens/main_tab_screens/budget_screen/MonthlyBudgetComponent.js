@@ -1,11 +1,85 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import { Globe, Truck, Building2, Trash2 } from 'lucide-react-native';
+import { View, Text, TouchableOpacity, ScrollView, FlatList, ActivityIndicator } from 'react-native';
+import { Globe, Building2, Trash2, InfoIcon } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
+import { get_monthly_budget , delete_budget} from '../ScreensAPI';
+import {ShoppingBasket, Truck , Theater, Ambulance, GraduationCap, BrickWall} from 'lucide-react-native';
+import Indicator from '../../../components/Indicator';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
+
+const category = {
+  "Groceries": ShoppingBasket,
+  "Transportation": Truck,
+  "Entertainment": Theater,
+  "Utilities": BrickWall,
+  "Healthcare": Ambulance,
+  "Education": GraduationCap
+}
 
 const MonthlyBudgetComponent = () => {
   const [selectedTab, setSelectedTab] = useState('All');
+
+  const [budgetList, setBudgetList] = useState([]);
+  const [filteredBudgetList, setFilteredBudgetList] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [totalBudget, setTotalBudget] = useState(0);
+
+
+  const handleGetBudgets = () => {
+    setVisible(true);
+
+    get_monthly_budget(res => {
+      if(res){
+        const temp = res.data.map(item => {
+          return {
+            id: item._id,
+            icon: category[item.category]?category[item.category]:"",
+            iconBg: 'bg-blue-100',
+            iconColor: '#3B82F6',
+            title: item.name,
+            amount: item.amount,
+            category: item.category,
+            type: item.type
+          }
+        })
+
+        let sum = 0;
+
+        temp.forEach(item => {
+          sum+= parseInt(item.amount);
+        })
+
+        setTotalBudget(sum);
+        setFilteredBudgetList(temp);
+        setBudgetList(temp);
+      }else{
+
+      }
+
+      setVisible(false);
+    })
+  }
+
+
+  const handleTabFilter = (tab) => {
+    if(tab.toLowerCase() == "all"){
+      setFilteredBudgetList(budgetList)
+    }else{
+      const filtered = budgetList.filter(item => item.type == tab.toLowerCase())
+      setFilteredBudgetList(filtered)
+    }
+    setSelectedTab(tab)
+  }
+
+
+  useFocusEffect(
+    useCallback(() => {
+      handleGetBudgets()
+    }, [])
+  )
+
   
   const tabs = ['All', 'Personal', 'Household'];
   
@@ -54,7 +128,7 @@ const MonthlyBudgetComponent = () => {
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center flex-1 p-3">
           <View className={`w-10 h-10 ${item.iconBg} rounded-full items-center justify-center mr-4`}>
-            <item.icon size={20} color={item.iconColor} />
+            {item.icon && <item.icon size={20} color={item.iconColor} />}
           </View>
           <Text className="text-base font-medium text-gray-900 flex-1">
             {item.title}
@@ -78,7 +152,7 @@ const MonthlyBudgetComponent = () => {
 
   const TabButton = ({ title, isActive }) => (
     <TouchableOpacity
-      onPress={() => setSelectedTab(title)}
+      onPress={() => handleTabFilter(title)}
       className={`px-6 py-2 rounded-[7px] mr-3 ${
         isActive 
           ? 'bg-blue-500' 
@@ -105,7 +179,7 @@ const MonthlyBudgetComponent = () => {
                 Monthly Budget
             </Text>
             <Text className="text-3xl font-archivo-extra-bold text-blue-500">
-                £5000.00
+                £{totalBudget}
             </Text>
             </View>
 
@@ -113,16 +187,16 @@ const MonthlyBudgetComponent = () => {
             <View className="flex-row mb-6">
             {tabs.map((tab) => (
                 <TabButton 
-                key={tab} 
-                title={tab} 
-                isActive={selectedTab === tab} 
+                  key={tab} 
+                  title={tab} 
+                  isActive={selectedTab === tab} 
                 />
             ))}
             </View>
 
             {/* Budget Items List */}
             <FlatList 
-                data={budgetItems}
+                data={filteredBudgetList}
                 keyExtractor={(_,idx) => idx.toString()}
                 renderItem={BudgetItem}
             />
@@ -132,6 +206,12 @@ const MonthlyBudgetComponent = () => {
             <View className="h-8" />
 
         </View>
+
+
+        {visible && <Indicator visible={visible} onClose={()=> setVisible(false)}>
+          
+              <ActivityIndicator size={"large"}/>
+          </Indicator>}
     </ComponentWrapper>
   );
 };

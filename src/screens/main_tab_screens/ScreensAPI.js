@@ -3,15 +3,59 @@ import {
     GET_ANALYTICS, 
     GET_LAST_ANALYTICS,
     INCOME,
-    EXPENSE
-
+    EXPENSE,
+    BUDGET,
+    MONTHLY_BUDGET,
+    BUDGET_ANALYSIS
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
 
 
 
+export const get_budget_analysis = async (cb=() => {}) => {
+    try{
+        const res = await api.get(BUDGET_ANALYSIS);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
+export const get_monthly_budget = async (cb=() => {}) => {
+    try{
+        const res = await api.get(MONTHLY_BUDGET);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const delete_budget = async (id, cb=() => {}) => {
+    try{
+        const res = await api.delete(BUDGET+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const post_budget = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(BUDGET, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 
 

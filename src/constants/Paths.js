@@ -22,7 +22,8 @@ export const USER_PROFILE = "/users/profile"
 
 //POST
 export const BUDGET = "/budgets/"
-
+export const MONTHLY_BUDGET = "/budgets/type"
+export const BUDGET_ANALYSIS = "/budgets/analytics"
 //DELETE
 
 //UPDATE
