@@ -1,49 +1,85 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView,ActivityIndicator } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
+import { get_incomes, get_formated_time } from '../../ScreensAPI';
+import Indicator from '../../../../components/Indicator';
+import { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 const IncomeTracker = () => {
   const [activeTab, setActiveTab] = useState('All');
   const navigation = useNavigation()
 
-  const incomeEntries = [
-    {
-      id: 1,
-      title: 'Monthly Paycheck',
-      date: 'July 15, 2025',
-      amount: '+£20,000',
-      icon: '🏛️',
-      bgColor: 'bg-pink-100'
-    },
-    {
-      id: 2,
-      title: 'Side Project Payment',
-      date: 'July 15, 2025',
-      amount: '+£5200',
-      icon: '💰',
-      bgColor: 'bg-orange-100'
-    },
-    {
-      id: 3,
-      title: 'Father gift',
-      date: 'July 15, 2025',
-      amount: '+£5200',
-      icon: '🎁',
-      bgColor: 'bg-yellow-100'
-    },
-    {
-      id: 4,
-      title: 'Freelance',
-      date: 'July 15, 2025',
-      amount: '+£5200',
-      icon: '👨‍💼',
-      bgColor: 'bg-red-100'
-    }
-  ];
+  const [incomeList, setIncomeList] = useState([]);
+  const [filteredIncomeList, setFilteredIncomeList] = useState([])
+  const [visible, setVisible] = useState(false);
+  const [totalIncome, setTotalIncome] = useState(0)
+  
 
-  const tabs = ['All', 'Monthly', 'Yearly', 'One-off'];
+  const handleGetIncomeList = () => {
+    setVisible(true);
+    get_incomes(res => {
+      if(res){
+      
+        const temp = res.data.map(item => {
+          const d = get_formated_time(item.createdAt)
+          return {
+            id: item._id,
+            userId: item.userId,
+            title: item.name,
+            date: d.month+" "+d.day+", "+d.year,
+            amount: '+£'+item.amount,
+            icon: '🏛️',
+            bgColor: 'bg-pink-100',
+            frequency: item.frequency
+          }
+        })
+
+        let totalIncome = 0;
+        res.data.forEach(item => {
+          totalIncome += Number(item.amount);
+        });
+        setTotalIncome(totalIncome)
+
+        setIncomeList(temp)
+        setFilteredIncomeList(temp)
+      }else{
+        setVisible([])
+      }
+
+      setVisible(false);
+
+    })
+  }
+
+
+  useFocusEffect(
+    useCallback(() => {
+      handleGetIncomeList()
+    }, [])
+  )
+  // useEffect(() => {
+  //   handleGetIncomeList()
+  // }, [])
+
+
+  const handleTabFilter = (tab) => {
+    if(tab.toLowerCase() == "all"){
+      setFilteredIncomeList(incomeList)
+    }else{
+      const filtered = incomeList.filter(item => item.frequency == tab.toLowerCase())
+      setFilteredIncomeList(filtered)
+    }
+    setActiveTab(tab)
+    
+  }
+
+  
+
+
+  const tabs = ['All', 'Monthly', 'Yearly', 'On-off'];
 
   return (
     <SafeAreaView className="flex-1 bg-[#2E7D32]">
@@ -61,7 +97,7 @@ const IncomeTracker = () => {
             Monthly Income
           </Text>
           <Text className="text-white text-center text-3xl font-archivo-extra-bold">
-            £5000.00
+            £{totalIncome}
           </Text>
         </View>
 
@@ -70,7 +106,7 @@ const IncomeTracker = () => {
           {tabs.map((tab) => (
             <TouchableOpacity
               key={tab}
-              onPress={() => setActiveTab(tab)}
+              onPress={() => handleTabFilter(tab)}
               className={`flex-1 py-3 px-3 border-[1px] border-[#2E7D32] m-1 rounded-lg ${
                 activeTab === tab 
                   ? 'bg-[#2E7D32]' 
@@ -90,7 +126,7 @@ const IncomeTracker = () => {
 
         {/* Income Entries */}
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-          {incomeEntries.map((entry) => (
+          {filteredIncomeList.map((entry) => (
             <View key={entry.id} className="bg-[#ffffff] rounded-[7px] p-3 mb-3 ">
               <View className="flex-row items-center">
                 {/* Icon Container */}
@@ -129,6 +165,13 @@ const IncomeTracker = () => {
           </TouchableOpacity>
         </View>
       </View>
+
+
+      {
+        visible && <Indicator onClose={() => setVisible(false)} visible={visible}>
+          <ActivityIndicator size={"large"}/>
+        </Indicator>
+      }
     </SafeAreaView>
   );
 };

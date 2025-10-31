@@ -17,6 +17,7 @@ import * as ImagePicker from 'expo-image-picker';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import AppHeader from '../../../components/AppHeader';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../../context/AuthProvider';
 
 const ProfileScreen = () => {
   const [showRelationshipDropdown, setShowRelationshipDropdown] = useState(false);
@@ -24,6 +25,8 @@ const ProfileScreen = () => {
   const [showDollarDropdown, setShowDollarDropdown] = useState(false);
   const [profileImage, setProfileImage] = useState('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face');
   const [isImagePressed, setIsImagePressed] = useState(false);
+
+  const {SignOutUser} = useAuth()
 
   const navigation = useNavigation()
 
@@ -210,7 +213,7 @@ const ProfileScreen = () => {
             title="Log out"
             hasArrow={false}
             isRed={true}
-            
+            onPress={() => SignOutUser()}
           />
         </View>
       </ScrollView>

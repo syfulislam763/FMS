@@ -29,6 +29,7 @@ const SignUpScreen = () => {
 
 
     const handleSignUp = () =>{
+        
         if(password == confirmPassword){
             const payload = {
                 name,

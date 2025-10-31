@@ -49,7 +49,7 @@ const Cards = () => {
       borderColor: 'border-indigo-100',
       textColor: 'text-gray-800',
       amountColor: 'text-gray-800',
-      route:"IncomeTracker"
+      route:""
     },
     {
       title: 'Budget',
@@ -60,7 +60,7 @@ const Cards = () => {
       borderColor: 'border-green-100',
       textColor: 'text-gray-800',
       amountColor: 'text-green-600',
-      route:"IncomeTracker"
+      route:"BudgetStack"
     }
   ];
 
@@ -74,7 +74,11 @@ const Cards = () => {
         key={index}
         className={`${card.bgColor} ${card.borderColor} border-[1px] rounded-2xl p-6 flex-1 m-2 shadow-sm relative overflow-hidden`}
         style={{ minHeight: 140 }}
-        onPress={()=> navigation.navigate(card.route)}
+        onPress={()=> {
+          if(card.route){
+            navigation.navigate(card.route)
+          }
+        }}
       >
         {/* Background Shadow Dollar Icons */}
         <View className="absolute inset-0 opacity-5">
