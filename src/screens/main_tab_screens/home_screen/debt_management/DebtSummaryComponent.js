@@ -2,33 +2,33 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Lightbulb } from 'lucide-react-native';
 
-const DebtSummaryComponent = () => {
-  const paymentOrder = [
-    {
-      id: 1,
-      name: 'Credit Card',
-      interestRate: '22%',
-      isPriority: true
-    },
-    {
-      id: 2,
-      name: 'Student Loan',
-      interestRate: '6.5%',
-      isPriority: false
-    },
-    {
-      id: 3,
-      name: 'Car Loan',
-      interestRate: '4%',
-      isPriority: false
-    }
-  ];
+const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
+  // const paymentOrder = [
+  //   {
+  //     id: 1,
+  //     name: 'Credit Card',
+  //     interestRate: '22%',
+  //     isPriority: true
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Student Loan',
+  //     interestRate: '6.5%',
+  //     isPriority: false
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Car Loan',
+  //     interestRate: '4%',
+  //     isPriority: false
+  //   }
+  // ];
 
-  const debtSummary = {
-    totalDebt: '£150000',
-    averageInterestRate: '8.5%',
-    monthlyPayment: '£2500'
-  };
+  // const debtSummary = {
+  //   totalDebt: '£150000',
+  //   averageInterestRate: '8.5%',
+  //   monthlyPayment: '£2500'
+  // };
 
   const PaymentOrderItem = ({ item, showPayFirst = false }) => (
     <View className="flex-row items-center justify-between py-4 px-4 border-b border-gray-100">
@@ -37,7 +37,7 @@ const DebtSummaryComponent = () => {
           {item.name}
         </Text>
         <Text className="text-gray-500 text-sm mt-1">
-          - {item.interestRate}
+          - {item.interestRate}%
         </Text>
       </View>
       
@@ -59,7 +59,7 @@ const DebtSummaryComponent = () => {
       <Text className={`text-base font-semibold ${
         isHighlighted ? 'text-orange-500' : 'text-gray-900'
       }`}>
-        {value}
+        £{value}
       </Text>
     </View>
   );
@@ -78,11 +78,11 @@ const DebtSummaryComponent = () => {
 
         {/* Payment Order List */}
         <View>
-          {paymentOrder.map((item, index) => (
+          {paymentOrder?.map((item, index) => (
             <PaymentOrderItem 
               key={item.id} 
               item={item} 
-              showPayFirst={index === 0}
+              showPayFirst={false}
             />
           ))}
         </View>
@@ -102,17 +102,17 @@ const DebtSummaryComponent = () => {
         <View>
           <SummaryRow 
             label="Total Debt" 
-            value={debtSummary.totalDebt}
+            value={debtSummary?.totalDebt}
           />
           
           <SummaryRow 
             label="Average Interest Rate" 
-            value={debtSummary.averageInterestRate}
+            value={debtSummary?.avgInterestRate}
           />
           
           <SummaryRow 
             label="Monthly Payment" 
-            value={debtSummary.monthlyPayment}
+            value={debtSummary?.monthlyPayment}
             isHighlighted={true}
           />
         </View>

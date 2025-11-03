@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from './Card';
 
-const DebtRecentList = () => {
+const DebtRecentList = ({data}) => {
     const navigation = useNavigation()
   return (
     <View className="">
@@ -27,8 +27,9 @@ const DebtRecentList = () => {
 
       {/* Student Loan Card */}
 
-      <Card/>
-      <Card/>
+      {data?.map((item, i) => {
+        return <Card key={i} loanData={item}/>
+      })}
     </View>
   );
 };

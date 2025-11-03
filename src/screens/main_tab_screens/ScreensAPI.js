@@ -9,12 +9,83 @@ import {
     BUDGET_ANALYSIS,
     DATE_NIGHT,
     SAVING_GOAL,
-    SAVING_CALCULATOR
+    SAVING_CALCULATOR,
+    INFLATION_CALCULATOR,
+    HISTORY_INFLATION_CALCULATOR,
+    DEBTS,
+    DEBTS_SUMMARY
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
 
 
+
+
+
+export const get_debts_summary = async (cb=() => {}) => {
+    try{
+        const res = await api.get(DEBTS_SUMMARY);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("date night", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const get_debts = async (cb=() => {}) => {
+    try{
+        const res = await api.get(DEBTS);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("date night", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const delete_debts = async (id, cb=() => {}) => {
+    try{
+        const res = await api.delete(DEBTS+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const post_debts = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(DEBTS, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const calculate_historical_inflation = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(HISTORY_INFLATION_CALCULATOR, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const calculate_inflation = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(INFLATION_CALCULATOR, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 export const calculate_regular_savings = async (payload, cb=() => {}) => {
     try{
@@ -38,7 +109,7 @@ export const get_saving_goals = async (cb=() => {}) => {
 }
 export const delete_saving_goal = async (id, cb=() => {}) => {
     try{
-        const res = await api.delete(DATE_NIGHT+id);
+        const res = await api.delete(SAVING_GOAL+id);
         cb(res.data)
     }catch(e){
         cb(null)
@@ -49,7 +120,7 @@ export const delete_saving_goal = async (id, cb=() => {}) => {
 
 export const post_saving_goal = async (payload, cb=() => {}) => {
     try{
-        const res = await api.post(DATE_NIGHT, payload);
+        const res = await api.post(SAVING_GOAL, payload);
         cb(res.data)
     }catch(e){
         cb(null)

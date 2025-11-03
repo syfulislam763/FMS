@@ -2,33 +2,59 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { Lightbulb } from 'lucide-react-native';
 import CommponentWrapper from '../../../../components/ComponentWrapper';
-
+import { useRoute } from '@react-navigation/native';
 
 const coin = require("../../../../../assets/img/coin.png")
 
 const FutureValueProjection = () => {
+
+    const route = useRoute();
+    const params = route.params;
+
+
+
+
+
+
+
+
+
+
+
   return (
     <CommponentWrapper container_bg='bg-white' title='Inflation Calculator Results'>
         <View className="flex-1">
             {/* Main Card */}
             <View className="bg-gray-50 rounded-[5px] border border-gray-200 p-6 mb-4 ">
                 {/* Header */}
-                <Text className="text-gray-700 text-lg font-medium text-center mb-4">
+                {!(params.flag) && <Text className="text-gray-700 text-lg font-medium text-center mb-4">
                 Future Value Projection
-                </Text>
+                </Text>}
                 
                 {/* Amount */}
-                <Text className="text-red-500 text-4xl font-bold text-center mb-6">
-                £132.27
-                </Text>
+                {!(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6">
+                £{params?.futureValue}
+                </Text>}
+                {(params.flag) && <Text className=" text-2xl font-bold text-center mb-6">
+                    Value in {params?.fromYear}
+                </Text>}
+                {(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6">
+                    £{params?.valueInFromYear}
+                </Text>}
+                {(params.flag) && <Text className=" font-bold text-center mb-6">
+                    Total Inflation
+                </Text>}
+                {(params.flag) && <Text className=" font-bold text-center mb-6">
+                    £{params?.totalInflation}
+                </Text>}
                 
                 {/* Description */}
-                <Text className="text-gray-500 text-sm text-center leading-5 mb-8">
+                {!(params?.flag) && <Text className="text-gray-500 text-sm text-center leading-5 mb-8">
                 This is the estimated cost of an item{'\n'}
-                currently worth $1,000.00 in 5{'\n'}
+                currently worth ${params.initialAmount} in {params.years}{'\n'}
                 years, assuming an average annual{'\n'}
-                inflation rate of 3%.
-                </Text>
+                inflation rate of {params.annualInflationRate}%.
+                </Text>}
                 
                 {/* Icons Row */}
                 <View className="flex-row justify-center items-center space-x-6">

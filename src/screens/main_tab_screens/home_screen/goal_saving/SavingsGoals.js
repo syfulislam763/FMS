@@ -10,23 +10,22 @@ import ComponentWrapper from '../../../../components/ComponentWrapper';
 import SavingsGoalCard from '../SavingsGoalCard';
 import PrimaryButton from '../../../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
-import {Circle} from 'lucide-react-native'
+import { Circle } from 'lucide-react-native';
 import { useRoute } from '@react-navigation/native';
-import { get_formated_time, get_saving_goals } from '../../ScreensAPI';
+import { get_formated_time, get_saving_goals, delete_saving_goal } from '../../ScreensAPI';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import Indicator from '../../../../components/Indicator';
 import { ActivityIndicator } from 'react-native';
-
+import { Swipeable } from 'react-native-gesture-handler';
+import { Trash2 } from 'lucide-react-native';
+import ToastMessage from '../../../../constants/ToastMessage';
 
 const SavingsGoals = () => {
     const route = useRoute();
 
-
     const [savingGoalsList, setSavingGoalsList] = useState([]);
-
     const [visible, setVisible] = useState(false);
-
 
     const handleGetSavingGoalsList = () => {
       setVisible(true);
@@ -41,22 +40,44 @@ const SavingsGoals = () => {
                 date: d.month+" "+d.day+ ", "+d.year,
                 currentAmount: item.savedMoney,
                 targetAmount: item.totalAmount,
-                icon: '🏠',
+                icon: '',
                 progress:  item.completionRation
             }
           })
 
           setSavingGoalsList(temp)
-        }else{
-          
         }
 
         setVisible(false);
       })
-      
     }
 
+    const handleDeleteSavingGoal = (id) => {
+      setVisible(true);
+      
+      delete_saving_goal(id, res => {
+        if(res){
+          const updatedList = savingGoalsList.filter(item => item.id !== id);
+          setSavingGoalsList(updatedList);
+          ToastMessage("success", "Deleted successfully!", 2000);
+        }else{
+          ToastMessage("error", "Failed to delete", 2000);
+        }
+        setVisible(false);
+      })
+    }
 
+    const renderRightActions = (id) => {
+      return (
+        <TouchableOpacity
+          onPress={() => handleDeleteSavingGoal(id)}
+          className="bg-red-500 justify-center items-center px-6 rounded-r-[7px] mb-3"
+          style={{ opacity: 0.9 }}
+        >
+          <Trash2 color="white" />
+        </TouchableOpacity>
+      );
+    };
 
     useFocusEffect(
       useCallback(() => {
@@ -67,38 +88,44 @@ const SavingsGoals = () => {
   const navigation = useNavigation()
 
   const renderSavingItem = ({ item }) => (
-    <View className="bg-white rounded-[7px] p-4  mb-3 ">
-      {/* Header with icon and title */}
-      <View className="flex-row items-center mb-2">
-        <View className="w-10 h-10 rounded-lg bg-orange-100 items-center justify-center mr-3">
-          <Text className="text-lg">{item.icon}</Text>
+    <Swipeable
+      renderRightActions={() => renderRightActions(item.id)}
+      overshootRight={false}
+      rightThreshold={40}
+    >
+      <View className="bg-white rounded-[7px] p-4 mb-3">
+        {/* Header with icon and title */}
+        <View className="flex-row items-center mb-2">
+          {/* <View className="w-10 h-10 rounded-lg bg-orange-100 items-center justify-center mr-3">
+            <Text className="text-lg">{item.icon}</Text>
+          </View> */}
+          <View className="flex-1">
+            <Text className="text-gray-900 text-lg font-semibold">{item.title}</Text>
+            <Text className="text-gray-500 text-sm">{item.date}</Text>
+          </View>
         </View>
-        <View className="flex-1">
-          <Text className="text-gray-900 text-lg font-semibold">{item.title}</Text>
-          <Text className="text-gray-500 text-sm">{item.date}</Text>
-        </View>
-      </View>
 
-      {/* Progress Bar */}
-      <View className="mb-3">
-        <View className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-          <View 
-            className="h-full bg-green-600 rounded-full"
-            style={{ width: `${item.progress}%` }}
-          />
+        {/* Progress Bar */}
+        <View className="mb-3">
+          <View className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+            <View 
+              className="h-full bg-green-600 rounded-full"
+              style={{ width: `${item.progress}%` }}
+            />
+          </View>
+        </View>
+
+        {/* Amount Display */}
+        <View className="flex-row justify-between items-center">
+          <Text className="text-gray-900 text-base font-medium">
+            £{item.currentAmount.toFixed(2)}
+          </Text>
+          <Text className="text-gray-900 text-base font-medium">
+            £{item.targetAmount.toLocaleString()}
+          </Text>
         </View>
       </View>
-
-      {/* Amount Display */}
-      <View className="flex-row justify-between items-center">
-        <Text className="text-gray-900 text-base font-medium">
-          £{item.currentAmount.toFixed(2)}
-        </Text>
-        <Text className="text-gray-900 text-base font-medium">
-          £{item.targetAmount.toLocaleString()}
-        </Text>
-      </View>
-    </View>
+    </Swipeable>
   );
 
   return (
@@ -130,11 +157,9 @@ const SavingsGoals = () => {
         onPress={() => navigation.navigate("FinancialForm")}
       />
 
-
       {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
-            
-                <ActivityIndicator size={"large"}/>
-            </Indicator>}
+          <ActivityIndicator size={"large"}/>
+      </Indicator>}
     </ComponentWrapper>
   );
 };

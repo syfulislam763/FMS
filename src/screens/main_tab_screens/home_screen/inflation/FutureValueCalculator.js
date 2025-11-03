@@ -1,7 +1,4 @@
-
-
-
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -13,6 +10,10 @@ import {
 } from 'react-native';
 import CommponentWrapper from '../../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
+import { calculate_historical_inflation, calculate_inflation } from '../../ScreensAPI';
+import Indicator from '../../../../components/Indicator';
+import { ActivityIndicator } from 'react-native';
+import ToastMessage from '../../../../constants/ToastMessage';
 
 const coin = require("../../../../../assets/img/coin.png")
 
@@ -26,9 +27,11 @@ const FutureValueCalculator = () => {
   const [historicalValues, setHistoricalValues] = useState({
     fromYear: '2021',
     toYear: '2025',
-    amount: '£100',
+    amount: '100',
     multiplier: 'Auto Fill'
   });
+
+  const [visible, setVisible] = useState(false);
 
   const tableData = [
     { year: '2021', value: '£100', rate: '6.5%' },
@@ -38,6 +41,71 @@ const FutureValueCalculator = () => {
     { year: '2025', value: '£146', rate: '8.5%' }
   ];
   const navigation = useNavigation()
+
+  // Future Values handlers - memoized with useCallback
+  const handleInitialAmountChange = useCallback((text) => {
+    setFutureValues(prev => ({...prev, initialAmount: text}));
+  }, []);
+
+  const handleInflationRateChange = useCallback((text) => {
+    setFutureValues(prev => ({...prev, inflationRate: text}));
+  }, []);
+
+  const handleYearsToProjectChange = useCallback((text) => {
+    setFutureValues(prev => ({...prev, yearsToProject: text}));
+  }, []);
+
+  // Historical Values handlers - memoized with useCallback
+  const handleFromYearChange = useCallback((text) => {
+    setHistoricalValues(prev => ({...prev, fromYear: text}));
+  }, []);
+
+  const handleToYearChange = useCallback((text) => {
+    setHistoricalValues(prev => ({...prev, toYear: text}));
+  }, []);
+
+  const handleAmountChange = useCallback((text) => {
+    setHistoricalValues(prev => ({...prev, amount: text}));
+  }, []);
+
+  const handleCalculateFutureValue = () => {
+    console.log("fu", futureValues);
+    const payload = {
+      initialAmount:parseInt(futureValues.initialAmount),
+      annualInflationRate: parseInt(futureValues.inflationRate),
+      years: parseInt(futureValues.yearsToProject)
+    }
+    setVisible(true);
+
+    calculate_inflation(payload, res => {
+      if(res){
+        navigation.navigate("FutureValueProjection", {...payload, ...res.data, flag:0})
+      }else{
+
+      }
+      setVisible(false);
+    })
+
+  }
+
+  const handleCalculateHistoricalValue = () => {
+    console.log("his", historicalValues);
+    setVisible(true);
+    const payload = {
+        amount: Number(historicalValues.amount),
+        toYear: Number(historicalValues.toYear),
+        fromYear: Number(historicalValues.fromYear)
+    }
+    calculate_historical_inflation(payload, res => {
+      if(res){
+        navigation.navigate("FutureValueProjection", {...payload, ...res.data, flag:1})
+      }else{
+
+      }
+      setVisible(false);
+    })
+  
+  }
 
   const TabButton = ({ title, isActive, onPress }) => (
     <TouchableOpacity
@@ -54,51 +122,6 @@ const FutureValueCalculator = () => {
         {title}
       </Text>
     </TouchableOpacity>
-  );
-
-  const InputField = ({ label, value, onChangeText, placeholder }) => (
-    <View className="mb-6">
-      <Text className="text-gray-800 text-lg font-medium mb-3">{label}</Text>
-      <TextInput
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
-        placeholderTextColor="#9CA3AF"
-      />
-    </View>
-  );
-
-  const TableRow = ({ year, value, rate, isHeader = false }) => (
-    <View className="flex-row">
-      <View className={`flex-1 p-3 border-r border-gray-200 ${
-        isHeader ? 'bg-gray-50' : 'bg-white border-t'
-      }`}>
-        <Text className={`text-sm ${
-          isHeader ? 'text-gray-700 font-medium' : 'text-gray-800'
-        }`}>
-          {year}
-        </Text>
-      </View>
-      <View className={`flex-1 p-3 border-r border-gray-200 ${
-        isHeader ? 'bg-gray-50' : 'bg-white border-t'
-      }`}>
-        <Text className={`text-sm ${
-          isHeader ? 'text-gray-700 font-medium' : 'text-gray-800'
-        }`}>
-          {value}
-        </Text>
-      </View>
-      <View className={`flex-1 p-3 ${
-        isHeader ? 'bg-gray-50' : 'bg-white border-t border-gray-200'
-      }`}>
-        <Text className={`text-sm ${
-          isHeader ? 'text-gray-700 font-medium' : 'text-gray-800'
-        }`}>
-          {rate}
-        </Text>
-      </View>
-    </View>
   );
 
   return (
@@ -121,25 +144,43 @@ const FutureValueCalculator = () => {
         {activeTab === 'future' ? (
           // Future Value Content
           <View>
-            <InputField
-              label="Initial Amount"
-              value={futureValues.initialAmount}
-              onChangeText={(text) => setFutureValues(prev => ({...prev, initialAmount: text}))}
-            />
+            <View className="mb-6">
+              <Text className="text-gray-800 text-lg font-medium mb-3">Initial Amount</Text>
+              <TextInput
+                value={futureValues.initialAmount}
+                onChangeText={handleInitialAmountChange}
+                placeholder=""
+                className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
+                placeholderTextColor="#9CA3AF"
+                keyboardType='numeric'
+              />
+            </View>
             
-            <InputField
-              label="Annual Inflation Rate (%)"
-              value={futureValues.inflationRate}
-              onChangeText={(text) => setFutureValues(prev => ({...prev, inflationRate: text}))}
-            />
+            <View className="mb-6">
+              <Text className="text-gray-800 text-lg font-medium mb-3">Annual Inflation Rate (%)</Text>
+              <TextInput
+                value={futureValues.inflationRate}
+                onChangeText={handleInflationRateChange}
+                placeholder=""
+                className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
+                placeholderTextColor="#9CA3AF"
+                keyboardType='numeric'
+              />
+            </View>
             
-            <InputField
-              label="Years to Project"
-              value={futureValues.yearsToProject}
-              onChangeText={(text) => setFutureValues(prev => ({...prev, yearsToProject: text}))}
-            />
+            <View className="mb-6">
+              <Text className="text-gray-800 text-lg font-medium mb-3">Years to Project</Text>
+              <TextInput
+                value={futureValues.yearsToProject}
+                onChangeText={handleYearsToProjectChange}
+                placeholder=""
+                className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
+                placeholderTextColor="#9CA3AF"
+                keyboardType='numeric'
+              />
+            </View>
 
-            <TouchableOpacity onPress={()=> navigation.navigate("FutureValueProjection")} className="w-full bg-red-500 rounded-[5px] py-3">
+            <TouchableOpacity onPress={()=> handleCalculateFutureValue()} className="w-full bg-red-500 rounded-[5px] py-3">
               <Text className="text-white text-lg font-semibold text-center">
                 Calculate Future Value
               </Text>
@@ -148,31 +189,43 @@ const FutureValueCalculator = () => {
         ) : (
           // Historical Value Content
           <View>
-            <InputField
-              label="From Year"
-              value={historicalValues.fromYear}
-              onChangeText={(text) => setHistoricalValues(prev => ({...prev, fromYear: text}))}
-            />
+            <View className="mb-6">
+              <Text className="text-gray-800 text-lg font-medium mb-3">From Year</Text>
+              <TextInput
+                value={historicalValues.fromYear}
+                onChangeText={handleFromYearChange}
+                placeholder=""
+                className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
+                placeholderTextColor="#9CA3AF"
+                keyboardType='numeric'
+              />
+            </View>
             
-            <InputField
-              label="To Year"
-              value={historicalValues.toYear}
-              onChangeText={(text) => setHistoricalValues(prev => ({...prev, toYear: text}))}
-            />
+            <View className="mb-6">
+              <Text className="text-gray-800 text-lg font-medium mb-3">To Year</Text>
+              <TextInput
+                value={historicalValues.toYear}
+                onChangeText={handleToYearChange}
+                placeholder=""
+                className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
+                placeholderTextColor="#9CA3AF"
+                keyboardType='numeric'
+              />
+            </View>
             
-            <InputField
-              label="Amount"
-              value={historicalValues.amount}
-              onChangeText={(text) => setHistoricalValues(prev => ({...prev, amount: text}))}
-            />
-            
-            <InputField
-              label="Multiplier"
-              value={historicalValues.multiplier}
-              onChangeText={(text) => setHistoricalValues(prev => ({...prev, multiplier: text}))}
-            />
+            <View className="mb-6">
+              <Text className="text-gray-800 text-lg font-medium mb-3">Amount</Text>
+              <TextInput
+                value={historicalValues.amount}
+                onChangeText={handleAmountChange}
+                placeholder=""
+                className="w-full bg-white rounded-[5px] p-4 text-lg border border-gray-200 text-gray-800"
+                placeholderTextColor="#9CA3AF"
+                keyboardType='numeric'
+              />
+            </View>
 
-            <TouchableOpacity onPress={()=> navigation.navigate("FutureValueProjection")} className="w-full bg-red-500 rounded-[5px] py-3 mb-8">
+            <TouchableOpacity onPress={()=> handleCalculateHistoricalValue()} className="w-full bg-red-500 rounded-[5px] py-3 mb-8">
               <Text className="text-white text-lg font-semibold text-center">
                 Calculate Historical Value
               </Text>
@@ -187,22 +240,42 @@ const FutureValueCalculator = () => {
               {/* Results Table */}
               <View className="bg-white rounded-[5px] border border-gray-200 overflow-hidden mb-10">
                 {/* Table Header */}
-                <TableRow year="Year" value="Value" rate="Rate" isHeader={true} />
+                <View className="flex-row">
+                  <View className="flex-1 p-3 border-r border-gray-200 bg-gray-50">
+                    <Text className="text-sm text-gray-700 font-medium">Year</Text>
+                  </View>
+                  <View className="flex-1 p-3 border-r border-gray-200 bg-gray-50">
+                    <Text className="text-sm text-gray-700 font-medium">Value</Text>
+                  </View>
+                  <View className="flex-1 p-3 bg-gray-50">
+                    <Text className="text-sm text-gray-700 font-medium">Rate</Text>
+                  </View>
+                </View>
                 
                 {/* Table Data */}
                 {tableData.map((row, index) => (
-                  <TableRow
-                    key={index}
-                    year={row.year}
-                    value={row.value}
-                    rate={row.rate}
-                  />
+                  <View key={index} className="flex-row">
+                    <View className="flex-1 p-3 border-r border-gray-200 bg-white border-t">
+                      <Text className="text-sm text-gray-800">{row.year}</Text>
+                    </View>
+                    <View className="flex-1 p-3 border-r border-gray-200 bg-white border-t">
+                      <Text className="text-sm text-gray-800">{row.value}</Text>
+                    </View>
+                    <View className="flex-1 p-3 bg-white border-t border-gray-200">
+                      <Text className="text-sm text-gray-800">{row.rate}</Text>
+                    </View>
+                  </View>
                 ))}
               </View>
             </View>
           </View>
         )}
       </ScrollView>
+
+
+      {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
+          <ActivityIndicator size={"large"}/>
+        </Indicator>}
     </CommponentWrapper>
   );
 };

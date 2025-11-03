@@ -38,6 +38,7 @@ export const INCOME = "/incomes/"
 
 //DEBTS
 export const DEBTS = "/debts/"
+export const DEBTS_SUMMARY = "/debts/insights"
 
 
 //EXPENSE
@@ -48,7 +49,7 @@ export const EXPENSE = "/expenses/"
 export const SAVING_CALCULATOR = "/calculator/saving-calculator"
 export const LOAN_CALCULATOR = "/calculator/loan-repayment-calculator"
 export const INFLATION_CALCULATOR = "/calculator/inflation-calculator"
-export const HISTORY_CALCULATOR = "/calculator/historical-inflation-calculator"
+export const HISTORY_INFLATION_CALCULATOR = "/calculator/historical-inflation-calculator"
 
 //SAVING GOAL
 export const SAVING_GOAL = "/saving-goals/"
