@@ -6,12 +6,93 @@ import {
     EXPENSE,
     BUDGET,
     MONTHLY_BUDGET,
-    BUDGET_ANALYSIS
+    BUDGET_ANALYSIS,
+    DATE_NIGHT,
+    SAVING_GOAL,
+    SAVING_CALCULATOR
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
 
 
+
+export const calculate_regular_savings = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(SAVING_CALCULATOR, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const get_saving_goals = async (cb=() => {}) => {
+    try{
+        const res = await api.get(SAVING_GOAL);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("date night", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const delete_saving_goal = async (id, cb=() => {}) => {
+    try{
+        const res = await api.delete(DATE_NIGHT+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const post_saving_goal = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(DATE_NIGHT, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+
+
+export const get_date_night = async (cb=() => {}) => {
+    try{
+        const res = await api.get(DATE_NIGHT);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("date night", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+
+export const delete_date_night = async (id, cb=() => {}) => {
+    try{
+        const res = await api.delete(DATE_NIGHT+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const post_date_night = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(DATE_NIGHT, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 export const get_budget_analysis = async (cb=() => {}) => {
     try{
@@ -30,7 +111,7 @@ export const get_monthly_budget = async (cb=() => {}) => {
         cb(res.data)
     }catch(e){
         cb(null)
-        console.log("re", JSON.stringify(e.response, null, 2))
+        console.log("re", JSON.stringify(e, null, 2))
         ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }

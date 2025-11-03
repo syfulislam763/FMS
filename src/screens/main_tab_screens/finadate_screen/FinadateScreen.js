@@ -1,29 +1,191 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView, ActivityIndicator } from 'react-native';
 import { ChevronDown, Calendar, Clock, MapPin } from 'lucide-react-native';
 import AppHeader from '../../../components/AppHeader';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
+import Indicator from '../../../components/Indicator';
+import { post_date_night } from '../ScreensAPI';
+import ToastMessage from '../../../constants/ToastMessage';
+import DateTimePicker from 'react-native-ui-datepicker';
+import dayjs from 'dayjs';
+
+// Simple Time Picker Component
+const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
+  const [selectedHour, setSelectedHour] = useState(12);
+  const [selectedPeriod, setSelectedPeriod] = useState('AM');
+
+  const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+
+  const handleDone = () => {
+    let hour24 = selectedHour;
+    if (selectedPeriod === 'PM' && selectedHour !== 12) {
+      hour24 = selectedHour + 12;
+    } else if (selectedPeriod === 'AM' && selectedHour === 12) {
+      hour24 = 0;
+    }
+    
+    const timeString = `${hour24.toString().padStart(2, '0')}:00`;
+    const displayTime = `${selectedHour} ${selectedPeriod}`;
+    
+    onTimeSelect({ time24: timeString, display: displayTime });
+    onClose();
+  };
+
+  return (
+    <View className="bg-white w-full rounded-2xl p-6 mx-4">
+      <Text className="text-gray-900 text-xl font-semibold mb-6 text-center">
+        Select Time
+      </Text>
+      
+      <View className="flex-row justify-center items-center mb-6">
+        {/* Hours Picker */}
+        <View className="flex-1 items-center">
+          <Text className="text-gray-500 text-sm mb-3">Hour</Text>
+          <ScrollView 
+            className="h-32" 
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 40 }}
+          >
+            {hours.map((hour) => (
+              <TouchableOpacity
+                key={hour}
+                onPress={() => setSelectedHour(hour)}
+                className="py-2"
+              >
+                <Text className={`text-2xl text-center ${
+                  selectedHour === hour 
+                    ? 'text-[#1976D2] font-bold' 
+                    : 'text-gray-400'
+                }`}>
+                  {hour}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* AM/PM Picker */}
+        <View className="flex-1 items-center ml-8">
+          <Text className="text-gray-500 text-sm mb-3">Period</Text>
+          <View className="h-32 justify-center">
+            <TouchableOpacity
+              onPress={() => setSelectedPeriod('AM')}
+              className="py-3 mb-4"
+            >
+              <Text className={`text-2xl text-center ${
+                selectedPeriod === 'AM' 
+                  ? 'text-[#1976D2] font-bold' 
+                  : 'text-gray-400'
+              }`}>
+                AM
+              </Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              onPress={() => setSelectedPeriod('PM')}
+              className="py-3"
+            >
+              <Text className={`text-2xl text-center ${
+                selectedPeriod === 'PM' 
+                  ? 'text-[#1976D2] font-bold' 
+                  : 'text-gray-400'
+              }`}>
+                PM
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+
+      {/* Selected Time Display */}
+      <View className="bg-gray-100 rounded-lg py-3 mb-4">
+        <Text className="text-center text-xl font-semibold text-gray-900">
+          {selectedHour} {selectedPeriod}
+        </Text>
+      </View>
+
+      {/* Done Button */}
+      <TouchableOpacity 
+        onPress={handleDone}
+        className="bg-[#1976D2] rounded-lg py-3"
+      >
+        <Text className="text-white text-center text-base font-semibold">
+          Done
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const FinadateScreen = () => {
   const [planName, setPlanName] = useState('');
   const [budget, setBudget] = useState('');
   const [repeatEvery, setRepeatEvery] = useState('Monthly');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
+  const [date, setDate] = useState(dayjs());
+  const [time, setTime] = useState(dayjs());
   const [location, setLocation] = useState('');
   const [notificationEnabled, setNotificationEnabled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const repeatOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+
+  const formatDateForPayload = (date) => {
+    return dayjs(date).format('YYYY-MM-DD');
+  };
+
+  const formatDateForDisplay = (date) => {
+    return dayjs(date).format('MMMM D, YYYY');
+  };
+
+  const formatTimeForPayload = (time) => {
+    return dayjs(time).format('hh:mm A');
+  };
+
+  const formatTimeForDisplay = (time) => {
+    return dayjs(time).format('hh:mm A');
+  };
+
+  const handleDateSelect = (params) => {
+    setDate(dayjs(params.date));
+    setShowDatePicker(false);
+  };
+
+  const handleCreateDateNight = () => {
+    const payload = {
+      plan: planName,
+      budget: Number(budget),
+      repeatEvery: repeatEvery,
+      date: formatDateForPayload(date),
+      time: formatTimeForPayload(time),
+      location: location
+    }
+
+    console.log(payload);
+
+    setVisible(true);
+
+    post_date_night(payload, res => {
+      if(res){
+        console.log("created", JSON.stringify(res, null, 2));
+        ToastMessage("success", "Date night added successfully!", 2000);
+        navigation.goBack();
+      }else{
+        ToastMessage("error", "Failed to add date night", 2000);
+      }
+      setVisible(false);
+    })
+  }
 
   return (
     <ComponentWrapper title='Date Night' bg_color='bg-[#1976D2]' >
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         <View className="">
             
-            {/* Header */}
             <Text className="text-2xl font-archivo-extra-bold text-gray-900 mb-8">
             Set Your Reminder
             </Text>
@@ -75,13 +237,19 @@ const FinadateScreen = () => {
                 {repeatOptions.map((option, index) => (
                     <TouchableOpacity
                     key={index}
-                    className="px-4 py-3 border-b border-gray-100 last:border-b-0"
+                    className={`px-4 py-3 border-b border-gray-100 ${
+                      repeatEvery === option ? 'bg-blue-50' : ''
+                    }`}
                     onPress={() => {
                         setRepeatEvery(option);
                         setShowDropdown(false);
                     }}
                     >
-                    <Text className="text-lg text-gray-900">{option}</Text>
+                    <Text className={`text-lg ${
+                      repeatEvery === option ? 'text-[#1976D2] font-semibold' : 'text-gray-900'
+                    }`}>
+                      {option}
+                    </Text>
                     </TouchableOpacity>
                 ))}
                 </View>
@@ -91,37 +259,40 @@ const FinadateScreen = () => {
             {/* Select Date or Time */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
-                Select Date or Time
+                Select Date
             </Text>
             <View className="flex-row space-x-3">
-                {/* Date Input */}
-                <View className="flex-1">
-                <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
+                <TouchableOpacity 
+                  onPress={() => setShowDatePicker(true)}
+                  className="flex-1"
+                >
+                  <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
                     <Calendar size={20} color="#9CA3AF" className="mr-3" />
-                    <TextInput
-                    className="flex-1 text-lg text-gray-900 ml-3"
-                    placeholder="date"
-                    placeholderTextColor="#9CA3AF"
-                    value={selectedDate}
-                    onChangeText={setSelectedDate}
-                    />
-                </View>
-                </View>
+                    <Text className="flex-1 text-lg text-gray-900 ml-3">
+                      {formatDateForDisplay(date)}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
                 
-                {/* Time Input */}
-                <View className="flex-1 ml-3">
-                <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
-                    <Clock size={20} color="#9CA3AF" className="mr-3" />
-                    <TextInput
-                    className="flex-1 text-lg text-gray-900 ml-3"
-                    placeholder="date"
-                    placeholderTextColor="#9CA3AF"
-                    value={selectedTime}
-                    onChangeText={setSelectedTime}
-                    />
-                </View>
-                </View>
+                
             </View>
+            </View>
+
+            <View className="mb-6">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                Time
+            </Text>
+            <TouchableOpacity 
+                  onPress={() => setShowTimePicker(true)}
+                  className=""
+                >
+                  <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
+                    <Clock size={20} color="#9CA3AF" className="mr-3" />
+                    <Text className="flex-1 text-lg text-gray-900 ml-3">
+                      {formatTimeForDisplay(time)}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
             </View>
 
             {/* Location Field */}
@@ -158,17 +329,58 @@ const FinadateScreen = () => {
             </View>
 
             {/* Save Button */}
-            <TouchableOpacity onPress={() => navigation.goBack()} className="bg-blue-500 rounded-[5px] py-3 items-center ">
-            <Text className="text-white text-lg font-semibold">
-                Save Date Night
-            </Text>
+            <TouchableOpacity 
+              onPress={handleCreateDateNight} 
+              className="bg-blue-500 rounded-[5px] py-3 items-center"
+            >
+              <Text className="text-white text-lg font-semibold">
+                  Save Date Night
+              </Text>
             </TouchableOpacity>
 
         </View>
         </ScrollView>
+
+        {/* Date Picker Modal */}
+        {showDatePicker && (
+          <Indicator visible={showDatePicker} onClose={() => setShowDatePicker(false)}>
+            <View  className="bg-white rounded-2xl p-4">
+              <DateTimePicker
+                mode="single"
+                date={date}
+                onChange={handleDateSelect}
+              />
+              <TouchableOpacity 
+                onPress={() => setShowDatePicker(false)}
+                className="bg-[#1976D2] rounded-lg py-3 mt-4"
+              >
+                <Text className="text-white text-center text-base font-semibold">
+                  Done
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </Indicator>
+        )}
+
+        {/* Time Picker Modal */}
+        {showTimePicker && (
+          <Indicator visible={showTimePicker} onClose={() => setShowTimePicker(false)}>
+            <SimpleTimePicker
+              onTimeSelect={(timeData) => {
+                const [hours] = timeData.time24.split(':');
+                const newTime = dayjs().hour(parseInt(hours)).minute(0);
+                setTime(newTime);
+              }}
+              onClose={() => setShowTimePicker(false)}
+            />
+          </Indicator>
+        )}
+
+        {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
+          <ActivityIndicator size={"large"}/>
+        </Indicator>}
     </ComponentWrapper>
   );
 };
 
-export default FinadateScreen
-;
+export default FinadateScreen;

@@ -54,6 +54,9 @@ export const HISTORY_CALCULATOR = "/calculator/historical-inflation-calculator"
 export const SAVING_GOAL = "/saving-goals/"
 
 
+//DATE NIGHTS
+export const DATE_NIGHT = "/date-nights/"
+
 //PACKAGE
 export const PACKAGE = "/packages/"
 

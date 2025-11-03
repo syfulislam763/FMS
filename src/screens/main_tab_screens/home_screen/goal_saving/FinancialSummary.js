@@ -7,13 +7,16 @@ import {
 } from 'react-native';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 const FinancialSummary = () => {
+  const route = useRoute();
+
   const financialData = {
-    totalSaved: 50000,
-    afterTax: 1000,
-    inflationAdjusted: 80,
-    netGain: 30,
+    totalSaved: route.params.totalSavedBeforeTax,
+    afterTax: route.params.afterTax,
+    inflationAdjusted: route.params.inflationAdjustedValue,
+    netGain: route.params.netGain,
     monthlyDecrease: 5060.00
   };
 

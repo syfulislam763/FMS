@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Globe, Building2, Plus } from 'lucide-react-native';
 import {ShoppingBasket, Truck , Theater, Ambulance, GraduationCap, BrickWall} from 'lucide-react-native'
@@ -7,8 +7,68 @@ import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { get_monthly_budget } from '../ScreensAPI';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+
+
+const category = {
+  "Groceries": ShoppingBasket,
+  "Transportation": Truck,
+  "Entertainment": Theater,
+  "Utilities": BrickWall,
+  "Healthcare": Ambulance,
+  "Education": GraduationCap
+}
 
 const BudgetScreen = () => {
+
+  const [budgetList, setBudgetList] = useState([]);
+
+
+  const handleGetBudgets = () => {
+
+
+    get_monthly_budget(res => {
+      if(res){
+        const temp = res.data.map(item => {
+          return {
+            id: item._id,
+            icon: category[item.category] ? category[item.category] : null,
+            iconBg: 'bg-blue-100',
+            iconColor: '#3B82F6',
+            title: item.name,
+            amount: item.amount,
+            category: item.category,
+            type: item.type
+          }
+        })
+
+        const temp2 = [];
+        temp.forEach(item => {
+          if(temp2.length < 3){
+            temp2.push(item);
+          }
+        })
+
+      
+        setBudgetList(temp2);
+      }
+    })
+  }
+
+
+
+  useFocusEffect(
+    useCallback(() => {
+      handleGetBudgets()
+    }, [])
+  )
+  
+
+
+
+
+
   const budgetItems = [
     {
       id: 1,
@@ -41,7 +101,7 @@ const BudgetScreen = () => {
       <View className="flex-row items-center justify-between">
         <View className="flex-row items-center flex-1">
           <View className={`w-10 h-10 ${item.iconBg} rounded-full items-center justify-center mr-4`}>
-            <item.icon size={20} color={item.iconColor} />
+            {item.icon && <item.icon size={20} color={item.iconColor} />}
           </View>
           <Text className="text-base font-medium text-gray-900 flex-1">
             {item.title}
@@ -72,7 +132,7 @@ const BudgetScreen = () => {
     
             {/* Budget Items List */}
             <View className="mt-2 mb-3">
-            {budgetItems.map((item) => (
+            {budgetList.map((item) => (
                 <BudgetItem key={item.id} item={item} />
             ))}
             </View>

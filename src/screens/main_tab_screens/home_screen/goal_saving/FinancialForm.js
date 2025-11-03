@@ -1,26 +1,65 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView } from 'react-native';
-import { ChevronDown, Calendar, Clock, MapPin } from 'lucide-react-native';
+import { ChevronDown, Calendar, Clock, MapPin, ConstructionIcon } from 'lucide-react-native';
 import AppHeader from '../../../../components/AppHeader';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
+import { calculate_regular_savings } from '../../ScreensAPI';
+import Indicator from '../../../../components/Indicator';
+import { ActivityIndicator } from 'react-native';
+import ToastMessage from '../../../../constants/ToastMessage';
+import vi from 'dayjs/locale/vi';
+
 
 const FinancialForm = () => {
-  const [planName, setPlanName] = useState('');
+
   const [budget, setBudget] = useState('');
   const [repeatEvery, setRepeatEvery] = useState('Monthly');
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [location, setLocation] = useState('');
-  const [notificationEnabled, setNotificationEnabled] = useState(false);
+ 
   const [showDropdown, setShowDropdown] = useState(false);
-  const [taxation, setTaxation] = useState("20% BRT")
+  const [returnRate, setReturnRate] = useState("")
+  const [inflationRate, setInflationRate] = useState("")
+  const [taxation, setTaxation] = useState("")
   const [taxationDropdown, setTaxationDropdown] = useState(false);
 
   const taxationOptions = ["20% BRT"]
 
   const repeatOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
   const navigation = useNavigation()
+
+
+  const [visible, setVisible]  = useState(false);
+
+
+  const handleCalculateSavings = () => {
+    const payload = {
+        amount: Number(budget),
+        frequency: repeatEvery,
+        returnRate:parseInt(returnRate),
+        years:1,
+        inflationRate:parseInt(inflationRate),
+        taxRate:parseInt(taxation)
+    }
+
+    setVisible(true);
+
+    console.log(payload)
+
+    calculate_regular_savings(payload, res => {
+        if(res){
+            navigation.navigate("FinancialSummary", {...res.data})
+            //console.log(res.data);
+        }else{
+            ToastMessage("error", "Faild to calculate, try again!")
+        }
+
+        setVisible(false);
+    })
+
+
+
+
+  }
 
   return (
     <ComponentWrapper title='Regular Savings' bg_color='bg-[#2E7D32]' >
@@ -83,8 +122,8 @@ const FinancialForm = () => {
                 className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
                 placeholder="5%"
                 placeholderTextColor="#9CA3AF"
-                value={budget}
-                onChangeText={setBudget}
+                value={returnRate}
+                onChangeText={setReturnRate}
                 keyboardType="numeric"
             />
             </View>
@@ -97,8 +136,8 @@ const FinancialForm = () => {
                 className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
                 placeholder="1"
                 placeholderTextColor="#9CA3AF"
-                value={budget}
-                onChangeText={setBudget}
+                value={inflationRate}
+                onChangeText={setInflationRate}
                 keyboardType="numeric"
             />
             </View>
@@ -110,13 +149,21 @@ const FinancialForm = () => {
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Taxation Rate
             </Text>
-            <TouchableOpacity
+            <TextInput
+                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
+                placeholder="1"
+                placeholderTextColor="#9CA3AF"
+                value={taxation}
+                onChangeText={setTaxation}
+                keyboardType='numeric'
+            />
+            {/* <TouchableOpacity
                 className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
                 onPress={() => setTaxationDropdown(!taxationDropdown)}
             >
                 <Text className="text-lg text-gray-900">{taxation}</Text>
                 <ChevronDown size={20} color="#6B7280" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             
             {taxationDropdown && (
                 <View className="bg-white rounded-[5px] mt-2 shadow-sm">
@@ -138,7 +185,7 @@ const FinancialForm = () => {
 
 
             {/* Save Button */}
-            <TouchableOpacity onPress={() => navigation.navigate("FinancialSummary")} className="bg-[#2E7D32] rounded-[5px] py-3 items-center ">
+            <TouchableOpacity onPress={() => handleCalculateSavings()} className="bg-[#2E7D32] rounded-[5px] py-3 items-center ">
             <Text className="text-white text-lg font-semibold">
                 Calculate Savings
             </Text>
@@ -146,6 +193,12 @@ const FinancialForm = () => {
 
         </View>
         </ScrollView>
+
+
+        {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
+            
+                <ActivityIndicator size={"large"}/>
+            </Indicator>}
     </ComponentWrapper>
   );
 };

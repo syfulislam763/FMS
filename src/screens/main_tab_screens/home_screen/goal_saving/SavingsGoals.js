@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,38 +10,59 @@ import ComponentWrapper from '../../../../components/ComponentWrapper';
 import SavingsGoalCard from '../SavingsGoalCard';
 import PrimaryButton from '../../../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
+import {Circle} from 'lucide-react-native'
+import { useRoute } from '@react-navigation/native';
+import { get_formated_time, get_saving_goals } from '../../ScreensAPI';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+import Indicator from '../../../../components/Indicator';
+import { ActivityIndicator } from 'react-native';
 
 
 const SavingsGoals = () => {
-  const savingsData = [
-    {
-      id: '1',
-      title: 'Housing',
-      date: 'July 15, 2025',
-      currentAmount: 20.00,
-      targetAmount: 20000,
-      icon: '🏠',
-      progress:  20
-    },
-    {
-      id: '2',
-      title: 'Laptop',
-      date: 'July 15, 2025',
-      currentAmount: 2000,
-      targetAmount: 20000,
-      icon: '💻',
-      progress: 2000/20000,
-    },
-    {
-      id: '3',
-      title: 'Car Buy',
-      date: 'July 15, 2025',
-      currentAmount: 1000,
-      targetAmount: 20000,
-      icon: '🚗',
-      progress: 1000/20000,
-    },
-  ];
+    const route = useRoute();
+
+
+    const [savingGoalsList, setSavingGoalsList] = useState([]);
+
+    const [visible, setVisible] = useState(false);
+
+
+    const handleGetSavingGoalsList = () => {
+      setVisible(true);
+
+      get_saving_goals(res => {
+        if(res){
+          const temp = res.data.goals.map(item => {
+            const d = get_formated_time(item.completeDate)
+            return {
+                id: item._id,
+                title: item.name,
+                date: d.month+" "+d.day+ ", "+d.year,
+                currentAmount: item.savedMoney,
+                targetAmount: item.totalAmount,
+                icon: '🏠',
+                progress:  item.completionRation
+            }
+          })
+
+          setSavingGoalsList(temp)
+        }else{
+          
+        }
+
+        setVisible(false);
+      })
+      
+    }
+
+
+
+    useFocusEffect(
+      useCallback(() => {
+        handleGetSavingGoalsList()
+      }, [])
+    )
 
   const navigation = useNavigation()
 
@@ -63,7 +84,7 @@ const SavingsGoals = () => {
         <View className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
           <View 
             className="h-full bg-green-600 rounded-full"
-            style={{ width: `${50}%` }}
+            style={{ width: `${item.progress}%` }}
           />
         </View>
       </View>
@@ -82,9 +103,9 @@ const SavingsGoals = () => {
 
   return (
     <ComponentWrapper title='Saving Goal' bg_color='bg-[#2E7D32]'>
-      <SavingsGoalCard container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
+      <SavingsGoalCard amount={0} progress={route?.params?.goals_rate || 5} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
       <FlatList
-        data={savingsData}
+        data={savingGoalsList}
         renderItem={renderSavingItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingTop: 16, paddingBottom: 100 }}
@@ -109,6 +130,11 @@ const SavingsGoals = () => {
         onPress={() => navigation.navigate("FinancialForm")}
       />
 
+
+      {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
+            
+                <ActivityIndicator size={"large"}/>
+            </Indicator>}
     </ComponentWrapper>
   );
 };

@@ -78,8 +78,8 @@ const HomeScreen = () => {
                     <Text className="text-center font-archivo-regular text-2xl my-2">Dashboard</Text>
                     <Cards/>
                     <SavingsGoalCard 
-                        onPress={() => navigation.navigate("SavingsGoals")}
-                        progress={userProfile?.savingGoalCompletionRate}
+                        onPress={() => navigation.navigate("SavingsGoals", {goals_rate:parseInt(userProfile?.savingGoalCompletionRate)})}
+                        progress={parseInt(userProfile?.savingGoalCompletionRate) || 1}
                         amount='£0'
                     />
                     <QuickCalculators/>
