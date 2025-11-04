@@ -130,7 +130,7 @@ const SavingsGoals = () => {
 
   return (
     <ComponentWrapper title='Saving Goal' bg_color='bg-[#2E7D32]'>
-      <SavingsGoalCard amount={0} progress={route?.params?.goals_rate || 5} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
+      <SavingsGoalCard amount={0} progress={route?.params?.goals_rate || 0} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
       <FlatList
         data={savingGoalsList}
         renderItem={renderSavingItem}

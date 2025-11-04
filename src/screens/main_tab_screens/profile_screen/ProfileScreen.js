@@ -155,8 +155,8 @@ const ProfileScreen = () => {
           >
             {showSuggestionDropdown && (
               <View className="">
-                <SubMenuItem title="Ask Financial Planner (AI Tool)" />
-                <SubMenuItem title="Send Expences" route='SendExpences' />
+                <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner (AI Tool)" />
+                {/* <SubMenuItem title="Send Expences" route='SendExpences' /> */}
                 <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>
             )}
@@ -169,7 +169,7 @@ const ProfileScreen = () => {
             onPress={() => navigation.navigate("NotificationsFeedScreen")}
           />
 
-          <MenuItem 
+          {/* <MenuItem 
             icon={DollarSign} 
             title="Dollar"
             onPress={() => setShowDollarDropdown(!showDollarDropdown)}
@@ -180,18 +180,20 @@ const ProfileScreen = () => {
                 <SubMenuItem title="Exchange Rates" />
               </View>
             )}
-          </MenuItem>
+          </MenuItem> */}
           
           <MenuItem 
             icon={FileText} 
             title="Terms and Privacy Policy"
             hasArrow={false}
+            onPress={() => navigation.navigate("TermsAndPolicy")}
           />
           
           <MenuItem 
             icon={Lock} 
             title="Change Password"
             hasArrow={false}
+            onPress={() => navigation.navigate("ChangePassword")}
           />
           
           <MenuItem 

@@ -69,3 +69,7 @@ export const PACKAGE = "/packages/"
 //HOME
 export const GET_ANALYTICS = "/analytics/"
 export const GET_LAST_ANALYTICS = "/analytics/user-last-update"
+
+
+//NOTIFICATION SETTINGS
+export const NOTIFICATION_SETTINGS = "/notifications-settings/"

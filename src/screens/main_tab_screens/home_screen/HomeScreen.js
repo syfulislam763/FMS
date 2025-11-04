@@ -79,7 +79,7 @@ const HomeScreen = () => {
                     <Cards/>
                     <SavingsGoalCard 
                         onPress={() => navigation.navigate("SavingsGoals", {goals_rate:parseInt(userProfile?.savingGoalCompletionRate)})}
-                        progress={parseInt(userProfile?.savingGoalCompletionRate) || 1}
+                        progress={parseInt(userProfile?.savingGoalCompletionRate) || 0}
                         amount='£0'
                     />
                     <QuickCalculators/>

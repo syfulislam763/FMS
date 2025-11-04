@@ -13,14 +13,48 @@ import {
     INFLATION_CALCULATOR,
     HISTORY_INFLATION_CALCULATOR,
     DEBTS,
-    DEBTS_SUMMARY
+    DEBTS_SUMMARY,
+    NOTIFICATION_SETTINGS,
+    CHANGE_PASS
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
 
 
 
+export const change_password = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(CHANGE_PASS, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
+
+export const get_notification_settings = async (cb=() => {}) => {
+    try{
+        const res = await api.get(NOTIFICATION_SETTINGS);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("date night", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const update_notification_settings = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.patch(NOTIFICATION_SETTINGS, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 export const get_debts_summary = async (cb=() => {}) => {
     try{

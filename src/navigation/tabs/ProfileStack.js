@@ -10,9 +10,9 @@ import NotificationsFeedScreen from "../../screens/main_tab_screens/profile_scre
 import PremiumFinancialAdvice from "../../screens/main_tab_screens/profile_screen/PremiumFinancialAdvice";
 import PaymentMethodsSelector from "../../screens/main_tab_screens/profile_screen/PaymentMethodsSelector";
 import CongratulationsScreen from "../../screens/main_tab_screens/profile_screen/CongratulationsScreen";
-
-
-
+import TermsAndPolicy from "../../screens/main_tab_screens/profile_screen/TermsAndPolicy";
+import ChatUIScreen from "../../screens/main_tab_screens/profile_screen/ChatUIScreen";
+import ChangePassword from "../../screens/main_tab_screens/profile_screen/ChangePassword";
 
 
 
@@ -46,8 +46,10 @@ export default function ProfileStack(){
             <Stack.Screen name="PaymentMethodsSelector" component={PaymentMethodsSelector}  />
 
             <Stack.Screen name="CongratulationsScreen" component={CongratulationsScreen} />
+            <Stack.Screen name="TermsAndPolicy" component={TermsAndPolicy} />
+            <Stack.Screen name="ChatUIScreen" component={ChatUIScreen} />
 
-
+            <Stack.Screen name="ChangePassword" component={ChangePassword} />
 
 
         </Stack.Navigator>
