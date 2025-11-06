@@ -26,6 +26,21 @@ const PartnerRequestScreen = () => {
     const [visible, setVisible] = useState(false);
     const [requestList, setRequestList] = useState([]);
     const [filteredList, setFilteredList] = useState([])
+    const [tab, setTab] = useState("Incoming")
+
+
+    const handleTab = (tb)=>{
+      if(tb == "Outgoing"){
+        const filtered = requestList.filter( item => item.isOutgoing);
+        setFilteredList(filtered)
+        console.log(JSON.stringify(filtered, null, 2))
+      }else{
+        const filtered = requestList.filter( item => !item.isOutgoing);
+        setFilteredList(filtered)
+        console.log(JSON.stringify(filtered, null, 2))
+      }
+      setTab(tb);
+    }
 
 
     const handleGetRequestList = () => {
@@ -38,12 +53,19 @@ const PartnerRequestScreen = () => {
                     return {
                         ...item,
                         profile: item.fromUser.email == userProfile?.user?.email? item.fromUser.image: item.toUser.image,
-                        isOutgoing: (item.fromUser.email == userProfile?.user?.email)
+                        isOutgoing: (item.fromUser.email == userProfile?.user?.email),
+                        email: (item.fromUser.email == userProfile?.user?.email)?item.toUser.email:item.fromUser.email,
+                        name: (item.fromUser.email == userProfile?.user?.email)?item.toUser.name:item.fromUser.name,
+
                     }
                 })
+                const filtered = temp.filter( item => item.isOutgoing);
                 setRequestList(temp);
                 setFilteredList(temp);
-                console.log(JSON.stringify(temp, null, 2))
+
+                
+                setFilteredList(filtered)
+                
             }else{
                 setRequestList([])
             }
@@ -92,11 +114,11 @@ const PartnerRequestScreen = () => {
   const renderRequest = ({ item }) => (
     <View className="bg-white mb-4 rounded-2xl p-4 flex-row items-center">
       {/* Avatar */}
-      {/* <Image
-        source={{ uri: item.avatar }}
+      <Image
+        source={{ uri: item.profile }}
         className="w-16 h-16 rounded-full"
         resizeMode="cover"
-      /> */}
+      />
 
       {/* User Info */}
       <View className="flex-1 ml-4">
@@ -104,7 +126,7 @@ const PartnerRequestScreen = () => {
           {item.name}
         </Text>
         <Text className="text-gray-600 text-sm mb-0.5">
-          {item.role}
+          {item.relation}
         </Text>
         <Text className="text-gray-500 text-xs">
           {item.email}
@@ -141,11 +163,21 @@ const PartnerRequestScreen = () => {
         </Text>
       </View>
 
+      <View className="flex flex-row">
+          <TouchableOpacity onPress={() => handleTab("Outgoing")} className={`${tab=="Outgoing"?"bg-[##5055ba]":"bg-[##5055ba80]"} px-5 py-3 rounded-sm`}>
+            <Text className="font-archivo-semi-bold  text-white text-xl">Outgoing</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleTab("Incoming")} className={`${tab=="Incoming"?"bg-[##5055ba]":"bg-[##5055ba80]"} px-5 py-3 rounded-sm ml-3`}>
+            <Text className="font-archivo-semi-bold  text-white text-xl">Incoming</Text>
+          </TouchableOpacity>
+          
+      </View>
+
       {/* Request List */}
       <FlatList
-        data={requests}
+        data={filteredList}
         renderItem={renderRequest}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, idx) => idx}
         contentContainerStyle={{ paddingTop: 16, paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
       />

@@ -32,14 +32,7 @@ const ContactFormScreen = () => {
   };
 
   const handleSubmit = () => {
-    // Basic validation
-    if (!formData.name || !formData.email) {
-      Alert.alert('Error', 'Please fill in all required fields');
-      return;
-    }
-    
-    console.log('Form submitted:', formData);
-    Alert.alert('Success', 'Form submitted successfully!');
+    console.log("form", formData)
   };
 
   const InputField = ({ label, value, onChangeText, placeholder = '', multiline = false, numberOfLines = 1 }) => (
