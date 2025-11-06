@@ -6,6 +6,11 @@ import BackButtion from '../../../components/BackButtion';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { useAuth } from '../../../context/AuthProvider';
 import { useNavigation } from '@react-navigation/native';
+import ComponentWrapper from '../../../components/ComponentWrapper';
+import { ActivityIndicator } from 'react-native';
+import Indicator from '../../../components/Indicator';
+import ToastMessage from '../../../constants/ToastMessage';
+import { send_invitations } from '../../main_tab_screens/ScreensAPI';
 
 const PartnerForm = () => {
     const [partnerName, setPartnerName] = useState('');
@@ -14,6 +19,10 @@ const PartnerForm = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const {setIsAuthenticated} = useAuth()
     const navigation = useNavigation();
+
+    const [visible, setVisible] = useState(false);
+
+
     
 
     const relationshipOptions = ['Wife', 'Husband', 'Partner', 'Fiancé', 'Fiancée'];
@@ -23,13 +32,41 @@ const PartnerForm = () => {
         setIsDropdownOpen(false);
     };
 
+
+    const handleSendInvitation = () => {
+        const payload = {
+            name: partnerName,
+            email: email,
+            relation: relationship
+        }
+
+        console.log(payload, "test")
+
+        setVisible(true);
+
+        send_invitations(payload, res => {
+            if(res){
+                setPartnerName("")
+                setRelationship("");
+                setEmail("")
+                ToastMessage("success", "Invitation has been sent!", 3000)
+            }else{
+
+            }
+
+            setVisible(false);
+        })
+
+        //navigation.navigate("SignInScreen")
+    }
+
     return (
-        <SafeAreaView className="bg-white flex-1">
-            <View className="px-5">
+        <ComponentWrapper bg_color='bg-[##5055ba]' title='Send Invitation'>
+
+        
+            <View className="">
             
-                <AppHeader
-                    left={()=> <BackButtion/>}
-                />
+              
        
                 <View className="mb-4 mt-10">
                     <Text className="text-gray-700 text-lg font-archivo-semi-bold mb-2">
@@ -107,12 +144,16 @@ const PartnerForm = () => {
                 </View>
 
                 <PrimaryButton 
-                    onPress={()=>{navigation.navigate("SignInScreen")}}
+                    onPress={()=>{handleSendInvitation()}}
                     text='Send Invite'
                 />
 
             </View>
-        </SafeAreaView>
+
+            {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
+                    <ActivityIndicator size={"large"}/>
+                </Indicator>}
+        </ComponentWrapper>
     );
 };
 

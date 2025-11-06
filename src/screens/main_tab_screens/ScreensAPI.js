@@ -15,11 +15,63 @@ import {
     DEBTS,
     DEBTS_SUMMARY,
     NOTIFICATION_SETTINGS,
-    CHANGE_PASS
+    CHANGE_PASS,
+    PARTNER_REQUEST,
+    PARTNER_REQUEST_ACCEPT,
+    PARTNER_REQUEST_CANCELS
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
-
+export const cancels_invitations = async (id, cb=() => {}) => {
+    try{
+        const res = await api.post(PARTNER_REQUEST_CANCELS+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const accepts_invitations = async (id, cb=() => {}) => {
+    try{
+        const res = await api.post(PARTNER_REQUEST_ACCEPT+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const send_invitations = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(PARTNER_REQUEST, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const delete_invitations = async (id, cb=() => {}) => {
+    try{
+        const res = await api.delete(PARTNER_REQUEST+id);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const get_partners_request = async (cb=() => {}) => {
+    try{
+        const res = await api.get(PARTNER_REQUEST);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 
 export const change_password = async (payload, cb=() => {}) => {

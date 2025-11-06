@@ -142,8 +142,8 @@ const ProfileScreen = () => {
           >
             {showRelationshipDropdown && (
               <View className="">
-                {/* <SubMenuItem title="Family Relations" />
-                <SubMenuItem title="Friend Circle" /> */}
+                <SubMenuItem route='PartnerForm' title="Partner Request" />
+                <SubMenuItem route='PartnerRequestScreen' title="Partner History" />
               </View>
             )}
           </MenuItem>

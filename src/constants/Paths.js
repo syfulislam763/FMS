@@ -73,3 +73,7 @@ export const GET_LAST_ANALYTICS = "/analytics/user-last-update"
 
 //NOTIFICATION SETTINGS
 export const NOTIFICATION_SETTINGS = "/notifications-settings/"
+
+export const PARTNER_REQUEST = "/partner-requests/";
+export const PARTNER_REQUEST_ACCEPT = "/partner-requests/accept-request/"
+export const PARTNER_REQUEST_CANCELS = "/partner-requests/unlink/"

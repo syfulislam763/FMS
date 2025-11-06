@@ -13,7 +13,8 @@ import CongratulationsScreen from "../../screens/main_tab_screens/profile_screen
 import TermsAndPolicy from "../../screens/main_tab_screens/profile_screen/TermsAndPolicy";
 import ChatUIScreen from "../../screens/main_tab_screens/profile_screen/ChatUIScreen";
 import ChangePassword from "../../screens/main_tab_screens/profile_screen/ChangePassword";
-
+import PartnerForm from "../../screens/auth_screens/otp_verification/PartnerForm";
+import PartnerRequestScreen from "../../screens/auth_screens/otp_verification/PartnerRequestScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -50,6 +51,10 @@ export default function ProfileStack(){
             <Stack.Screen name="ChatUIScreen" component={ChatUIScreen} />
 
             <Stack.Screen name="ChangePassword" component={ChangePassword} />
+
+
+            <Stack.Screen name="PartnerForm" component={PartnerForm}/>
+            <Stack.Screen name="PartnerRequestScreen" component={PartnerRequestScreen}/>
 
 
         </Stack.Navigator>
