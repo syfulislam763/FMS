@@ -14,6 +14,8 @@ import { get_analytics, get_last_analytics } from '../ScreensAPI';
 import { ActivityIndicator } from 'react-native';
 import Indicator from '../../../components/Indicator';
 import { useAuth } from '../../../context/AuthProvider';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 
 const HomeScreen = () => {
@@ -46,9 +48,11 @@ const HomeScreen = () => {
     }
 
 
-    useEffect(() => {
-        handleGetHistory()
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            handleGetHistory()
+        }, [])
+    )
 
     return (
         <SafeAreaView  className="flex-1 bg-[#4F55BA]">
@@ -74,7 +78,7 @@ const HomeScreen = () => {
                 />
             </View>
             <View className="h-full bg-white ">
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <Text className="text-center font-archivo-regular text-2xl my-2">Dashboard</Text>
                     <Cards/>
                     <SavingsGoalCard 

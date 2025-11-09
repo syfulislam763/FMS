@@ -18,9 +18,43 @@ import {
     CHANGE_PASS,
     PARTNER_REQUEST,
     PARTNER_REQUEST_ACCEPT,
-    PARTNER_REQUEST_CANCELS
+    PARTNER_REQUEST_CANCELS,
+    APPOINTMENT,
+    LOAN_CALCULATOR,
+
+    BUD_FEEDBACK,
+    EXP_FEEDBACK,
+    DEBT_FEEDBACK,
+    ai_token,
+    AI_ROOT_URL
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
+
+
+
+
+
+export const calculate_loan = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(LOAN_CALCULATOR, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const create_appointments = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(APPOINTMENT, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 export const cancels_invitations = async (id, cb=() => {}) => {
     try{

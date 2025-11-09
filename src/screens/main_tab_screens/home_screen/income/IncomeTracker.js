@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, ActivityIndicator, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
@@ -10,7 +10,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Trash2 } from 'lucide-react-native';
 import ToastMessage from '../../../../constants/ToastMessage';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const icons = {
@@ -138,8 +139,8 @@ const IncomeTracker = () => {
           middle={() => <Text className="text-white font-archivo-semi-bold text-2xl">Income List</Text>}
         />
       </View>
-
-      <View className="flex-1 px-5 pt-4 bg-[##e7eaef]">
+      
+      <View className="h-full px-5 pt-4 bg-[##e7eaef]">
         {/* Monthly Income Header */}
         <View className="bg-[#2E7D32] rounded-2xl p-6 mb-6">
           <Text className="text-white font-inter-regular text-center text-lg font-medium mb-2">
@@ -215,9 +216,10 @@ const IncomeTracker = () => {
           ))}
         </ScrollView>
 
+      
         {/* Add New Income Button */}
         <View className="flex-row justify-end">
-            <TouchableOpacity onPress={()=> navigation.navigate("AddIncomeForm")} className="bg-[#2E7D32] w-1/2 rounded-[5px] p-3 mt-4 mb-6 flex-row items-center justify-center ">
+            <TouchableOpacity onPress={()=> navigation.navigate("AddIncomeForm")} className="bg-[#2E7D32] w-1/2 rounded-[5px] p-3 mb-20 flex-row items-center justify-center ">
             <View className="w-6 h-6 bg-white rounded-full mr-3 flex-col items-center justify-center">
               <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
             </View>

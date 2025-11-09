@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text , Pressable} from 'react-native';
+import { View, Text , Pressable, Image} from 'react-native';
 import { CircleArrowDown, CircleArrowUp, PoundSterling, CreditCard, DollarSign, CirclePoundSterling, } from 'lucide-react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../../context/AuthProvider';
+
+const dollers = require("../../../../assets/img/dollers.jpeg")
+const busket = require("../../../../assets/img/busket.jpeg")
+const justice = require("../../../../assets/img/justice.jpeg")
+const tileofmoney = require("../../../../assets/img/tileofmoney.jpeg")
 
 const Cards = () => {
 
@@ -27,7 +32,8 @@ const Cards = () => {
       borderColor: 'border-green-100',
       textColor: 'text-gray-800',
       amountColor: 'text-green-600',
-      route:"IncomeTracker"
+      route:"IncomeTracker",
+      img: dollers
     },
     {
       title: 'Expenses',
@@ -39,6 +45,7 @@ const Cards = () => {
       textColor: 'text-gray-800',
       amountColor: 'text-red-600',
       route:"ExpenseItem",
+      img: busket
     },
     {
       title: 'Disposable',
@@ -49,7 +56,8 @@ const Cards = () => {
       borderColor: 'border-indigo-100',
       textColor: 'text-gray-800',
       amountColor: 'text-gray-800',
-      route:""
+      route:"",
+      img: tileofmoney
     },
     {
       title: 'Budget',
@@ -60,7 +68,8 @@ const Cards = () => {
       borderColor: 'border-green-100',
       textColor: 'text-gray-800',
       amountColor: 'text-green-600',
-      route:"BudgetStack"
+      route:"BudgetStack",
+      img: justice
     }
   ];
 
@@ -81,8 +90,8 @@ const Cards = () => {
         }}
       >
         {/* Background Shadow Dollar Icons */}
-        <View className="absolute inset-0 opacity-5">
-          <CirclePoundSterling 
+        <View className="absolute inset-0 opacity-20">
+          {/* <CirclePoundSterling 
             size={80} 
             color="#000000"
             style={{
@@ -90,6 +99,13 @@ const Cards = () => {
               top: -15,
               right: -15,
             }}
+          /> */}
+          <Image
+            source={card.img}
+            style={{
+              objectFit: 'cover'
+            }}
+            className="h-full w-full"
           />
         </View>
 

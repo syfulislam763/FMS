@@ -17,7 +17,7 @@ const WelcomeScreen = () => {
                 />
                 <View className="flex-col items-center">
                     <Text className="font-archivo-semi-bold text-[30px] text-title-color" >Welcome!</Text>
-                    <Text className="font-inter-regular text-primary-color text-center mt-5 leading-7">Capture and organise your thoughts, ideas, and information with ease</Text>
+                    <Text className="font-inter-regular text-primary-color text-center mt-5 leading-7">Financial Awareness to Financial Security to Financial Freedom .Your journey begins here</Text>
                 </View>
             </View>
             

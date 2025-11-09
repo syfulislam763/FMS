@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, Image, ActivityIndicator, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, FlatList } from 'react-native';
 import { ShoppingBag, Home, Zap, Building2, Briefcase, Shirt, Plus, MinusCircle } from 'lucide-react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
@@ -12,6 +12,7 @@ import { useCallback } from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Trash2 } from 'lucide-react-native';
 import ToastMessage from '../../../../constants/ToastMessage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const icons = {
   'Mortgage or Rent': require("../../../../../assets/expence/Holiday-Expenses.png"),
@@ -123,7 +124,7 @@ export default function ExpenseItem() {
               />
           </View>
 
-          <View className="flex-1 bg-[##e7eaef] px-5">
+          <View className="h-full bg-[##e7eaef] px-5">
               <View className="bg-red-500 rounded-xl h-32 my-5 justify-center items-center">
                   <View>
                       <Text className="text-white text-lg font-archivo-semi-bold mb-2 text-center">
@@ -178,7 +179,7 @@ export default function ExpenseItem() {
                 )}
               />
 
-              <View className="my-5">
+              <View className="my-20">
                   <View className="flex-row-reverse items-end">
                       {/* Add New Expenses Button */}
                       <TouchableOpacity 

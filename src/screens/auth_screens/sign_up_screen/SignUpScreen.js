@@ -37,6 +37,7 @@ const SignUpScreen = () => {
                 password
             }
             setLoader(true);
+            console.log(payload, "test")
             create_user(payload, (data) => {
                 if(data?.statusCode == 409){
                     navigation.navigate("SignInScreen")

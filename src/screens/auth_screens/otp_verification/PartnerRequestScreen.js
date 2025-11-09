@@ -26,7 +26,7 @@ const PartnerRequestScreen = () => {
     const [visible, setVisible] = useState(false);
     const [requestList, setRequestList] = useState([]);
     const [filteredList, setFilteredList] = useState([])
-    const [tab, setTab] = useState("Incoming")
+    const [tab, setTab] = useState("Outgoing")
 
 
     const handleTab = (tb)=>{
@@ -136,12 +136,12 @@ const PartnerRequestScreen = () => {
       {/* Action Buttons */}
       <View className="flex-row items-center ml-2">
         {/* Accept Button */}
-        <TouchableOpacity 
+        {!(item.isOutgoing) && <TouchableOpacity 
           className="w-9 h-9 rounded-full bg-green-500 items-center justify-center mr-2"
           activeOpacity={0.8}
         >
           <Check size={20} color="#FFF" strokeWidth={3} />
-        </TouchableOpacity>
+        </TouchableOpacity>}
 
         {/* Reject Button */}
         <TouchableOpacity 

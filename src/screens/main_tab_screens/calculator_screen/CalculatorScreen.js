@@ -9,6 +9,11 @@ import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { ThumbsUpIcon } from 'lucide-react-native';
+import Indicator from '../../../components/Indicator';
+import { ActivityIndicator } from 'react-native';
+import {calculate_loan} from '../ScreensAPI'
+
+
 
 const CustomSlider = ({ value, setValue, min, max, label, step = 1 }) => {
   const pan = useRef(new Animated.Value((value - min) / (max - min) * 300)).current;
@@ -77,6 +82,29 @@ const CalculatorScreen = () => {
     alert(`Monthly Repayment: ${monthlyRepayment.toFixed(2)}`);
   };
 
+  const [visible, setVisible] = useState(false);
+
+
+  const handleCalculator  = () => {
+    const payload = {
+      "principal":Number(amount),
+      "annualInterestRate":Number(interestRate),
+      "loanTermYears": Number(loanTerm)
+    }
+
+    setVisible(true)
+
+    calculate_loan(payload, res => {
+      if(res){
+        setVisible(false);
+        navigation.navigate("LoanResultComponent", res.data)
+      }else{
+        setVisible(false);
+      }
+    })
+
+
+  }
 
   useFocusEffect(
     useCallback(()=>{
@@ -100,12 +128,17 @@ const CalculatorScreen = () => {
         {/* Loan Term Slider */}
         <CustomSlider value={loanTerm} setValue={setLoanTerm} min={1} max={30} label="Loan Term (years)" />
 
-        <Pressable onPress={() => navigation.navigate("LoanResultComponent")} style={styles.buttonContainer}>
+        <Pressable onPress={() => handleCalculator()} style={styles.buttonContainer}>
             <Text  style={styles.calculateButton}>
             Calculate Repayment
             </Text>
         </Pressable>
         </View>
+
+
+        {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
+            <ActivityIndicator size={"large"}/>
+          </Indicator>}
    </ComponentWrapper>
   );
 };

@@ -11,13 +11,16 @@ import {
   Play, 
   LogOut, 
   DollarSign,
-  Edit3 
+  Edit3 ,
+  User
 } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import AppHeader from '../../../components/AppHeader';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../../context/AuthProvider';
+import { USER_PROFILE } from '../../../constants/Paths';
+import Vi from 'dayjs/locale/vi';
 
 const ProfileScreen = () => {
   const [showRelationshipDropdown, setShowRelationshipDropdown] = useState(false);
@@ -26,7 +29,7 @@ const ProfileScreen = () => {
   const [profileImage, setProfileImage] = useState('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face');
   const [isImagePressed, setIsImagePressed] = useState(false);
 
-  const {SignOutUser} = useAuth()
+  const {SignOutUser, userProfile} = useAuth()
 
   const navigation = useNavigation()
 
@@ -95,7 +98,7 @@ const ProfileScreen = () => {
       } 
       bg_color='bg-button-bg'
     >
-      <ScrollView showsVerticalScrollIndicator={false} className="flex-">
+      <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         {/* Profile Section */}
         <View className="pt-8 pb-6 items-center">
           <TouchableOpacity 
@@ -105,11 +108,17 @@ const ProfileScreen = () => {
             onPressOut={() => setIsImagePressed(false)}
             activeOpacity={0.8}
           >
-            <Image
-              source={{ uri: profileImage }}
+            {userProfile.user.image?
+              <Image
+              source={{ uri: userProfile.user.image }}
               className="w-full h-full"
               resizeMode="cover"
-            />
+            />:
+            <View className="items-center justify-center h-full w-full bg-white">
+              <User size={40}/>
+            </View>
+            }
+            
             {/* Edit Overlay */}
             {isImagePressed && (
               <View className="absolute inset-0 bg-black bg-opacity-50 justify-center items-center">
@@ -119,11 +128,11 @@ const ProfileScreen = () => {
           </TouchableOpacity>
           
           <Text className="text-xl font-semibold text-gray-900 mb-1">
-            Mostafa Rahman
+            {userProfile?.user?.name}
           </Text>
           
           <Text className="text-gray-500 mb-6">
-            mostafarah@gmail.com
+            {userProfile?.user?.email}
           </Text>
           
           <TouchableOpacity onPress={() => navigation.navigate("PremiumFinancialAdvice")} className="bg-[#5055ba] py-3 rounded-[5px] w-full">

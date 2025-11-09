@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import AppHeader from './AppHeader';
 import BackButtion from './BackButtion';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ComponentWrapper = ({
     bg_color="bg-red-500", 
@@ -21,8 +22,10 @@ const ComponentWrapper = ({
                     />
                 </View>
             }
-            <View className={`flex-1 px-6 py-8 ${container_bg}`}>
+            <View className={`h-full px-6 py-8 ${container_bg}`}>
                 {children}
+
+                <View className=""></View>
             </View>
         </SafeAreaView>
     );

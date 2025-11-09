@@ -3,12 +3,19 @@ import { View, Text, ScrollView } from 'react-native';
 import { Lightbulb, Voicemail } from 'lucide-react-native';
 import AppHeader from '../../../components/AppHeader';
 import ComponentWrapper from '../../../components/ComponentWrapper';
+import { useRoute } from '@react-navigation/native';
 
 const LoanResultComponent = ({ 
   monthlyPayment = 5060.00, 
   totalPayableAmount = 30352.27,
   financialTip = "Your monthly disposable Income will decrease by %5060.00 due to this loan. Plan accordingly!"
 }) => {
+
+
+    const route = useRoute()
+
+
+
   return (
     <ComponentWrapper container_bg='bg-white' bg_color='bg-[#1976D2]' title='Calculator Results'>
         <ScrollView className="flex-1">
@@ -21,7 +28,7 @@ const LoanResultComponent = ({
                         Monthly Payment
                     </Text>
                     <Text className="text-4xl font-bold text-blue-500">
-                        £{monthlyPayment.toFixed(2)}
+                        £{route.params.monthlyPayment?.toFixed(2)}
                     </Text>
                 </View>
 
@@ -31,7 +38,7 @@ const LoanResultComponent = ({
                     Total Payable Amount
                 </Text>
                 <Text className="text-2xl font-semibold text-gray-900">
-                    £{totalPayableAmount.toFixed(2)}
+                    £{route.params.totalPayableAmount?.toFixed(2)}
                 </Text>
                 </View>
             </View>

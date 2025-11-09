@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.FMS"
+      "bundleIdentifier": "com.anonymous.FMS",
+      "appleTeamId": "24GRJVWX53"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +23,11 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.FMS"
+      "package": "com.anonymous.FMS",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,7 +43,8 @@
         }
       ],
       [
-        "@stripe/stripe-react-native",{
+        "@stripe/stripe-react-native",
+        {
           "merchantIdentifier": "merchant.com.anonymous.FMS",
           "enableGooglePay": true
         }

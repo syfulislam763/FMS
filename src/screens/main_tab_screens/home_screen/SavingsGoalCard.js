@@ -1,8 +1,11 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, Image } from 'react-native';
 import { PiggyBank } from 'lucide-react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { useNavigation } from '@react-navigation/native';
+
+
+const pig = require("../../../../assets/img/pig.jpeg")
 
 
 const SavingsGoalCard = ({ 
@@ -20,9 +23,20 @@ const SavingsGoalCard = ({
   const strokeDashoffset = circumference - (progress / 100) * circumference;
   const navigation = useNavigation();
   return (
-    <Pressable onPress={onPress} className={`${container_style}`}>
+    <Pressable onPress={onPress} className={`${container_style} relative overflow-hidden`}>
+      {/* Background Image */}
+      <View className="absolute inset-0 opacity-20">
+        <Image
+          source={pig}
+          style={{
+            objectFit: 'cover'
+          }}
+          className="h-full w-full"
+        />
+      </View>
+
       {/* Header with Icon and Progress Circle */}
-      <View className="flex-row justify-between items-center">
+      <View className="flex-row justify-between items-center relative z-10">
         {/* Left Side - Icon and Title */}
         <View className="flex-1">
           {/* Icon Container */}
@@ -58,7 +72,7 @@ const SavingsGoalCard = ({
                 cx="35"
                 cy="35"
                 r={radius}
-                stroke="#E5E7EB"
+                stroke="white"
                 strokeWidth={strokeWidth}
                 fill="none"
               />
