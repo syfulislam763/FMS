@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "FMS",
-    "slug": "FMS",
+    "name": "ReHo",
+    "slug": "ReHo",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/img/welcome.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.FMS",
+      "bundleIdentifier": "com.anonymous.ReHo",
       "appleTeamId": "24GRJVWX53"
     },
     "android": {
@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.FMS",
+      "package": "com.anonymous.ReHo",
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
