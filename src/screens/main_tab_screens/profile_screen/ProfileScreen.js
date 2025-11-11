@@ -108,9 +108,9 @@ const ProfileScreen = () => {
             onPressOut={() => setIsImagePressed(false)}
             activeOpacity={0.8}
           >
-            {userProfile.user.image?
+            {userProfile?.user?.image?
               <Image
-              source={{ uri: userProfile.user.image }}
+              source={{ uri: userProfile?.user?.image }}
               className="w-full h-full"
               resizeMode="cover"
             />:
@@ -137,7 +137,7 @@ const ProfileScreen = () => {
           
           <TouchableOpacity onPress={() => navigation.navigate("PremiumFinancialAdvice")} className="bg-[#5055ba] py-3 rounded-[5px] w-full">
             <Text className="text-white text-center font-medium text-base">
-              Subscribe Now
+              Subscribe To get ReHo Advice
             </Text>
           </TouchableOpacity>
         </View>
@@ -164,7 +164,10 @@ const ProfileScreen = () => {
           >
             {showSuggestionDropdown && (
               <View className="">
-                <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner (AI Tool)" />
+                {userProfile?.user?.subscriptionId?
+                  <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner ( ReHo )" />:
+                  <SubMenuItem route='PremiumFinancialAdvice' title="Ask Financial Planner ( ReHo )" />
+                }
                 {/* <SubMenuItem title="Send Expences" route='SendExpences' /> */}
                 <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>

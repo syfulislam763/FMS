@@ -196,7 +196,7 @@ export default function ExpenseItem() {
                   
                   <PrimaryButton 
                       bgColor='bg-red-500'
-                      text='Optimize Your Expenses With AI'
+                      text='Start Optimization Expenses With ReHo'
                       onPress={()=>navigation.navigate("ExpenseAnalytics")}
                   />
               </View>

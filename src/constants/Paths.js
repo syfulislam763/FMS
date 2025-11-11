@@ -2,6 +2,7 @@
 
 
 export const ROOT_URL = "http://10.10.10.32/api/v1"
+export const SOCKET_URL = "ws://10.10.10.32:5000"
 
 
 export const ai_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTE2MGNkNTc4NDgyOGVjZWI1OTZhNiIsInJvbGUiOiJVU0VSIiwiZW1haWwiOiJrYWlzYXJmYXJkaW4xMjhAZ21haWwuY29tIiwiaWF0IjoxNzYyNDU5MjA5LCJleHAiOjE3NjUwNTEyMDl9.Pp4Fxwha2S6Ds_kQJR2UAoqZr418WIf1pwnY3RDbRpo"
@@ -49,6 +50,7 @@ export const DEBTS_SUMMARY = "/debts/insights"
 
 //EXPENSE
 export const EXPENSE = "/expenses/"
+export const EXPENSE_ANALYSIS = "/expenses/analytics"
 
 //CALCULATOR
 //post
@@ -83,3 +85,8 @@ export const NOTIFICATION_SETTINGS = "/notifications-settings/"
 export const PARTNER_REQUEST = "/partner-requests/";
 export const PARTNER_REQUEST_ACCEPT = "/partner-requests/accept-request/"
 export const PARTNER_REQUEST_CANCELS = "/partner-requests/unlink/"
+
+
+export const CONTENT = "/contents/"
+
+export const NOTIFICATION = "/notifications/"

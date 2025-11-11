@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
+import { useFocusEffect } from '@react-navigation/native';
+import Indicator from '../../../../components/Indicator';
+import { ActivityIndicator } from 'react-native';
+import { useCallback } from 'react';
+import { get_debt_suggestions } from '../../ScreensAPI';
+import { useAuth } from '../../../../context/AuthProvider';
 
 const AISuggestionsComponent = () => {
+
+    const {authToken} = useAuth();
+    const [visible, setVisible] = useState(false);
+
+    const handleGetDebtSuggestion = () => {
+        setVisible(true);
+        get_debt_suggestions(authToken.accessToken, res => {
+            
+            if(res){
+                console.log("Debt suggestions", JSON.stringify(res, null, 2))
+            }else{
+
+            }
+
+            setVisible(false);
+        })
+    }
+
+
   return (
     <ComponentWrapper title='AI Suggestions' bg_color='bg-[#FFA950]'>
         <ScrollView className="flex-1">
@@ -54,6 +79,12 @@ const AISuggestionsComponent = () => {
             </View>
         </View>
         </ScrollView>
+
+
+        {visible && <Indicator onClose={() => setVisible(false)} visible={visible}>
+            
+                <ActivityIndicator size={"large"}/>
+            </Indicator>}
     </ComponentWrapper>
   );
 };

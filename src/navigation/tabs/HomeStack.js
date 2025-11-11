@@ -17,7 +17,7 @@ import FinancialForm from "../../screens/main_tab_screens/home_screen/goal_savin
 import FinancialSummary from "../../screens/main_tab_screens/home_screen/goal_saving/FinancialSummary";
 import SavingsGoals from "../../screens/main_tab_screens/home_screen/goal_saving/SavingsGoals";
 import SavingsGoalForm from "../../screens/main_tab_screens/home_screen/goal_saving/SavingsGoalForm";
-
+import PremiumFinancialAdvice from "../../screens/main_tab_screens/profile_screen/PremiumFinancialAdvice";
 
 const Stack = createNativeStackNavigator();
 
@@ -113,6 +113,11 @@ export default function HomeStack(){
             <Stack.Screen 
                 name="SavingsGoalForm"
                 component={SavingsGoalForm}
+            />
+
+            <Stack.Screen 
+                name="PremiumFinancialAdvice"
+                component={PremiumFinancialAdvice}
             />
 
 

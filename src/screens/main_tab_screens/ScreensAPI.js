@@ -1,9 +1,11 @@
 import api from "../../constants/api";
+import axios from "axios";
 import { 
     GET_ANALYTICS, 
     GET_LAST_ANALYTICS,
     INCOME,
     EXPENSE,
+    EXPENSE_ANALYSIS,
     BUDGET,
     MONTHLY_BUDGET,
     BUDGET_ANALYSIS,
@@ -26,12 +28,81 @@ import {
     EXP_FEEDBACK,
     DEBT_FEEDBACK,
     ai_token,
-    AI_ROOT_URL
+    AI_ROOT_URL,
+    CONTENT,
+    NOTIFICATION
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
 
+export const get_notifications = async (cb=() => {}) => {
+    try{
+        const res = await api.get(NOTIFICATION);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
+export const get_debt_suggestions = async (token, cb=() => {}) => {
+    try{
+        const res = await axios.get(DEBT_FEEDBACK, {
+            headers:{
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e, null, 2))
+        ToastMessage("error", e?.message, 3000)
+    }
+}
+
+export const get_expence_suggestions = async (token, cb=() => {}) => {
+    try{
+        const res = await axios.get(EXP_FEEDBACK, {
+            headers:{
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e, null, 2))
+        ToastMessage("error", e?.message, 3000)
+    }
+}
+
+export const get_budget_suggestions = async (token, cb=() => {}) => {
+    try{
+        const res = await axios.get(BUD_FEEDBACK, {
+            headers:{
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e, null, 2))
+        ToastMessage("error", e?.message, 3000)
+    }
+}
+
+
+
+export const get_contents = async (cb=() => {}) => {
+    try{
+        const res = await api.get(CONTENT);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 
 export const calculate_loan = async (payload, cb=() => {}) => {
@@ -296,6 +367,7 @@ export const get_budget_analysis = async (cb=() => {}) => {
     }
 }
 
+
 export const get_monthly_budget = async (cb=() => {}) => {
     try{
         const res = await api.get(MONTHLY_BUDGET);
@@ -356,6 +428,17 @@ export const delete_expence = async (id, cb=() => {}) => {
 export const post_expence = async (payload, cb=() => {}) => {
     try{
         const res = await api.post(EXPENSE, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
+export const get_expense_analysis = async (cb=() => {}) => {
+    try{
+        const res = await api.get(EXPENSE_ANALYSIS);
         cb(res.data)
     }catch(e){
         cb(null)

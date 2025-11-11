@@ -10,7 +10,7 @@ import SavingsGoalCard from './SavingsGoalCard';
 import QuickCalculators from './QuickCalculators';
 import FinancialCalendar from './FinancialCalendar';
 import { useNavigation } from '@react-navigation/native';
-import { get_analytics, get_last_analytics } from '../ScreensAPI';
+import { get_analytics, get_formated_time, get_last_analytics, get_notifications } from '../ScreensAPI';
 import { ActivityIndicator } from 'react-native';
 import Indicator from '../../../components/Indicator';
 import { useAuth } from '../../../context/AuthProvider';
@@ -21,7 +21,7 @@ import { useCallback } from 'react';
 const HomeScreen = () => {
 
     const navigation = useNavigation()
-
+    const {setNotifications, initiateNotificationSocket} = useAuth()
 
     const [history, setHistory] = useState({});
     const [visible, setVisible] = useState(false);
@@ -47,12 +47,37 @@ const HomeScreen = () => {
         })
     }
 
+    const handleGetNotifications = () => {
+        get_notifications(res => {
+            if(res){
+                const temp = res?.data?.result?.map(item => {
+                    const d = get_formated_time(item.createdAt)
+                    return {
+                        id: item._id,
+                        type: item.type,
+                        icon: 'bell',
+                        title: item.title,
+                        description: item.message,
+                        time: d.time + " - " + d.month + " " + d.year, 
+                        section: new Date(item.createdAt).getDate() == new Date().getDate()?"Recent":"Old"
+                    }
+                })
+                setNotifications(temp)
+            }
+        })
+    }
+
 
     useFocusEffect(
         useCallback(() => {
             handleGetHistory()
         }, [])
     )
+
+    useEffect(() => {
+       handleGetNotifications()
+       initiateNotificationSocket()
+    }, [])
 
     return (
         <SafeAreaView  className="flex-1 bg-[#4F55BA]">

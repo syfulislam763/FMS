@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,74 @@ import { Send, Smile } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 
 const ChatUIScreen = () => {
-  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState('');
 
-  const messages = [
+  const conversationRef = useRef(null);
+  const [isConversationSocketConnected, setIsConversationSocketConnected] = useState(false);
+
+  const initiateConversationSocket = (session_id, token) =>{
+    if(!session_id || !token)return;
+    const wsURL = `/ws/chat/${session_id}/?token=${token}`;
+
+    conversationRef.current = new WebSocket(wsURL);
+
+    conversationRef.current.onopen = () => {
+      console.log("conversation socket connected");
+      setIsConversationSocketConnected(true);
+    }
+
+    conversationRef.current.onmessage = (e) => {
+      try{
+        const data = JSON.parse(e.data);
+        const res = {
+          id: Date.now(),
+          message_id: data.message_id,
+          type: 'bot',
+          verseLink: "",
+          message: data.content,
+          bookmark:false,
+        }
+        if(data.type === "typing"){
+          res.message = "typing..."
+          setMessages(prev => [...prev, res])
+        }
+        if(data.type === "message"){
+          
+          setMessages(prev => [...prev.filter(item=> item.message != "typing..."), res])
+
+        }
+      }catch(e){
+        console.error("WebSocket parse error", e);
+      }
+    }
+
+    conversationRef.current.onclose = () =>{
+      console.log("Socket disconnected");
+      setIsConversationSocketConnected(false);
+    }
+
+  };
+
+
+  const sendMessage = (msg) => {
+    if(conversationRef.current?.readyState === WebSocket.OPEN){
+      const payload = {
+        message: msg.message,
+        session_id: msg.session.id,
+        type: "message"
+      }
+      conversationRef.current.send(JSON.stringify(payload));
+      setMessages(prev => [...prev, msg]);
+    }
+  }
+
+  const disconnectConversationSocket = () => {
+    conversationRef.current.close();
+    conversationRef.current = null;
+  }
+
+
+  const message = [
     {
       id: 1,
       text: "Hello Tessa! I'm planning my next career move and need some guidance on exploring new industries.",
@@ -91,7 +156,7 @@ const ChatUIScreen = () => {
       >
         {/* Messages */}
         <FlatList
-          data={messages}
+          data={message}
           renderItem={renderMessage}
           keyExtractor={(item) => item.id.toString()}
           className="flex-1"

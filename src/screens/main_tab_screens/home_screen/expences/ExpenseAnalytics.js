@@ -1,11 +1,22 @@
-import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
+import Indicator from '../../../../components/Indicator';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+import { useAuth } from '../../../../context/AuthProvider';
+import { ActivityIndicator } from 'react-native';
+import { get_expense_analysis, get_budget_suggestions } from '../../ScreensAPI';
 
-const BarChart = () => {
-  // Function to get last 6 months including current month
+
+const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+const BarChart = ({budgetDataFromAPI}) => {
+
   const getLast6Months = () => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const currentDate = new Date();
@@ -20,52 +31,54 @@ const BarChart = () => {
     return last6Months;
   };
 
-  // Sample expense data - you can replace this with your actual data
-  const getExpenseData = () => {
+  const getBudgetExpensesData = () => {
     const months = getLast6Months();
     
-    // Sample data - replace with your actual expense data
-    const sampleExpenses = {
-      'Jan': 500,
-      'Feb': 150,
-      'Mar': 100,
-      'Apr': 600,
-      'May': 300,
-      'Jun': 50,
-      'Jul': 450,
-      'Aug': 380,
-      'Sep': 250,
-      'Oct': 420,
-      'Nov': 180,
-      'Dec': 320
-    };
+    const budgetMap = budgetDataFromAPI.reduce((acc, item) => {
+        acc[item.month] = item.totalExpenses;
+        return acc;
+    }, {});
 
     return months.map(month => ({
       month,
-      amount: sampleExpenses[month] || 0
+      amount: budgetMap[month] !== undefined ? budgetMap[month] : 0
     }));
   };
 
-  const expenseData = getExpenseData();
+  const expenseData = getBudgetExpensesData();
   
-  // Calculate max amount for scaling
-  const maxAmount = Math.max(...expenseData.map(item => item.amount));
-  const chartHeight = 135; // 24 * 4 (h-24 = 96px)
+  const trueMaxAmount = Math.max(...expenseData.map(item => item.amount));
   
-  // Add height calculation for each bar
-  const chartData = expenseData.map(item => ({
-    ...item,
-    height: maxAmount > 0 ? Math.max((item.amount / maxAmount) * chartHeight, 4) : 4 // Minimum height of 4px
-  }));
+ 
+  const SCALING_CAP = 15000; 
+  
+  const chartHeight = 135; 
 
-  // Generate Y-axis labels based on data
+
+  const chartData = expenseData.map(item => {
+  
+    const scaledAmount = Math.min(item.amount, SCALING_CAP); 
+    
+    const referenceMax = SCALING_CAP;
+    
+    const height = referenceMax > 0 
+      ? Math.max((scaledAmount / referenceMax) * chartHeight, 4) 
+      : 4; 
+
+    return {
+      ...item,
+      height: height
+    };
+  });
+
   const getYAxisLabels = () => {
-    const step = Math.ceil(maxAmount / 4);
+    const displayMax = SCALING_CAP; 
+
     return [
-      `£${maxAmount}`,
-      `£${Math.round(maxAmount * 0.75)}`,
-      `£${Math.round(maxAmount * 0.5)}`,
-      `£${Math.round(maxAmount * 0.25)}`,
+      `£${formatNumber(displayMax)}${trueMaxAmount > displayMax ? '+' : ''}`, 
+      `£${formatNumber(Math.round(displayMax * 0.75))}`, // £11,250
+      `£${formatNumber(Math.round(displayMax * 0.5))}`,  // £7,500
+      `£${formatNumber(Math.round(displayMax * 0.25))}`, // £3,750
       '£0'
     ];
   };
@@ -75,8 +88,8 @@ const BarChart = () => {
   return (
     <View className="bg-white rounded-2xl p-6 mb-6 ">
       {/* Chart Header */}
-      <Text className="text-gray-900 font-archivo-semi-bold text-lg mb-6">
-        Monthly Expenses
+      <Text className="text-gray-900 font-semibold text-lg mb-6">
+        Monthly Budget
       </Text>
 
       {/* Y-axis Labels and Chart Container */}
@@ -85,7 +98,7 @@ const BarChart = () => {
         <View className="mr-3">
           <View className="h-40 justify-between">
             {yAxisLabels.map((label, index) => (
-              <Text key={index} className="text-gray-600 font-archivo-regular text-sm ">
+              <Text key={index} className="text-gray-600 text-xs ">
                 {label}
               </Text>
             ))}
@@ -98,7 +111,13 @@ const BarChart = () => {
           <View className="h-40 flex-row items-end justify-between px-2">
             {chartData.map((data, index) => (
               <View key={index} className="items-center">
-                {/* Bar */}
+                {/* Bar Value Display (Only for values exceeding the cap) */}
+                <Text 
+                  className="text-gray-700 text-xs font-semibold mb-1" 
+                  style={{ position: 'absolute', bottom: data.height + 2 }}>
+                    {data.amount > SCALING_CAP ? `£${formatNumber(data.amount)}` : ''}
+                </Text>
+
                 <View 
                   className="bg-red-500 w-8 rounded-t-sm"
                   style={{ height: data.height }}
@@ -110,7 +129,7 @@ const BarChart = () => {
           {/* X-axis Labels */}
           <View className="flex-row justify-between px-2 mt-2">
             {chartData.map((data, index) => (
-              <Text key={index} className="text-gray-600 font-inter-regular text-xs">
+              <Text key={index} className="text-gray-600 text-xs">
                 {data.month}
               </Text>
             ))}
@@ -130,7 +149,40 @@ const AIsuggestion = ({ number, text }) => (
 
 export default function ExpenseAnalytics() {
   const navigation = useNavigation();
-
+  const {userProfile, authToken} = useAuth();
+    const [visible, setVisible] = useState(false);
+    const [budgetDataFromAPI, setBudgetDataFromAPI] = useState([]);
+    const [rehoSuggestions, setRehoSuggestions] = useState([])
+  
+    const handleGetChartData = () => {
+      setVisible(true);
+  
+      get_expense_analysis(res => {
+  
+        if(res){
+          setBudgetDataFromAPI(res.data)
+        }else{
+  
+        }
+  
+        setVisible(false);
+      })
+    }
+  
+    const handleGetRehoSuggetions = () => {
+      get_expense_suggestions(authToken.accessToken, res => {
+        if(res){
+          console.log(JSON.stringify(res, null, 2), "Reho budget suggestion")
+        }
+      })
+    }
+  
+    useFocusEffect(
+      useCallback(() => {
+        handleGetChartData()
+      }, [])
+    )
+  
   const suggestions = [
     { id: 1, text: "You are spending 15% more on entertainment" },
     { id: 2, text: "Consider Cutting Down on Subscriptions" },
@@ -149,23 +201,47 @@ export default function ExpenseAnalytics() {
       
       <View className="px-6 pt-4 flex-1 bg-[##e7eaef]">
         {/* Bar Chart Component */}
-        <BarChart />
+        <BarChart budgetDataFromAPI={budgetDataFromAPI}/>
 
         {/* AI Suggestions Section */}
         <View className="rounded-2xl ">
-          <Text className="text-gray-900 font-archivo-semi-bold text-lg mb-4">
-            AI Suggestions:
-          </Text>
-          
-          {suggestions.map((suggestion) => (
-            <AIsuggestion
-              key={suggestion.id}
-              number={suggestion.id}
-              text={suggestion.text}
-            />
-          ))}
+         {userProfile?.user?.subscriptionId?
+            <View>
+              <Text className="text-gray-900 font-bold text-lg mb-4">
+              ReHo Suggests:
+            </Text>
+            {
+              suggestions.map((suggestion) => (
+                <AIsuggestion
+                  key={suggestion.id}
+                  number={suggestion.id}
+                  text={suggestion.text}
+                />
+              ))
+            }
+
+
+
+            </View>:
+
+          <View> 
+
+            <TouchableOpacity onPress={() => navigation.navigate("PremiumFinancialAdvice")} className="bg-red-500 p-4 rounded-sm">
+              <Text className="text-white text-center font-archivo-semi-bold text-md">Subscribe to optimize expense with ReHo </Text>
+            </TouchableOpacity>
+
+          </View>
+        
+        
+          }
         </View>
       </View>
+
+
+      {visible && <Indicator onClose={() => setVisible(false)} visible={visible}>
+            
+                <ActivityIndicator size={"large"}/>
+            </Indicator>}
     </SafeAreaView>
   );
 }
