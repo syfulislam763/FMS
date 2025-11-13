@@ -164,10 +164,11 @@ const ProfileScreen = () => {
           >
             {showSuggestionDropdown && (
               <View className="">
-                {userProfile?.user?.subscriptionId?
+                {/* {userProfile?.user?.subscriptionId?
                   <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner ( ReHo )" />:
                   <SubMenuItem route='PremiumFinancialAdvice' title="Ask Financial Planner ( ReHo )" />
-                }
+                } */}
+                <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner ( ReHo )" />
                 {/* <SubMenuItem title="Send Expences" route='SendExpences' /> */}
                 <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>

@@ -14,8 +14,6 @@ const Cards = () => {
 
   const {userProfile} = useAuth();
 
-  console.log(JSON.stringify(userProfile, null, 2), "usr")
-
   const income = userProfile?.analytics?.totalIncome? "£"+userProfile?.analytics?.totalIncome:"£00"
   const expense = userProfile?.analytics?.totalExpenses? "£"+userProfile?.analytics?.totalExpenses:"£00"
   const budget = userProfile?.analytics?.totalBudget? "£"+userProfile?.analytics?.totalBudget: "£00"

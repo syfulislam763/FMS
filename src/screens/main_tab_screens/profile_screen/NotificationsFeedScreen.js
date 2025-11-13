@@ -1,11 +1,66 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Bell, Star } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useAuth } from '../../../context/AuthProvider';
 
 const NotificationsFeedScreen = () => {
-  const {notifications} = useAuth()
+  const {notifications, authToken} = useAuth()
+
+  const notificationRef = useRef(null);
+
+
+
+  const initiateNotificationSocket = (token) => {
+        if(!token || notificationRef.current)return;
+        const wsURL = `ws://10.10.10.32:5000/?token=${token}`;
+        console.log("url", wsURL)
+        notificationRef.current = new WebSocket(wsURL);
+
+        console.log("hello world")
+
+        notificationRef.current.onopen = () => {
+            console.log("notification socket connected");
+            setIsNotificationSocketConnected(true);
+        }
+
+        notificationRef.current.onmessage = (e) => {
+        try{
+            // const data = JSON.parse(e.data);
+            // const d = get_formated_time(item.createdAt)
+            // const temp = {
+            //                 id: data._id,
+            //                 type: data.type,
+            //                 icon: 'bell',
+            //                 title: data.title,
+            //                 description: data.message,
+            //                 time: d.time + " - " + d.month + " " + d.year, 
+            //                 section: new Date(data.createdAt).getDate() == new Date().getDate()?"Recent":"Old"
+            //             }
+                           
+            // setNotifications(prev => [temp, ...prev])
+            console.log("re^&", JSON.stringify(e, null, 2))
+        }catch(e){
+            console.error("Notificatio webSocket parse error", e);
+        }
+        }
+
+        notificationRef.current.onclose = (e) =>{
+            console.log("Notification socket disconnected");
+            console.log("CLOSED", e.code, e.reason);
+            //setIsNotificationSocketConnected(false);
+            notificationRef.current.close();
+            notificationRef.current = null;
+        }
+    }
+
+    useEffect(() => {
+      if(authToken.accessToken){
+        initiateNotificationSocket(authToken.accessToken)
+      }
+      
+    }, [authToken, authToken.accessToken])
+
   
   // const notifications = [
   //   {

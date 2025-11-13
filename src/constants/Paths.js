@@ -1,7 +1,7 @@
 
 
 
-export const ROOT_URL = "http://10.10.10.32/api/v1"
+export const ROOT_URL = "http://10.10.10.32:5000/api/v1"
 export const SOCKET_URL = "ws://10.10.10.32:5000"
 
 

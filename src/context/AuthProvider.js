@@ -3,6 +3,7 @@ import { logoutUser, loadAuthToken, setAuthToken as setTokens } from "../constan
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SOCKET_URL } from "../constants/Paths";
 import { get_formated_time } from "../screens/main_tab_screens/ScreensAPI";
+import { Token } from "@stripe/stripe-react-native";
 
 
 
@@ -24,12 +25,14 @@ export const AuthProvider = ({children}) => {
 
 
     const initiateNotificationSocket = (token) => {
-        if(!token)return;
-        const wsURL = SOCKET_URL;
-        notificationRef.current = new WebSocket(wsURL+`/?token=${token}`);
+        if(!token || notificationRef.current)return;
+        const wsURL = "ws://10.10.10.32:5000?token="+token;
+        notificationRef.current = new WebSocket(wsURL);
+
+        console.log("hello world")
 
         notificationRef.current.onopen = () => {
-        console.log("notification socket connected");
+            console.log("notification socket connected");
             setIsNotificationSocketConnected(true);
         }
 
@@ -57,7 +60,9 @@ export const AuthProvider = ({children}) => {
         notificationRef.current.onclose = (e) =>{
             console.log("Notification socket disconnected");
             console.log("CLOSED", e.code, e.reason);
-            setIsNotificationSocketConnected(false);
+            //setIsNotificationSocketConnected(false);
+            notificationRef.current.close();
+            notificationRef.current = null;
         }
     }
 
@@ -87,6 +92,7 @@ export const AuthProvider = ({children}) => {
                 accessToken: data.accessToken,
                 refreshToken: data.refreshToken
             })
+            //initiateNotificationSocket(data.accessToken)
         })
     }
 
@@ -101,6 +107,7 @@ export const AuthProvider = ({children}) => {
                     refreshToken: data.refreshToken
                 })
                 setIsAuthenticated(true);
+                //initiateNotificationSocket(data.accessToken)
             }else{
                 setIsAuthenticated(false);
             }
