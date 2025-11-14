@@ -49,7 +49,7 @@ export const AuthProvider = ({children}) => {
 
             console.log(temp);
             console.log("is have", notifications)
-            const arr = [...JSON.parse(JSON.stringify(notifications)), temp]
+            const arr = [temp, ...JSON.parse(JSON.stringify(notifications))]
             setNotifications(arr);
         })
 

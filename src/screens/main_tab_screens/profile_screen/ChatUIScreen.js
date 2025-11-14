@@ -139,7 +139,7 @@ const ChatUIScreen = () => {
 
   const sendMessage = () => {
     if (conversationRef.current?.readyState === WebSocket.OPEN && userMessage.trim()) {
-      const payload = JSON.stringify(userMessage);
+      const payload = JSON.stringify({message: userMessage});
       setUserMessage("");
       conversationRef.current.send(payload);
       setMessages(prev => [

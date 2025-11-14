@@ -80,36 +80,6 @@ const PartnerRequestScreen = () => {
 
 
 
-  const requests = [
-    {
-      id: 1,
-      name: 'Mostafa rahman',
-      role: 'Wife',
-      email: 'mostafarahmnn@gmail.com',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-    },
-    {
-      id: 2,
-      name: 'Mostafa rahman',
-      role: 'Wife',
-      email: 'mostafarahmnn@gmail.com',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-    },
-    {
-      id: 3,
-      name: 'Mostafa rahman',
-      role: 'Wife',
-      email: 'mostafarahmnn@gmail.com',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-    },
-    {
-      id: 4,
-      name: 'Mostafa rahman',
-      role: 'Wife',
-      email: 'mostafarahmnn@gmail.com',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-    },
-  ];
 
   const renderRequest = ({ item }) => (
     <View className="bg-white mb-4 rounded-2xl p-4 flex-row items-center">

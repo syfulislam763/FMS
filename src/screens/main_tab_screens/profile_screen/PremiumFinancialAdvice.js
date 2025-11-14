@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, Platform } from 'react-native';
 import { CheckCircle } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../../components/PrimaryButton';
+import Purchases, {LOG_LEVEL} from 'react-native-purchases';
 
 const PremiumFinancialAdvice = () => {
   const features = [
@@ -25,6 +26,25 @@ const PremiumFinancialAdvice = () => {
       </Text>
     </View>
   );
+
+  useEffect(() => {
+    //Purchases.setLogLevel(LOG_LEVEL.VERBOSE)
+    if(Platform.OS == "ios"){
+      Purchases.configure({apiKey: "appl_knsnizrjdQhjBuCifwstuieKpFY"})
+    }
+
+    getCustomerInfo()
+    getOfferings()
+  }, [])
+
+  const getCustomerInfo = async () => {
+    const customerInfo = await Purchases.getCustomerInfo();
+    console.log("customer Info", JSON.stringify(customerInfo, null, 2))
+  }
+  const getOfferings = async () => {
+    const offerings = await Purchases.getOfferings();
+    console.log("customer Info", JSON.stringify(offerings, null, 2))
+  }
 
   return (
     <ComponentWrapper bg_color='bg-[#5055ba]' title='Subscription Plan' >

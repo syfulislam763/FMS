@@ -5,8 +5,6 @@ export const ROOT_URL = "http://10.10.10.32:5000/api/v1"
 export const SOCKET_URL = "ws://10.10.10.32:5000"
 
 
-export const ai_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZTE2MGNkNTc4NDgyOGVjZWI1OTZhNiIsInJvbGUiOiJVU0VSIiwiZW1haWwiOiJrYWlzYXJmYXJkaW4xMjhAZ21haWwuY29tIiwiaWF0IjoxNzYyNDU5MjA5LCJleHAiOjE3NjUwNTEyMDl9.Pp4Fxwha2S6Ds_kQJR2UAoqZr418WIf1pwnY3RDbRpo"
-
 export const AI_ROOT_URL = "http://206.162.244.133:8070"
 export const EXP_FEEDBACK = AI_ROOT_URL+"/feedback/optimize-expenses"
 export const DEBT_FEEDBACK = AI_ROOT_URL+"/feedback/optimize-debt"

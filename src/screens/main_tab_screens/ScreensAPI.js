@@ -179,6 +179,8 @@ export const get_partners_request = async (cb=() => {}) => {
 }
 
 
+
+
 export const change_password = async (payload, cb=() => {}) => {
     try{
         const res = await api.post(CHANGE_PASS, payload);
