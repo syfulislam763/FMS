@@ -21,7 +21,7 @@ import { useCallback } from 'react';
 const HomeScreen = () => {
 
     const navigation = useNavigation()
-    const {setNotifications, initiateNotificationSocket, authToken} = useAuth()
+    const {setNotifications, initiateNotificationSocket, authToken, notifications} = useAuth()
 
     const [history, setHistory] = useState({});
     const [visible, setVisible] = useState(false);
@@ -63,6 +63,7 @@ const HomeScreen = () => {
                     }
                 })
                 setNotifications(temp)
+                
             }
         })
     }
@@ -79,11 +80,11 @@ const HomeScreen = () => {
     }, [])
 
     useEffect(() => {
-        // if(authToken?.accessToken){
-        //     initiateNotificationSocket(authToken?.accessToken)
-        // }
+        if(authToken?.accessToken && notifications.length>0){
+            initiateNotificationSocket(authToken?.accessToken)
+        }
         
-    },[authToken?.accessToken, authToken])
+    },[authToken?.accessToken, authToken, notifications])
 
     return (
         <SafeAreaView  className="flex-1 bg-[#4F55BA]">
