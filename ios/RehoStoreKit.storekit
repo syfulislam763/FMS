@@ -1,0 +1,88 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "60698F07",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "3307481F",
+      "localizations" : [
+        {
+          "description" : "Monthly access to premium financial features.",
+          "displayName" : "Monthly Subscription",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "monthly_subscription",
+      "referenceName" : "Monthly Subscription",
+      "subscriptionGroupID" : "premium_group",
+      "type" : "Auto-Renewable Subscription"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6755340157",
+    "_developerTeamID" : "265634VPX2",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 784940115.15488601,
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      // ... (rest of the storeKitErrors array remains the same)
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "premium_group",
+      "localizations" : [
+        {
+          "name" : "Premium Subscription Group",
+          "locale" : "en_US"
+        }
+      ],
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "internalID" : "3307481F",
+          "localizations" : [
+            {
+              "description" : "Monthly access to premium financial features.",
+              "displayName" : "Monthly Subscription",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "monthly_subscription",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly Subscription",
+          "subscriptionGroupID" : "premium_group",
+          "type" : "Auto-Renewable Subscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

@@ -1,4 +1,4 @@
-package com.anonymous.ReHo
+package com.RealWealth.ReHo
 
 import android.app.Application
 import android.content.res.Configuration

@@ -87,9 +87,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.ReHo'
+    namespace 'com.RealWealth.ReHo'
     defaultConfig {
-        applicationId 'com.anonymous.ReHo'
+        applicationId 'com.RealWealth.ReHo'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

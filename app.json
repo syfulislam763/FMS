@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.ReHo",
+      "bundleIdentifier": "com.RealWealth.ReHo",
       "appleTeamId": "24GRJVWX53"
     },
     "android": {
@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.ReHo",
+      "package": "com.RealWealth.ReHo",
       "permissions": [
         "android.permission.RECORD_AUDIO",
         "android.permission.MODIFY_AUDIO_SETTINGS"
@@ -55,6 +55,12 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "dce34e47-6b6b-436a-9dc9-9ad64a0c4e5f"
+      }
+    },
+    "owner": "syful151"
   }
 }
