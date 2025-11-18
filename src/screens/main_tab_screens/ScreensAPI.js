@@ -30,9 +30,23 @@ import {
     ai_token,
     AI_ROOT_URL,
     CONTENT,
-    NOTIFICATION
+    NOTIFICATION,
+    SUBSCRIPTION
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
+
+
+export const post_subscription = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.post(SUBSCRIPTION, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
 
 
 export const get_notifications = async (cb=() => {}) => {

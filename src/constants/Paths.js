@@ -88,3 +88,5 @@ export const PARTNER_REQUEST_CANCELS = "/partner-requests/unlink/"
 export const CONTENT = "/contents/"
 
 export const NOTIFICATION = "/notifications/"
+
+export const SUBSCRIPTION = '/subscriptions/'
