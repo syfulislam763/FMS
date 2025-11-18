@@ -24,46 +24,7 @@ const features = [
     "Priority support for all your financial queries"
 ];
 
-// --- SERVER INTEGRATION FUNCTION ---
-/**
- * Verifies the purchase with your backend server.
- * @param {string} subscriptionId The purchase information (e.g., RevenueCat's latestTransactionId or product identifier)
- * @param {string} productId The product ID (e.g., currentPackage.product.identifier)
- * @param {string} purchaseToken The latest purchase token (can often be derived from customerInfo or receipt)
- */
-const verifyPurchaseWithServer = async ({ subscriptionId, productId, purchaseToken }) => {
-    try {
-        // NOTE: In a *true* production environment, you might send the entire 
-        // `customerInfo.originalData.latestReceipt` instead of the token for verification.
-        const response = await fetch(SERVER_SUBSCRIPTION_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                // You MUST include an Authorization header for security in a real app
-                // 'Authorization': `Bearer ${userAuthToken}`,
-            },
-            body: JSON.stringify({
-                subscriptionId: subscriptionId,
-                productId: productId,
-                purchaseToken: purchaseToken,
-            }),
-        });
 
-        if (!response.ok) {
-            // Throw an error if the server verification fails
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Server verification failed.");
-        }
-
-        // Assuming the server responds with a success status if the subscription is active/granted
-        return true; 
-    } catch (error) {
-        console.error("Server Verification Error:", error);
-        // Important: If server verification fails, you might need to revoke access 
-        // or flag the account for manual review.
-        throw new Error("Failed to verify purchase with server. Please contact support.");
-    }
-};
 
 // --- COMPONENT DEFINITIONS ---
 
@@ -84,65 +45,8 @@ const PremiumFinancialAdvice = () => {
     const [isSubscribed, setIsSubscribed] = useState(false);
     const navigation = useNavigation();
 
-    // --- Entitlement & Navigation Logic ---
-    const navigateToApp = useCallback(() => {
-        // Replace 'MainAppScreen' with your actual post-subscription screen
-        // navigation.replace("MainAppScreen"); 
-        Alert.alert("Welcome!", "You now have premium access. Navigating to main content.");
-    }, [navigation]);
+  
 
-    const handleEntitlementCheck = useCallback(async (customerInfo) => {
-        const isUserActive = customerInfo.entitlements.active[ENTITLEMENT_ID];
-        setIsSubscribed(!!isUserActive);
-
-        if (isUserActive) {
-            console.log("User is already subscribed to:", ENTITLEMENT_ID);
-            // Optional: You could navigate the user immediately or just hide the purchase UI
-            // navigateToApp(); 
-        } else {
-            console.log("User is not subscribed.");
-        }
-    }, [navigateToApp]);
-
-    // --- Fetching Logic ---
-    const getCustomerInfo = useCallback(async () => {
-        try {
-            const customerInfo = await Purchases.getCustomerInfo();
-            // console.log("Customer Info", JSON.stringify(customerInfo, null, 2));
-            await handleEntitlementCheck(customerInfo);
-        } catch (e) {
-            console.error("Error fetching customer info:", e);
-        }
-    }, [handleEntitlementCheck]);
-
-    const getOfferings = useCallback(async () => {
-        try {
-            const offerings = await Purchases.getOfferings();
-            
-            // Prioritize the package from the specific offering, or fallback to default
-            const offering = offerings.getOffering(TARGET_OFFERING_ID) || offerings.current;
-            
-            if (!offering) {
-                console.warn("No offerings found. Check RevenueCat configuration.");
-                return;
-            }
-
-            const pkg = offering.getPackage(TARGET_PACKAGE_ID) 
-                || offering.availablePackages.find(p => p.packageType === PACKAGE_TYPE.MONTHLY);
-
-            if (pkg) {
-                setCurrentPackage(pkg);
-            } else {
-                console.warn(`Package ID '${TARGET_PACKAGE_ID}' not found.`);
-            }
-
-        } catch (e) {
-            console.error("Error fetching offerings:", e);
-            Alert.alert("Error", "Could not load subscription plans. Please check your configuration.");
-        }
-    }, []);
-
-    // --- Initialization Effect ---
     useEffect(() => {
         // 1. Configure RevenueCat
         if (Platform.OS === "ios") {
@@ -152,66 +56,21 @@ const PremiumFinancialAdvice = () => {
         
         // 2. Fetch data
         const loadData = async () => {
-            setIsLoading(true);
-            await Promise.all([getOfferings(), getCustomerInfo()]);
-            setIsLoading(false);
+            const customerInfor = await Purchases.getCustomerInfo()
+            console.log(JSON.stringify(customerInfor, null, 2), "customer Info")
+            const offering = await Purchases.getOfferings();
+            console.log(JSON.stringify(offering, null, 2), "Offerings")
         };
         loadData();
 
-        // 3. Listener for subscription changes (e.g., from an external purchase)
-        Purchases.addCustomerInfoUpdateListener(handleEntitlementCheck);
 
-        return () => {
-            Purchases.removeCustomerInfoUpdateListener(handleEntitlementCheck);
-        };
-    }, [getOfferings, getCustomerInfo, handleEntitlementCheck]);
+        
+    }, []);
 
 
     // --- Purchase Handler ---
     const handleSubscribe = async () => {
-        if (!currentPackage) {
-            Alert.alert("Error", "Subscription plan not available.");
-            return;
-        }
-
-        setIsLoading(true);
-        try {
-            const { customerInfo, productIdentifier } = await Purchases.purchasePackage(currentPackage);
-            
-            // ** 1. Check Entitlement via RevenueCat **
-            const hasAccess = customerInfo.entitlements.active[ENTITLEMENT_ID];
-
-            if (hasAccess) {
-                
-                // ** 2. Secure Server-Side Verification **
-                // This step is crucial for production to prevent fraud and ensure your backend 
-                // is aware of the subscription status.
-                await verifyPurchaseWithServer({
-                    // Use a unique ID for the transaction
-                    subscriptionId: customerInfo.latestTransactionId, 
-                    productId: productIdentifier,
-                    // Use the latest receipt for verification
-                    purchaseToken: customerInfo.originalData.latestReceipt, 
-                });
-
-                Alert.alert("Success!", "Subscription successful and verified.");
-                navigateToApp();
-            } else {
-                // Should be rare if purchasePackage succeeds, but handle it.
-                Alert.alert("Purchase Complete", "Thank you! Still checking subscription status...");
-            }
-        } catch (e) {
-            if (e.code === PURCHASES_ERROR_CODE.PURCHASE_CANCELLED) {
-                console.log("Purchase cancelled by user.");
-            } else if (e.code === PURCHASES_ERROR_CODE.PURCHASE_NOT_ALLOWED) {
-                 Alert.alert("Error", "Purchases are not allowed on this device.");
-            } else {
-                console.error("Purchase error:", e);
-                Alert.alert("Purchase Failed", e.message || "An unexpected error occurred during purchase.");
-            }
-        } finally {
-            setIsLoading(false);
-        }
+        
     }
 
     // --- UI Rendering ---

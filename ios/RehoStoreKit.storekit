@@ -14,46 +14,66 @@
 
   ],
   "products" : [
-    {
-      "displayPrice" : "4.99",
-      "familyShareable" : false,
-      "internalID" : "3307481F",
-      "localizations" : [
-        {
-          "description" : "Monthly access to premium financial features.",
-          "displayName" : "Monthly Subscription",
-          "locale" : "en_US"
-        }
-      ],
-      "productID" : "monthly_subscription",
-      "referenceName" : "Monthly Subscription",
-      "subscriptionGroupID" : "premium_group",
-      "type" : "Auto-Renewable Subscription"
-    }
+
   ],
   "settings" : {
-    "_applicationInternalID" : "6755340157",
-    "_developerTeamID" : "265634VPX2",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 784940115.15488601,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,
         "enabled" : false,
         "name" : "Load Products"
       },
-      // ... (rest of the storeKitErrors array remains the same)
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
     ]
   },
   "subscriptionGroups" : [
     {
-      "id" : "premium_group",
+      "id" : "21506338",
       "localizations" : [
         {
-          "name" : "Premium Subscription Group",
+          "description" : "Premium Financial Advice",
+          "displayName" : "Premium Financial Advice",
           "locale" : "en_US"
         }
       ],
+      "name" : "Premium Financial Advice",
       "subscriptions" : [
         {
           "adHocOffers" : [
@@ -63,11 +83,13 @@
 
           ],
           "displayPrice" : "4.99",
-          "familyShareable" : false,
-          "internalID" : "3307481F",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "6755343711",
+          "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Monthly access to premium financial features.",
+              "description" : "Monthly access to premium financial advice and planning features",
               "displayName" : "Monthly Subscription",
               "locale" : "en_US"
             }
@@ -75,8 +97,11 @@
           "productID" : "monthly_subscription",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Monthly Subscription",
-          "subscriptionGroupID" : "premium_group",
-          "type" : "Auto-Renewable Subscription"
+          "subscriptionGroupID" : "21506338",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     }

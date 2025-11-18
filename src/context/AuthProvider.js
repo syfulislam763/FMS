@@ -32,7 +32,7 @@ export const AuthProvider = ({children}) => {
         notificationRef.current = io(wsURL);
         notificationRef.current.on('connect', (msg) => {
             console.log("notifidation connected")
-            console.log("test", notifications)
+            //console.log("test", notifications)
         })
         notificationRef.current.on('notification', (msg) => {
             console.log('nt', JSON.stringify(msg, null, 2))
@@ -47,8 +47,7 @@ export const AuthProvider = ({children}) => {
                 section: new Date(msg?.createdAt).getDate() == new Date().getDate()?"Recent":"Old"
             }
 
-            console.log(temp);
-            console.log("is have", notifications)
+            
             const arr = [temp, ...JSON.parse(JSON.stringify(notifications))]
             setNotifications(arr);
         })
