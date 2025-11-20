@@ -16,16 +16,17 @@ import Indicator from '../../../components/Indicator';
 import { useAuth } from '../../../context/AuthProvider';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-
+import { initializeRevenueCat } from '../../../hooks/SubscriptionStatus';
 
 const HomeScreen = () => {
-
+    
     const navigation = useNavigation()
     const {setNotifications, initiateNotificationSocket, authToken, notifications} = useAuth()
 
     const [history, setHistory] = useState({});
     const [visible, setVisible] = useState(false);
-    const {setFinancialForecast, setUserProfile, userProfile} = useAuth()
+    const {setFinancialForecast, setUserProfile, userProfile, setIsSubscribed, setSubscriptionInfo} = useAuth()
+
 
     const handleGetHistory = () => {
         setVisible(true);
@@ -33,7 +34,10 @@ const HomeScreen = () => {
             if(res){
                 
                 setUserProfile(res?.data);
-                
+                initializeRevenueCat(res?.data?.user, (isSubscribed, subscriptionInfo) => {
+                    setIsSubscribed(isSubscribed);
+                    setSubscriptionInfo(subscriptionInfo);
+                })
             }else{
 
             }
@@ -92,7 +96,7 @@ const HomeScreen = () => {
             <View className="px-5 pb-4">
                 <AppHeader 
                     left={() => {
-                        return <View className="flex-row justify-between items-start"> 
+                        return <View className="flex-row justify-between items-center"> 
 
                             <Image
                                 className="h-[30] w-[30] rounded-full"
@@ -106,7 +110,7 @@ const HomeScreen = () => {
 
                         </View>
                     }}
-                    right={() => <BellDot size={24} color={"white"}/>}
+                    right={() => <BellDot onPress={() => navigation.navigate("NotificationsFeedScreen")} size={24} color={"white"}/>}
                 />
             </View>
             <View className="h-full bg-white ">

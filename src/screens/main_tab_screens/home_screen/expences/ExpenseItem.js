@@ -14,6 +14,7 @@ import { Trash2 } from 'lucide-react-native';
 import ToastMessage from '../../../../constants/ToastMessage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 const icons = {
   'Mortgage or Rent': require("../../../../../assets/expence/Holiday-Expenses.png"),
   'Building or Home insurance': require("../../../../../assets/expence/Building-and-Home-Insurance-Expenses.png"),
@@ -43,6 +44,7 @@ const icons = {
 };
 
 export default function ExpenseItem() {
+
     const navigation = useNavigation();
     const [expenceList, setExpenceList] = useState([]);
     const [visible, setVisible] = useState(false);

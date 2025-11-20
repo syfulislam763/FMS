@@ -20,24 +20,81 @@ import {
     cancels_invitations 
 } from '../../main_tab_screens/ScreensAPI';
 
+
 const PartnerRequestScreen = () => {
     const {userProfile} = useAuth();
 
     const [visible, setVisible] = useState(false);
     const [requestList, setRequestList] = useState([]);
     const [filteredList, setFilteredList] = useState([])
-    const [tab, setTab] = useState("Outgoing")
+
+    const [currentList, setCurrentList] = useState([]);
+    const [incommingList, setIncommingList] = useState([]);
+    const [outgoingList, setOutgoingList] = useState([])
+
+    const [tab, setTab] = useState("Outgoing");
+    const [accepted, setAccepted] = useState(false);
+
+    const handleAcceptRequest = (id) => {
+      accepts_invitations(id, res => {
+        if(res){
+          if(tab == "Outgoing"){
+            const temp  = currentList.filter(item => item._id == id);
+            const temp2 = temp.map(item => {
+              return {
+                ...item,
+                status: "accepted"
+              }
+            })
+            setCurrentList(temp2);
+            setOutgoingList(temp2);
+          }else{
+            const temp  = currentList.filter(item => item._id == id);
+            const temp2 = temp.map(item => {
+              return {
+                ...item,
+                status: "accepted"
+              }
+            })
+            setCurrentList(temp2);
+            setIncommingList(temp2);
+          }
+          
+        }
+      })
+    }
+
+    const handleDelinkRequest = (id) => {
+      cancels_invitations(id, res => {
+        if(res){
+          setCurrentList([]);
+          setIncommingList([]);
+          setOutgoingList([])
+        }
+      })
+    }
+
+    const handleDeleteRequest = (id) => {
+      delete_invitations(id, res => {
+        if(res){
+          if(tab == "Outgoing"){
+            setCurrentList(currentList.filter(item => item._id != id));
+            setOutgoingList(outgoingList.filter(item => item._id != id))
+          }else{
+            setCurrentList(currentList.filter(item => item._id != id));
+            setIncommingList(incommingList.filter(item => item._id != id))
+          }
+          
+        }
+      })
+    }
 
 
     const handleTab = (tb)=>{
       if(tb == "Outgoing"){
-        const filtered = requestList.filter( item => item.isOutgoing);
-        setFilteredList(filtered)
-        console.log(JSON.stringify(filtered, null, 2))
+        setCurrentList(outgoingList)
       }else{
-        const filtered = requestList.filter( item => !item.isOutgoing);
-        setFilteredList(filtered)
-        console.log(JSON.stringify(filtered, null, 2))
+        setCurrentList(incommingList)
       }
       setTab(tb);
     }
@@ -48,24 +105,10 @@ const PartnerRequestScreen = () => {
 
         get_partners_request(res => {
             if(res){
-                const temp = res.data.map(item => {
-
-                    return {
-                        ...item,
-                        profile: item.fromUser.email == userProfile?.user?.email? item.fromUser.image: item.toUser.image,
-                        isOutgoing: (item.fromUser.email == userProfile?.user?.email),
-                        email: (item.fromUser.email == userProfile?.user?.email)?item.toUser.email:item.fromUser.email,
-                        name: (item.fromUser.email == userProfile?.user?.email)?item.toUser.name:item.fromUser.name,
-
-                    }
-                })
-                const filtered = temp.filter( item => item.isOutgoing);
-                setRequestList(temp);
-                setFilteredList(temp);
-
                 
-                setFilteredList(filtered)
-                
+                setCurrentList(res?.data?.outgoing)
+                setIncommingList(res?.data?.incoming);
+                setOutgoingList(res?.data?.outgoing)
             }else{
                 setRequestList([])
             }
@@ -78,6 +121,7 @@ const PartnerRequestScreen = () => {
         handleGetRequestList();
     }, [])
 
+    console.log(JSON.stringify(currentList, null,2 ))
 
 
 
@@ -85,7 +129,7 @@ const PartnerRequestScreen = () => {
     <View className="bg-white mb-4 rounded-2xl p-4 flex-row items-center">
       {/* Avatar */}
       <Image
-        source={{ uri: item.profile }}
+        source={{ uri: tab=="Outgoing"? item?.toUser?.image: item?.fromUser?.image }}
         className="w-16 h-16 rounded-full"
         resizeMode="cover"
       />
@@ -93,34 +137,52 @@ const PartnerRequestScreen = () => {
       {/* User Info */}
       <View className="flex-1 ml-4">
         <Text className="text-black text-base font-bold mb-0.5">
-          {item.name}
+          {tab=="Outgoing"? item?.toUser?.name: item?.fromUser?.name}
         </Text>
         <Text className="text-gray-600 text-sm mb-0.5">
-          {item.relation}
+          {item?.relation}
         </Text>
         <Text className="text-gray-500 text-xs">
-          {item.email}
+          {tab=="Outgoing"? item?.toUser?.email: item?.fromUser?.email}
         </Text>
       </View>
 
       {/* Action Buttons */}
-      <View className="flex-row items-center ml-2">
+      {item?.status == "pending"?
+        <View className="flex-row items-center ml-2">
         {/* Accept Button */}
-        {!(item.isOutgoing) && <TouchableOpacity 
+        {!(tab == "Outgoing") && <TouchableOpacity 
           className="w-9 h-9 rounded-full bg-green-500 items-center justify-center mr-2"
           activeOpacity={0.8}
+          onPress={() => handleAcceptRequest(item?._id)}
         >
           <Check size={20} color="#FFF" strokeWidth={3} />
         </TouchableOpacity>}
 
         {/* Reject Button */}
-        <TouchableOpacity 
+        {tab == "Outgoing" && <TouchableOpacity 
           className="w-9 h-9 rounded-full bg-red-500 items-center justify-center"
           activeOpacity={0.8}
+          onPress={() => handleDeleteRequest(item?._id)}
         >
           <X size={20} color="#FFF" strokeWidth={3} />
+        </TouchableOpacity>}
+
+      </View>:
+
+      <View className="flex-row items-center ml-2">
+
+        <TouchableOpacity 
+          className="w-9 h-9 rounded-full bg-green-500 items-center justify-center mr-2"
+          activeOpacity={0.8}
+          onPress={() => handleDelinkRequest(item?._id)}
+        >
+          <Text className="text-yellow-400 p-5 rounded-sm">Delink</Text>
         </TouchableOpacity>
+
       </View>
+    
+      }
     </View>
   );
 
@@ -145,7 +207,7 @@ const PartnerRequestScreen = () => {
 
       {/* Request List */}
       <FlatList
-        data={filteredList}
+        data={currentList}
         renderItem={renderRequest}
         keyExtractor={(item, idx) => idx}
         contentContainerStyle={{ paddingTop: 16, paddingBottom: 20 }}

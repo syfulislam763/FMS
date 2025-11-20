@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
@@ -8,7 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useAuth } from '../../../../context/AuthProvider';
 import { ActivityIndicator } from 'react-native';
-import { get_expense_analysis, get_budget_suggestions } from '../../ScreensAPI';
+import { get_expense_analysis, get_expence_suggestions, get_budget_suggestions } from '../../ScreensAPI';
 
 
 const formatNumber = (num) => {
@@ -148,8 +148,11 @@ const AIsuggestion = ({ number, text }) => (
 );
 
 export default function ExpenseAnalytics() {
+
+
+
   const navigation = useNavigation();
-  const {userProfile, authToken} = useAuth();
+  const {userProfile, authToken, isSubscribed} = useAuth();
     const [visible, setVisible] = useState(false);
     const [budgetDataFromAPI, setBudgetDataFromAPI] = useState([]);
     const [rehoSuggestions, setRehoSuggestions] = useState([])
@@ -170,9 +173,11 @@ export default function ExpenseAnalytics() {
     }
   
     const handleGetRehoSuggetions = () => {
-      get_expense_suggestions(authToken.accessToken, res => {
+      get_expence_suggestions(authToken.accessToken, res => {
+        console.log("hdd")
         if(res){
-          console.log(JSON.stringify(res, null, 2), "Reho budget suggestion")
+          setRehoSuggestions(res)
+          // console.log(JSON.stringify(res, null, 2), "Reho budget suggestion")
         }
       })
     }
@@ -180,6 +185,9 @@ export default function ExpenseAnalytics() {
     useFocusEffect(
       useCallback(() => {
         handleGetChartData()
+        handleGetRehoSuggetions()
+
+        console.log("isSubscribed", isSubscribed);
       }, [])
     )
   
@@ -199,27 +207,30 @@ export default function ExpenseAnalytics() {
             />
         </View>
       
-      <View className="px-6 pt-4 flex-1 bg-[##e7eaef]">
+      <ScrollView className="px-6 pt-4 flex-1 bg-[##e7eaef]">
         {/* Bar Chart Component */}
         <BarChart budgetDataFromAPI={budgetDataFromAPI}/>
 
         {/* AI Suggestions Section */}
         <View className="rounded-2xl ">
-         {userProfile?.user?.subscriptionId?
+         {isSubscribed?
             <View>
               <Text className="text-gray-900 font-bold text-lg mb-4">
               ReHo Suggests:
             </Text>
             {
-              suggestions.map((suggestion) => (
+              rehoSuggestions?.insights?.map((suggestion, idx) => (
                 <AIsuggestion
-                  key={suggestion.id}
-                  number={suggestion.id}
-                  text={suggestion.text}
+                  key={idx}
+                  number={idx+1}
+                  text={suggestion?.suggestion}
                 />
               ))
             }
 
+            <Text className="text-gray-900 text-lg mb-4">
+                {rehoSuggestions?.summary}
+            </Text>
 
 
             </View>:
@@ -235,7 +246,7 @@ export default function ExpenseAnalytics() {
         
           }
         </View>
-      </View>
+      </ScrollView>
 
 
       {visible && <Indicator onClose={() => setVisible(false)} visible={visible}>

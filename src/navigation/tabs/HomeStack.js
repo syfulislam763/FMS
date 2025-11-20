@@ -18,6 +18,7 @@ import FinancialSummary from "../../screens/main_tab_screens/home_screen/goal_sa
 import SavingsGoals from "../../screens/main_tab_screens/home_screen/goal_saving/SavingsGoals";
 import SavingsGoalForm from "../../screens/main_tab_screens/home_screen/goal_saving/SavingsGoalForm";
 import PremiumFinancialAdvice from "../../screens/main_tab_screens/profile_screen/PremiumFinancialAdvice";
+import NotificationsFeedScreen from "../../screens/main_tab_screens/profile_screen/NotificationsFeedScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -119,6 +120,8 @@ export default function HomeStack(){
                 name="PremiumFinancialAdvice"
                 component={PremiumFinancialAdvice}
             />
+
+            <Stack.Screen name="NotificationsFeedScreen" component={NotificationsFeedScreen}  />
 
 
         </Stack.Navigator>

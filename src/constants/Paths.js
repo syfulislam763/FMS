@@ -5,7 +5,7 @@ export const ROOT_URL = "http://10.10.10.32:5000/api/v1"
 export const SOCKET_URL = "ws://10.10.10.32:5000"
 
 
-export const AI_ROOT_URL = "http://206.162.244.133:8070"
+export const AI_ROOT_URL = "https://rehoai.rehoapp.co.uk"
 export const EXP_FEEDBACK = AI_ROOT_URL+"/feedback/optimize-expenses"
 export const DEBT_FEEDBACK = AI_ROOT_URL+"/feedback/optimize-debt"
 export const BUD_FEEDBACK = AI_ROOT_URL+"/feedback/optimize-budget"
@@ -18,7 +18,7 @@ export const LOGIN = "/auth/login"
 export const FORGET_PASS = "/auth/forget-password"
 export const RESET_PASS = "/auth/reset-password"
 export const CHANGE_PASS = "/auth/change-password"
-
+export const UPDATE_PROFILE = "/users/profile"
 //GET
 export const USER_PROFILE = "/users/profile"
 

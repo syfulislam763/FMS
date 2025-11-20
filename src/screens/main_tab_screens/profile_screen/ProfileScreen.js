@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { 
   ChevronRight, 
   Users, 
@@ -17,21 +17,69 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import AppHeader from '../../../components/AppHeader';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../../context/AuthProvider';
 import { USER_PROFILE } from '../../../constants/Paths';
-import Vi from 'dayjs/locale/vi';
+import Indicator from '../../../components/Indicator';
+import ToastMessage from '../../../constants/ToastMessage';
+import { update_profile } from '../ScreensAPI';
 
 const ProfileScreen = () => {
   const [showRelationshipDropdown, setShowRelationshipDropdown] = useState(false);
   const [showSuggestionDropdown, setShowSuggestionDropdown] = useState(false);
   const [showDollarDropdown, setShowDollarDropdown] = useState(false);
-  const [profileImage, setProfileImage] = useState('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face');
+  const [profileImage, setProfileImage] = useState(null);
   const [isImagePressed, setIsImagePressed] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const {SignOutUser, userProfile} = useAuth()
+  const {SignOutUser, userProfile} = useAuth();
+  const navigation = useNavigation();
 
-  const navigation = useNavigation()
+  const uploadImageToBackend = async (imageUri) => {
+    try {
+      setIsUploading(true);
+
+      console.log(imageUri)
+      // Create FormData
+      const formData = new FormData();
+      
+      // Get file extension
+      const uriParts = imageUri.split('.');
+      const fileType = uriParts[uriParts.length - 1];
+      
+      // Append image to FormData
+      formData.append('image', {
+        uri: imageUri,
+        name: `profile_${Date.now()}.${fileType}`,
+        type: `image/${fileType}`,
+      });
+
+      
+
+
+      console.log('FormData ready to send:', formData);
+
+      update_profile(formData, res => {
+        if(res){
+          console.log(res);
+          console.log("updated image")
+        }else{
+          console.log("nope")
+        }
+      })
+      setProfileImage(imageUri);
+
+      ToastMessage("success", "Image selected! Ready to upload.", 2000);
+      
+      setIsUploading(false);
+      return formData; // Return formData in case you want to use it elsewhere
+      
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      ToastMessage("error", "Failed to process image", 2000);
+      setIsUploading(false);
+    }
+  };
 
   const pickImage = async () => {
     // Request permission to access media library
@@ -51,9 +99,17 @@ const ProfileScreen = () => {
     });
 
     if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
+      const imageUri = result.assets[0].uri;
+      // Upload image to backend
+      await uploadImageToBackend(imageUri);
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      setProfileImage(userProfile?.user?.image)
+    }, [userProfile?.user?.image])
+  )
 
   const MenuItem = ({ icon: Icon, title, hasArrow = true, isRed = false, onPress, children }) => (
     <View>
@@ -107,10 +163,11 @@ const ProfileScreen = () => {
             onPressIn={() => setIsImagePressed(true)}
             onPressOut={() => setIsImagePressed(false)}
             activeOpacity={0.8}
+            disabled={isUploading}
           >
-            {userProfile?.user?.image?
+            {profileImage ?
               <Image
-              source={{ uri: userProfile?.user?.image }}
+              source={{ uri:  profileImage }}
               className="w-full h-full"
               resizeMode="cover"
             />:
@@ -120,9 +177,16 @@ const ProfileScreen = () => {
             }
             
             {/* Edit Overlay */}
-            {isImagePressed && (
+            {isImagePressed && !isUploading && (
               <View className="absolute inset-0 bg-black bg-opacity-50 justify-center items-center">
                 <Edit3 size={24} color="white" />
+              </View>
+            )}
+
+            {/* Loading Overlay */}
+            {isUploading && (
+              <View className="absolute inset-0 bg-black bg-opacity-50 justify-center items-center">
+                <ActivityIndicator size="small" color="white" />
               </View>
             )}
           </TouchableOpacity>
@@ -164,12 +228,7 @@ const ProfileScreen = () => {
           >
             {showSuggestionDropdown && (
               <View className="">
-                {/* {userProfile?.user?.subscriptionId?
-                  <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner ( ReHo )" />:
-                  <SubMenuItem route='PremiumFinancialAdvice' title="Ask Financial Planner ( ReHo )" />
-                } */}
                 <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner ( ReHo )" />
-                {/* <SubMenuItem title="Send Expences" route='SendExpences' /> */}
                 <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>
             )}
@@ -181,19 +240,6 @@ const ProfileScreen = () => {
             hasArrow={false}
             onPress={() => navigation.navigate("NotificationsFeedScreen")}
           />
-
-          {/* <MenuItem 
-            icon={DollarSign} 
-            title="Dollar"
-            onPress={() => setShowDollarDropdown(!showDollarDropdown)}
-          >
-            {showDollarDropdown && (
-              <View className="">
-                <SubMenuItem title="Curr" />
-                <SubMenuItem title="Exchange Rates" />
-              </View>
-            )}
-          </MenuItem> */}
           
           <MenuItem 
             icon={FileText} 

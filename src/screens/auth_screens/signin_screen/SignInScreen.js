@@ -139,7 +139,7 @@ const SignInScreen = () => {
             </View>
 
             {/* Social Login Buttons */}
-            <TouchableOpacity className="flex-row items-center border border-gray-300 rounded-[25px] py-4 justify-center mb-4">
+            {/* <TouchableOpacity className="flex-row items-center border border-gray-300 rounded-[25px] py-4 justify-center mb-4">
                 <Image 
                     source={apple}
                     className="h-[21px] w-[21px] mr-2"
@@ -155,7 +155,7 @@ const SignInScreen = () => {
                     style={{objectFit:"contain"}}
                 />
                 <Text className="text-black text-base font-medium">Login with Google</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* Sign Up */}
             <View className="flex-row justify-center mt-6">

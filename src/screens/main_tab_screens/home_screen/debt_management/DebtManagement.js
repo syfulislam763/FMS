@@ -19,7 +19,7 @@ import { ActivityIndicator } from 'react-native';
 import { get_debts_summary, get_formated_time } from '../../ScreensAPI';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-import vi from 'dayjs/locale/vi';
+
 
 const DebtManagement = () => {
 

@@ -11,10 +11,12 @@ import {
   Animated,
   Easing,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import { Send, Smile, ArrowDown } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useAuth } from '../../../context/AuthProvider';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const welcome = require("../../../../assets/img/welcome.png");
 
@@ -28,7 +30,9 @@ const ChatUIScreen = () => {
   const flatListRef = useRef(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const [isLoadingHistory, setIsLoadingHistory] = useState(true); 
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const insets = useSafeAreaInsets();
 
   // Animation setup for three dots
   const dot1 = useRef(new Animated.Value(0)).current;
@@ -73,6 +77,32 @@ const ChatUIScreen = () => {
   }, [isTyping]);
 
   useEffect(() => {
+    const keyboardWillShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+        if (flatListRef.current && messages.length > 0) {
+          setTimeout(() => {
+            flatListRef.current.scrollToEnd({ animated: true });
+          }, 100);
+        }
+      }
+    );
+
+    const keyboardWillHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      }
+    );
+
+    return () => {
+      keyboardWillShowListener.remove();
+      keyboardWillHideListener.remove();
+    };
+  }, [messages]);
+
+  useEffect(() => {
     if (flatListRef.current && messages.length > 0) {
       flatListRef.current.scrollToEnd({ animated: true });
     }
@@ -80,7 +110,7 @@ const ChatUIScreen = () => {
 
   const initiateConversationSocket = (token) => {
     if (!token) return;
-    const wsURL = `ws://206.162.244.133:8070/chat/ws?token=${token}`;
+    const wsURL = `wss://rehoai.rehoapp.co.uk/chat/ws?token=${token}`;
 
     conversationRef.current = new WebSocket(wsURL);
 
@@ -201,8 +231,8 @@ const ChatUIScreen = () => {
     <ComponentWrapper title="AI Suggestions" bg_color="bg-[#FFA950]">
       <KeyboardAvoidingView
         className="flex-1"
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
       >
         {/* ✅ Show loading or start conversation state */}
         {isLoadingHistory ? (
@@ -284,7 +314,7 @@ const ChatUIScreen = () => {
           </TouchableOpacity>
         )}
 
-        <View className="mb-5">
+        <View className="mb-5" style={{ paddingBottom: Platform.OS === 'android' ? keyboardHeight : 15 }}>
           <View className="flex-row items-center bg-white rounded-full px-4 py-2">
             <TouchableOpacity className="mr-3" activeOpacity={0.7}>
               <Smile size={24} color="#9CA3AF" strokeWidth={2} />

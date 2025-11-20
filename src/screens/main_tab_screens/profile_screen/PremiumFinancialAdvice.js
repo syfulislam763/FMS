@@ -46,7 +46,6 @@ const PremiumFinancialAdvice = () => {
         initializeRevenueCat();
     }, []);
 
-    // 🆕 Get user info from your auth system
     const getCurrentUserInfo = async () => {
         try {
             const userJson = userProfile?.user;
@@ -79,13 +78,13 @@ const PremiumFinancialAdvice = () => {
                 Purchases.configure({ apiKey: REVENUECAT_IOS_API_KEY });
                 console.log('✅ RevenueCat initialized');
                 
-                // 🆕 CRITICAL: Identify the user
+            
                 await identifyUserInRevenueCat();
                 
                 await detectTestingEnvironment();
             }
             
-            // 🆕 Check subscription status on load
+       
             await checkSubscriptionStatus();
             await fetchOfferings();
             
@@ -97,7 +96,7 @@ const PremiumFinancialAdvice = () => {
         }
     };
 
-    // 🆕 Identify user in RevenueCat
+  
     const identifyUserInRevenueCat = async () => {
         try {
             const user = await getCurrentUserInfo();
@@ -110,7 +109,7 @@ const PremiumFinancialAdvice = () => {
                 console.log('✅ User logged in to RevenueCat');
                 console.log('👤 RevenueCat User ID:', customerInfo.originalAppUserId);
                 
-                // Set user attributes
+               
                 await setUserAttributes(user);
                 
                 return customerInfo;
@@ -122,7 +121,7 @@ const PremiumFinancialAdvice = () => {
         }
     };
 
-    // 🆕 Set user attributes
+   
     const setUserAttributes = async (user) => {
         try {
             console.log('📝 Setting user attributes...');
@@ -190,7 +189,7 @@ const PremiumFinancialAdvice = () => {
         }
     };
 
-    // 🆕 Enhanced subscription check with detailed logging
+    
     const checkSubscriptionStatus = async () => {
         try {
             console.log('🔍 Checking subscription status...');
@@ -214,7 +213,7 @@ const PremiumFinancialAdvice = () => {
                 console.log('   - Will Renew:', entitlement.willRenew);
                 console.log('   - Expires:', new Date(entitlement.expirationDate).toLocaleString());
                 
-                // 🆕 Show alert to user if they're subscribed
+        
                 if (__DEV__) {
                     Alert.alert(
                         '✅ Subscription Active',
@@ -225,7 +224,6 @@ const PremiumFinancialAdvice = () => {
             } else {
                 console.log('❌ USER IS NOT SUBSCRIBED');
                 
-                // 🆕 Show alert if not subscribed
                 if (__DEV__) {
                     Alert.alert(
                         'ℹ️ No Active Subscription',
@@ -301,7 +299,7 @@ const PremiumFinancialAdvice = () => {
                 console.log('⚠️ Purchase completed but no active entitlement found');
                 Alert.alert('Notice', 'Purchase completed. Checking status...');
                 
-                // Recheck after a delay
+            
                 setTimeout(() => checkSubscriptionStatus(), 2000);
             }
 
@@ -368,7 +366,6 @@ const PremiumFinancialAdvice = () => {
         }
     };
 
-    // 🆕🆕🆕 TESTING ONLY - Force unsubscribe (DELETE FOR PRODUCTION!)
     const handleForceUnsubscribe = () => {
         Alert.alert(
             '🧪 Force Unsubscribe (Testing Only)',
@@ -383,15 +380,14 @@ const PremiumFinancialAdvice = () => {
                     onPress: async () => {
                         try {
                             console.log('🗑️ Clearing local subscription cache...');
-                            
-                            // Force logout and login to refresh
+                          
                             await Purchases.logOut();
                             const user = await getCurrentUserInfo();
                             if (user && user.email) {
                                 await Purchases.logIn(user.email);
                             }
                             
-                            // Refresh status
+
                             await checkSubscriptionStatus();
                             
                             Alert.alert('Done', 'Local cache cleared. Status refreshed from server.');
@@ -415,7 +411,6 @@ const PremiumFinancialAdvice = () => {
         );
     };
 
-    // 🆕 Button to manually check subscription status
     const handleCheckStatus = async () => {
         setIsPurchasing(true);
         try {
@@ -452,7 +447,7 @@ const PremiumFinancialAdvice = () => {
     return (
         <ComponentWrapper bg_color='bg-[#5055ba]' title='Subscription Plan'>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20 }}>
-                {/* User Info Banner */}
+              
                 {__DEV__ && currentUser && (
                     <View className="mb-4 p-3 bg-blue-100 border border-blue-400 rounded-lg">
                         <Text className="text-blue-800 text-xs font-semibold">
@@ -466,7 +461,7 @@ const PremiumFinancialAdvice = () => {
                     </View>
                 )}
                 
-                {/* Testing Mode Banner */}
+              
                 {__DEV__ && testingMode && (
                     <View className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
                         <Text className="text-yellow-800 text-xs font-semibold text-center">
@@ -509,7 +504,7 @@ const PremiumFinancialAdvice = () => {
                             </Text>
                         </View>
 
-                        {/* 🆕 Check Status Button */}
+                
                         {__DEV__ && (
                             <View className="mt-4">
                                 <TouchableOpacity 
@@ -562,7 +557,7 @@ const PremiumFinancialAdvice = () => {
                             </View>
                         )}
 
-                        {/* 🆕 Check Status Button (when subscribed) */}
+                    
                         {__DEV__ && (
                             <View className="mt-4">
                                 <TouchableOpacity 
@@ -576,7 +571,7 @@ const PremiumFinancialAdvice = () => {
                             </View>
                         )}
 
-                        {/* 🆕🆕🆕 TESTING CONTROLS - Force Unsubscribe */}
+                       
                         {__DEV__ && (
                             <View className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
                                 <Text className="text-red-800 text-xs font-semibold mb-3 text-center">

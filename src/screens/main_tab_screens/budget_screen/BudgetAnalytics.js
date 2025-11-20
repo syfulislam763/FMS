@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView , TouchableOpacity} from 'react-native';
+import { View, Text, SafeAreaView , TouchableOpacity, ScrollView} from 'react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import { get_budget_analysis, get_budget_suggestions } from '../ScreensAPI';
@@ -162,10 +162,10 @@ const AIsuggestion = ({ number, text }) => (
 
 export default function BudgetAnalytics() {
   const navigation = useNavigation();
-  const {userProfile, authToken} = useAuth();
+  const {userProfile, authToken, isSubscribed} = useAuth();
   const [visible, setVisible] = useState(false);
   const [budgetDataFromAPI, setBudgetDataFromAPI] = useState([]);
-  const [rehoSuggestions, setRehoSuggestions] = useState([])
+  const [rehoSuggestions, setRehoSuggestions] = useState({})
 
   const handleGetChartData = () => {
     setVisible(true);
@@ -185,6 +185,7 @@ export default function BudgetAnalytics() {
   const handleGetRehoSuggetions = () => {
     get_budget_suggestions(authToken.accessToken, res => {
       if(res){
+        setRehoSuggestions(res);
         console.log(JSON.stringify(res, null, 2), "Reho budget suggestion")
       }
     })
@@ -193,10 +194,11 @@ export default function BudgetAnalytics() {
   useFocusEffect(
     useCallback(() => {
       handleGetChartData()
+      handleGetRehoSuggetions()
     }, [])
   )
 
-
+  console.log(rehoSuggestions.summary)
   const suggestions = [
     { id: 1, text: "You are spending 15% more on entertainment" },
     { id: 2, text: "Consider Cutting Down on Subscriptions" },
@@ -205,7 +207,7 @@ export default function BudgetAnalytics() {
 
   return (
     <ComponentWrapper bg_color='bg-[#1976D2]' title='Dashboard chart'>
-        <View className=" pt-4 flex-1 bg-[##e7eaef]">
+        <ScrollView className=" pt-4 flex-1 bg-[##e7eaef]">
             {/* Bar Chart Component */}
             <BarChart budgetDataFromAPI={budgetDataFromAPI} />
 
@@ -213,21 +215,26 @@ export default function BudgetAnalytics() {
             <View className="rounded-2xl ">
             
             
-            {userProfile?.user?.subscriptionId?
+            {isSubscribed?
               <View>
                 <Text className="text-gray-900 font-bold text-lg mb-4">
-                ReHo Suggests:
-              </Text>
+                  ReHo Suggests:
+                </Text>
+                
               {
-                suggestions.map((suggestion) => (
+                rehoSuggestions?.insights?.map((suggestion) => (
                   <AIsuggestion
-                    key={suggestion.id}
-                    number={suggestion.id}
-                    text={suggestion.text}
+                    key={idx}
+                    number={idx+1}
+                    text={suggestion?.suggestion}
                   />
                 ))
               }
 
+              
+              <Text className="text-gray-900 text-lg mb-4">
+                    {rehoSuggestions?.summary}
+                </Text>
 
 
               </View>:
@@ -243,7 +250,7 @@ export default function BudgetAnalytics() {
           
             }
             </View>
-        </View>
+        </ScrollView>
 
           
 

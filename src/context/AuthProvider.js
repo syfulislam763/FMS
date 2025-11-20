@@ -15,6 +15,7 @@ export const AuthProvider = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isPersonalized, setIsPersonalized] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
+    const [subscriptionInfo, setSubscriptionInfo] = useState(null)
     const [authToken, setAuthToken] = useState({
         accessToken: "",
         refreshToken: "",
@@ -25,6 +26,7 @@ export const AuthProvider = ({children}) => {
     const notificationRef = useRef(null);
     const [isNotificationSocketConnected, setIsNotificationSocketConnected] = useState(false);
 
+    
 
     const initiateNotificationSocket = (token) => {
         if(!token || notificationRef.current)return;
@@ -130,7 +132,13 @@ export const AuthProvider = ({children}) => {
                 initiateNotificationSocket,
                 isNotificationSocketConnected,
                 notifications,
-                setNotifications
+                setNotifications,
+
+                isSubscribed,
+                setIsSubscribed,
+
+                subscriptionInfo,
+                setSubscriptionInfo
             }}
         >
             {children}

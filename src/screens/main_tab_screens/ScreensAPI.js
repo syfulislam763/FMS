@@ -31,10 +31,23 @@ import {
     AI_ROOT_URL,
     CONTENT,
     NOTIFICATION,
-    SUBSCRIPTION
+    SUBSCRIPTION,
+    UPDATE_PROFILE
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
+
+
+export const update_profile = async (payload, cb=() => {}) => {
+    try{
+        const res = await api.patch(UPDATE_PROFILE, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 export const post_subscription = async (payload, cb=() => {}) => {
     try{
@@ -67,7 +80,7 @@ export const get_debt_suggestions = async (token, cb=() => {}) => {
                 "Authorization": `Bearer ${token}`
             }
         });
-        cb(res.data)
+        cb(res?.data)
     }catch(e){
         cb(null)
         console.log("re", JSON.stringify(e, null, 2))
