@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -40,9 +40,13 @@ const ContactFormScreen = () => {
 
   return (
     <ComponentWrapper title='Book Appointment' bg_color='bg-[#5055ba]'>
-        
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      >
         <ScrollView className="flex-1 bg-gray-200" showsVerticalScrollIndicator={false}>
-        <View className="">
+          <View className="">
             
             <View className="mb-4">
               <Text className="text-gray-800 text-base mb-2 font-medium">Name</Text>
@@ -90,7 +94,6 @@ const ContactFormScreen = () => {
               />
             </View>
 
-            {/* Children Radio Buttons */}
             <View className="mb-4">
               <Text className="text-gray-800 text-base mb-3 font-medium">
                 Do You Have Children?
@@ -131,7 +134,6 @@ const ContactFormScreen = () => {
               />
             </View>
 
-            {/* Investment Checkboxes */}
             <View className="mb-4">
               <Text className="text-gray-800 text-base mb-3 font-medium">
                 How much do you hold in investments?
@@ -213,7 +215,6 @@ const ContactFormScreen = () => {
               />
             </View>
 
-            {/* Submit Button */}
             <TouchableOpacity 
               className="bg-[#5055ba] py-4 rounded-md mt-4 mb-8"
               onPress={() => handleContinue()}
@@ -223,8 +224,9 @@ const ContactFormScreen = () => {
               </Text>
             </TouchableOpacity>
 
-        </View>
+          </View>
         </ScrollView>
+      </KeyboardAvoidingView>
     </ComponentWrapper>
   );
 };

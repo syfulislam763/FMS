@@ -231,15 +231,15 @@ const FutureValueCalculator = () => {
               </Text>
             </TouchableOpacity>
 
-            {/* Result Section */}
-            <View>
+            
+            {/* <View>
               <Text className="text-gray-800 text-lg font-semibold mb-4">
                 Equivalent of 100 in 2021 is 146 in 2025
               </Text>
               
-              {/* Results Table */}
+             
               <View className="bg-white rounded-[5px] border border-gray-200 overflow-hidden mb-10">
-                {/* Table Header */}
+              
                 <View className="flex-row">
                   <View className="flex-1 p-3 border-r border-gray-200 bg-gray-50">
                     <Text className="text-sm text-gray-700 font-medium">Year</Text>
@@ -252,7 +252,7 @@ const FutureValueCalculator = () => {
                   </View>
                 </View>
                 
-                {/* Table Data */}
+              
                 {tableData.map((row, index) => (
                   <View key={index} className="flex-row">
                     <View className="flex-1 p-3 border-r border-gray-200 bg-white border-t">
@@ -267,7 +267,7 @@ const FutureValueCalculator = () => {
                   </View>
                 ))}
               </View>
-            </View>
+            </View> */}
           </View>
         )}
       </ScrollView>

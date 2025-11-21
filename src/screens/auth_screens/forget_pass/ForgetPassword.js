@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import BackButtion from '../../../components/BackButtion';
 import AppHeader from '../../../components/AppHeader';
 import PrimaryInputField from '../../../components/PrimaryInputField';
@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import Indicator from '../../../components/Indicator';
 import { forget_password } from '../AuthAPI';
 import ToastMessage from '../../../constants/ToastMessage';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ForgetPassword = () => {
 

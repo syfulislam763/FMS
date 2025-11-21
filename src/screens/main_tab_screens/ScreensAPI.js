@@ -27,16 +27,37 @@ import {
     BUD_FEEDBACK,
     EXP_FEEDBACK,
     DEBT_FEEDBACK,
-    ai_token,
-    AI_ROOT_URL,
+
     CONTENT,
     NOTIFICATION,
     SUBSCRIPTION,
-    UPDATE_PROFILE
+    UPDATE_PROFILE,
+    AD_URL,
+    DELETE_ACCOUNT
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
 
+export const delete_account = async (cb=() => {}) => {
+    try{
+        const res = await api.delete(DELETE_ACCOUNT);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+export const get_ad = async (cb=() => {}) => {
+    try{
+        const res = await api.get(AD_URL);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 export const update_profile = async (payload, cb=() => {}) => {
     try{

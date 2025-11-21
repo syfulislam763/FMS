@@ -1,18 +1,43 @@
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, Image } from 'react-native';
 import { Lightbulb, Voicemail } from 'lucide-react-native';
 import AppHeader from '../../../components/AppHeader';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useRoute } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+import { get_ad } from '../ScreensAPI';
+import { useAuth } from '../../../context/AuthProvider';
+
 
 const LoanResultComponent = ({ 
   monthlyPayment = 5060.00, 
   totalPayableAmount = 30352.27,
   financialTip = "Your monthly disposable Income will decrease by %5060.00 due to this loan. Plan accordingly!"
 }) => {
+    
 
+    const [adData, setAdData] = useState(null);
+    const {isSubscribed} = useAuth()
+
+
+    const handleGetAdData = () => {
+        get_ad(res => {
+            if(res){
+                setAdData(res?.data);
+            }
+        })
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            handleGetAdData()
+        }, [])
+    )
 
     const route = useRoute()
+
+    console.log(adData)
 
 
 
@@ -59,11 +84,23 @@ const LoanResultComponent = ({
             </View>
 
             {/* Ads Section */}
-            <View className="bg-gray-100 rounded-[5px] p-8 items-center justify-center min-h-[120px]">
-            <Text className=" text-lg font-medium">
-                Ads
-            </Text>
-            </View>
+            {!isSubscribed && <View className="bg-gray-100 p-2 rounded-[5px] items-center justify-center min-h-[120px]">
+                {(adData)?
+                    <Image
+                        source={{uri: adData?.url}}
+                        style={{
+                            objectFit:'cover'
+                        }}
+                        className="min-h-[120px] w-full"
+                    />:
+                    
+                    <View className=" ">
+                        <Text className="text-gray-700 text-xl font-medium">Ads</Text>
+                    </View>
+                    
+            
+                }
+            </View>}
 
         </View>
         </ScrollView>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Image, ScrollView, ActivityIndicator} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, ActivityIndicator} from "react-native";
 //import { CheckBox } from "react-native-elements";
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +11,7 @@ import Indicator from "../../../components/Indicator";
 import { login_user, resend_otp } from "../AuthAPI";
 import Toast from "react-native-toast-message";
 import ToastMessage from "../../../constants/ToastMessage";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const google = require("../../../../assets/img/google.png");
@@ -65,7 +66,7 @@ const SignInScreen = () => {
 
     return (
     <SafeAreaView className="flex-1 bg-white px-5">
-        <ScrollView className="p-5">
+        <ScrollView className="">
             {/* Title */}
             <View className="flex-col items-center">
                 <Text className="text-2xl font-archivo-semi-bold text-[#090909]">Log In</Text>

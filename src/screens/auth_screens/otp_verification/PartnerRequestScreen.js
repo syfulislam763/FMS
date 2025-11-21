@@ -8,7 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Check, X } from 'lucide-react-native';
+import { Check, X, Trash } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { ActivityIndicator } from 'react-native';
 import Indicator from '../../../components/Indicator';
@@ -59,7 +59,7 @@ const PartnerRequestScreen = () => {
             setCurrentList(temp2);
             setIncommingList(temp2);
           }
-          
+          setAccepted(true);
         }
       })
     }
@@ -69,7 +69,9 @@ const PartnerRequestScreen = () => {
         if(res){
           setCurrentList([]);
           setIncommingList([]);
-          setOutgoingList([])
+          setOutgoingList([]);
+
+          setAccepted(false);
         }
       })
     }
@@ -100,15 +102,46 @@ const PartnerRequestScreen = () => {
     }
 
 
-    const handleGetRequestList = () => {
+    const handleGetRequestList = (accepted) => {
         setVisible(true);
 
         get_partners_request(res => {
             if(res){
                 
-                setCurrentList(res?.data?.outgoing)
-                setIncommingList(res?.data?.incoming);
-                setOutgoingList(res?.data?.outgoing)
+                
+
+                if(res?.data?.partnerRequest){
+                  setCurrentList([{
+                    _id: res?.data?.partnerRequest?._id,
+                    email: res?.data?.partnerInfo?.email,
+                    name: res?.data?.partnerInfo?.name,
+                    relation: res?.data?.partnerRequest?.relation,
+                    image: res?.data?.partnerInfo?.image,
+                    status: 'accepted'
+                  }])
+                  setIncommingList([{
+                    _id: res?.data?.partnerRequest?._id,
+                    email: res?.data?.partnerInfo?.email,
+                    name: res?.data?.partnerInfo?.name,
+                    relation: res?.data?.partnerRequest?.relation,
+                    image: res?.data?.partnerInfo?.image,
+                    status: 'accepted'
+                  }])
+                  setOutgoingList([{
+                    _id: res?.data?.partnerRequest?._id,
+                    email: res?.data?.partnerInfo?.email,
+                    name: res?.data?.partnerInfo?.name,
+                    relation: res?.data?.partnerRequest?.relation,
+                    image: res?.data?.partnerInfo?.image,
+                    status: 'accepted'
+                  }])
+                }else{
+                  setCurrentList(res?.data?.outgoing)
+                  setIncommingList(res?.data?.incoming);
+                  setOutgoingList(res?.data?.outgoing);
+                }
+
+                console.log(res.data);
             }else{
                 setRequestList([])
             }
@@ -118,8 +151,8 @@ const PartnerRequestScreen = () => {
     }
 
     useEffect(() => {
-        handleGetRequestList();
-    }, [])
+        handleGetRequestList(accepted);
+    }, [accepted])
 
     console.log(JSON.stringify(currentList, null,2 ))
 
@@ -129,7 +162,7 @@ const PartnerRequestScreen = () => {
     <View className="bg-white mb-4 rounded-2xl p-4 flex-row items-center">
       {/* Avatar */}
       <Image
-        source={{ uri: tab=="Outgoing"? item?.toUser?.image: item?.fromUser?.image }}
+        source={{ uri: item?.image }}
         className="w-16 h-16 rounded-full"
         resizeMode="cover"
       />
@@ -137,13 +170,14 @@ const PartnerRequestScreen = () => {
       {/* User Info */}
       <View className="flex-1 ml-4">
         <Text className="text-black text-base font-bold mb-0.5">
-          {tab=="Outgoing"? item?.toUser?.name: item?.fromUser?.name}
+          {item?.name}
         </Text>
         <Text className="text-gray-600 text-sm mb-0.5">
           {item?.relation}
         </Text>
         <Text className="text-gray-500 text-xs">
-          {tab=="Outgoing"? item?.toUser?.email: item?.fromUser?.email}
+          {(tab == "Outgoing" && item?.status != "accepted")?item?.email:item?.senderEmail}
+          {(item?.status == "accepted") && item?.email}
         </Text>
       </View>
 
@@ -173,11 +207,11 @@ const PartnerRequestScreen = () => {
       <View className="flex-row items-center ml-2">
 
         <TouchableOpacity 
-          className="w-9 h-9 rounded-full bg-green-500 items-center justify-center mr-2"
+          className="w-16 h-8 bg-red-700 rounded-md items-center justify-center mr-2"
           activeOpacity={0.8}
           onPress={() => handleDelinkRequest(item?._id)}
         >
-          <Text className="text-yellow-400 p-5 rounded-sm">Delink</Text>
+          <Text className="text-white font-archivo-semi-bold">Delink</Text>
         </TouchableOpacity>
 
       </View>

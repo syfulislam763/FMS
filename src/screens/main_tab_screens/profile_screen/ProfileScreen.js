@@ -12,7 +12,8 @@ import {
   LogOut, 
   DollarSign,
   Edit3 ,
-  User
+  User,
+  Trash
 } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import ComponentWrapper from '../../../components/ComponentWrapper';
@@ -22,7 +23,8 @@ import { useAuth } from '../../../context/AuthProvider';
 import { USER_PROFILE } from '../../../constants/Paths';
 import Indicator from '../../../components/Indicator';
 import ToastMessage from '../../../constants/ToastMessage';
-import { update_profile } from '../ScreensAPI';
+import { delete_account, update_profile } from '../ScreensAPI';
+
 
 const ProfileScreen = () => {
   const [showRelationshipDropdown, setShowRelationshipDropdown] = useState(false);
@@ -31,9 +33,26 @@ const ProfileScreen = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [isImagePressed, setIsImagePressed] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {SignOutUser, userProfile} = useAuth();
   const navigation = useNavigation();
+
+  const [visible, setVisible] = useState(false);
+
+  const hanldeDeleteAccount = () => {
+    setLoading(true);
+    delete_account(res => {
+      if(res){
+        SignOutUser();
+      }else{
+        Alert("Failed to delete account")
+      }
+
+      setLoading(false);
+    })
+  }
+
 
   const uploadImageToBackend = async (imageUri) => {
     try {
@@ -276,7 +295,41 @@ const ProfileScreen = () => {
             isRed={true}
             onPress={() => SignOutUser()}
           />
+
+          <MenuItem 
+            icon={Trash} 
+            title="Delete Account"
+            hasArrow={false}
+            isRed={true}
+            onPress={() => setVisible(true)}
+          />
         </View>
+
+
+        {visible && Alert.alert(
+          "Confirm Delete",
+          "Are you sure you want to delete this account?",
+          [
+            {
+              text: "Cancel",
+              onPress: () => setVisible(false),
+              style: "cancel"
+            },
+            {
+              text: "Delete",
+              onPress: () => {
+                hanldeDeleteAccount();
+              },
+              style: "destructive"
+            }
+          ]
+        )}
+
+
+
+        {loading && <Indicator visible={loading} onClose={() => setLoading(false)}>
+            <ActivityIndicator size={"large"}/>
+          </Indicator>}
       </ScrollView>
     </ComponentWrapper>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { ChevronDown, Calendar, Clock, MapPin, ConstructionIcon } from 'lucide-react-native';
 import AppHeader from '../../../../components/AppHeader';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
@@ -48,7 +48,6 @@ const FinancialForm = () => {
     calculate_regular_savings(payload, res => {
         if(res){
             navigation.navigate("FinancialSummary", {...res.data})
-            //console.log(res.data);
         }else{
             ToastMessage("error", "Faild to calculate, try again!")
         }
@@ -63,11 +62,20 @@ const FinancialForm = () => {
 
   return (
     <ComponentWrapper title='Regular Savings' bg_color='bg-[#2E7D32]' >
-        <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
-        <View className="">
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      >
+        <ScrollView 
+          showsVerticalScrollIndicator={false} 
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+        >
+        <View style={{ paddingBottom: 20 }}>
             
 
-            {/* Budget Field */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Amount
@@ -82,7 +90,6 @@ const FinancialForm = () => {
             />
             </View>
 
-            {/* Repeat Every Dropdown */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Frequency:
@@ -157,13 +164,6 @@ const FinancialForm = () => {
                 onChangeText={setTaxation}
                 keyboardType='numeric'
             />
-            {/* <TouchableOpacity
-                className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
-                onPress={() => setTaxationDropdown(!taxationDropdown)}
-            >
-                <Text className="text-lg text-gray-900">{taxation}</Text>
-                <ChevronDown size={20} color="#6B7280" />
-            </TouchableOpacity> */}
             
             {taxationDropdown && (
                 <View className="bg-white rounded-[5px] mt-2 shadow-sm">
@@ -184,7 +184,6 @@ const FinancialForm = () => {
             </View>
 
 
-            {/* Save Button */}
             <TouchableOpacity onPress={() => handleCalculateSavings()} className="bg-[#2E7D32] rounded-[5px] py-3 items-center ">
             <Text className="text-white text-lg font-semibold">
                 Calculate Savings
@@ -193,6 +192,7 @@ const FinancialForm = () => {
 
         </View>
         </ScrollView>
+      </KeyboardAvoidingView>
 
 
         {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
@@ -203,5 +203,4 @@ const FinancialForm = () => {
   );
 };
 
-export default FinancialForm
-;
+export default FinancialForm;

@@ -9,7 +9,7 @@ import { useCallback } from 'react';
 import { useAuth } from '../../../../context/AuthProvider';
 import { ActivityIndicator } from 'react-native';
 import { get_expense_analysis, get_expence_suggestions, get_budget_suggestions } from '../../ScreensAPI';
-
+import ComponentWrapper from '../../../../components/ComponentWrapper';
 
 const formatNumber = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -198,16 +198,10 @@ export default function ExpenseAnalytics() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-red-500">
+    <ComponentWrapper bg_color="bg-red-500" title='Analytics Chart'>
       {/* Header with Back Button */}
-      <View className="px-5 pb-3">
-            <AppHeader
-                left={()=> <BackButtion/>}
-                middle={() => <Text className="text-white font-archivo-semi-bold text-2xl">Analytics Chart</Text>}
-            />
-        </View>
-      
-      <ScrollView className="px-6 pt-4 flex-1 bg-[##e7eaef]">
+    
+      <ScrollView className=" pt-4 flex-1 bg-[##e7eaef]">
         {/* Bar Chart Component */}
         <BarChart budgetDataFromAPI={budgetDataFromAPI}/>
 
@@ -253,6 +247,6 @@ export default function ExpenseAnalytics() {
             
                 <ActivityIndicator size={"large"}/>
             </Indicator>}
-    </SafeAreaView>
+    </ComponentWrapper>
   );
 }

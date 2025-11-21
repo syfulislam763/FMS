@@ -25,7 +25,7 @@ const PartnerForm = () => {
 
     
 
-    const relationshipOptions = ['Wife', 'Husband', 'Partner', 'Fiancé', 'Fiancée'];
+    const relationshipOptions = ['Wife', 'Husband', 'Fiancé', 'Fiancée'];
 
     const handleRelationshipSelect = (option) => {
         setRelationship(option);

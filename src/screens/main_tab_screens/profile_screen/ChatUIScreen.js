@@ -17,6 +17,7 @@ import { Send, Smile, ArrowDown } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useAuth } from '../../../context/AuthProvider';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CHAT_URL } from '../../../constants/Paths';
 
 const welcome = require("../../../../assets/img/welcome.png");
 
@@ -110,7 +111,7 @@ const ChatUIScreen = () => {
 
   const initiateConversationSocket = (token) => {
     if (!token) return;
-    const wsURL = `wss://rehoai.rehoapp.co.uk/chat/ws?token=${token}`;
+    const wsURL = `${CHAT_URL}/chat/ws?token=${token}`;
 
     conversationRef.current = new WebSocket(wsURL);
 

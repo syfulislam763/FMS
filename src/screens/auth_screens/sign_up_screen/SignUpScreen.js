@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity, TextInput,Image, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput,Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { Ionicons } from "@expo/vector-icons";
@@ -11,6 +11,7 @@ import ToastMessage from '../../../constants/ToastMessage';
 import { create_user } from '../AuthAPI';
 import Indicator from '../../../components/Indicator';
 import { ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const google = require("../../../../assets/img/google.png");
 const apple = require("../../../../assets/img/apple.png")
@@ -61,7 +62,7 @@ const SignUpScreen = () => {
 
     return (
     <SafeAreaView className="flex-1 bg-white px-5">
-        <ScrollView className="p-5">
+        <ScrollView className="">
             {/* Title */}
             <View className="flex-col items-center">
                 <Text className="text-2xl font-archivo-semi-bold text-[#090909]">Sign Up</Text>

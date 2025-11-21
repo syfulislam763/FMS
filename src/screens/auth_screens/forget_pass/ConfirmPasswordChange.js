@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text} from 'react-native';
 import BackButtion from '../../../components/BackButtion';
 import AppHeader from '../../../components/AppHeader';
 import PrimaryButton from '../../../components/PrimaryButton';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import PrimaryInputFieldWithVisibility from '../../../components/PrimaryInputFieldWithVisibility';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ConfirmPasswordChange = () => {
 
@@ -19,7 +19,7 @@ const ConfirmPasswordChange = () => {
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <View className="px-5">
+            <View className="">
                 <AppHeader
                     left={()=> <BackButtion/>}
                 />

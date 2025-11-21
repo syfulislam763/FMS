@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import { ChevronDown, Calendar, Clock, MapPin } from 'lucide-react-native';
 import AppHeader from '../../../components/AppHeader';
 import ComponentWrapper from '../../../components/ComponentWrapper';
@@ -10,7 +10,6 @@ import ToastMessage from '../../../constants/ToastMessage';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 
-// Simple Time Picker Component
 const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
   const [selectedHour, setSelectedHour] = useState(12);
   const [selectedPeriod, setSelectedPeriod] = useState('AM');
@@ -39,7 +38,6 @@ const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
       </Text>
       
       <View className="flex-row justify-center items-center mb-6">
-        {/* Hours Picker */}
         <View className="flex-1 items-center">
           <Text className="text-gray-500 text-sm mb-3">Hour</Text>
           <ScrollView 
@@ -65,7 +63,6 @@ const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
           </ScrollView>
         </View>
 
-        {/* AM/PM Picker */}
         <View className="flex-1 items-center ml-8">
           <Text className="text-gray-500 text-sm mb-3">Period</Text>
           <View className="h-32 justify-center">
@@ -98,14 +95,12 @@ const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
         </View>
       </View>
 
-      {/* Selected Time Display */}
       <View className="bg-gray-100 rounded-lg py-3 mb-4">
         <Text className="text-center text-xl font-semibold text-gray-900">
           {selectedHour} {selectedPeriod}
         </Text>
       </View>
 
-      {/* Done Button */}
       <TouchableOpacity 
         onPress={handleDone}
         className="bg-[#1976D2] rounded-lg py-3"
@@ -183,6 +178,11 @@ const FinadateScreen = () => {
 
   return (
     <ComponentWrapper title='Date Night' bg_color='bg-[#1976D2]' >
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      >
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         <View className="">
             
@@ -190,7 +190,6 @@ const FinadateScreen = () => {
             Set Your Reminder
             </Text>
 
-            {/* Plan Field */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Plan
@@ -204,7 +203,6 @@ const FinadateScreen = () => {
             />
             </View>
 
-            {/* Budget Field */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Budget
@@ -219,7 +217,6 @@ const FinadateScreen = () => {
             />
             </View>
 
-            {/* Repeat Every Dropdown */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Repeat Every
@@ -256,7 +253,6 @@ const FinadateScreen = () => {
             )}
             </View>
 
-            {/* Select Date or Time */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Select Date
@@ -295,7 +291,6 @@ const FinadateScreen = () => {
                 </TouchableOpacity>
             </View>
 
-            {/* Location Field */}
             <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Location
@@ -312,7 +307,6 @@ const FinadateScreen = () => {
             </View>
             </View>
 
-            {/* Enable Notification Toggle */}
             <View className="mb-8">
             <View className="flex-row items-center justify-between">
                 <Text className="text-lg font-archivo-semi-bold text-gray-900">
@@ -328,7 +322,6 @@ const FinadateScreen = () => {
             </View>
             </View>
 
-            {/* Save Button */}
             <TouchableOpacity 
               onPress={handleCreateDateNight} 
               className="bg-blue-500 rounded-[5px] py-3 items-center"
@@ -340,8 +333,8 @@ const FinadateScreen = () => {
 
         </View>
         </ScrollView>
+      </KeyboardAvoidingView>
 
-        {/* Date Picker Modal */}
         {showDatePicker && (
           <Indicator visible={showDatePicker} onClose={() => setShowDatePicker(false)}>
             <View  className="bg-white rounded-2xl p-4">
@@ -362,7 +355,6 @@ const FinadateScreen = () => {
           </Indicator>
         )}
 
-        {/* Time Picker Modal */}
         {showTimePicker && (
           <Indicator visible={showTimePicker} onClose={() => setShowTimePicker(false)}>
             <SimpleTimePicker

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import BackButtion from '../../../components/BackButtion';
 import AppHeader from '../../../components/AppHeader';
 import PrimaryButton from '../../../components/PrimaryButton';
@@ -9,6 +9,7 @@ import Indicator from '../../../components/Indicator';
 import { reset_password } from '../AuthAPI';
 import ToastMessage from '../../../constants/ToastMessage';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CreateNewPassword = () => {
 
@@ -49,7 +50,7 @@ const CreateNewPassword = () => {
 
     return (
         <SafeAreaView className="flex-1 bg-white">
-            <View className="px-5">
+            <View className="">
                 <AppHeader
                     left={()=> <BackButtion/>}
                 />

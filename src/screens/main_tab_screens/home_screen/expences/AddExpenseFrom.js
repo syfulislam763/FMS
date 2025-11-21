@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +10,7 @@ import { ActivityIndicator } from 'react-native';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import ToastMessage from '../../../../constants/ToastMessage';
+import ComponentWrapper from '../../../../components/ComponentWrapper';
 
 const AddExpenseForm = () => {
   const [expenseName, setExpenseName] = useState('Mortgage or Rent');
@@ -111,15 +112,10 @@ const AddExpenseForm = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-red-500">
-        <View className="px-5 pb-3">
-            <AppHeader
-                left={()=> <BackButtion/>}
-                middle={() => <Text className="text-white font-archivo-semi-bold text-2xl">Add Expense</Text>}
-            />
-        </View>
+    <ComponentWrapper bg_color="bg-red-500" title='Add Expense'>
+    
 
-      <View className="flex-1 px-6 py-8 bg-[##e7eaef]">
+      <View className="flex-1 py-2 bg-[##e7eaef]">
         {/* Expense Name Dropdown */}
         <View className="mb-6">
           <Text className="text-gray-900 text-base font-archivo-semi-bold mb-3">
@@ -246,7 +242,7 @@ const AddExpenseForm = () => {
       {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
           <ActivityIndicator size={"large"}/>
         </Indicator>}
-    </SafeAreaView>
+    </ComponentWrapper>
   );
 };
 

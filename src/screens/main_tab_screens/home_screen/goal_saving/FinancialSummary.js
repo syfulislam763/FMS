@@ -1,16 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   SafeAreaView,
   ScrollView,
+  Image
 } from 'react-native';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+import { useAuth } from '../../../../context/AuthProvider';
+import { get_ad } from '../../ScreensAPI';
 
 const FinancialSummary = () => {
   const route = useRoute();
+
+  const [adData, setAdData] = useState(null)
+
+
+  const {isSubscribed} = useAuth()
+  
+  
+  const handleGetAdData = () => {
+      get_ad(res => {
+          if(res){
+              setAdData(res?.data);
+          }
+      })
+  }
+
+  useFocusEffect(
+      useCallback(() => {
+          handleGetAdData()
+      }, [])
+  )
+
+
+  console.log(adData)
 
   const financialData = {
     totalSaved: route.params.totalSavedBeforeTax,
@@ -67,9 +95,23 @@ const FinancialSummary = () => {
         </View>
 
         {/* Ads Section */}
-        <View className="bg-gray-300 rounded-[7px] h-52 items-center justify-center">
-          <Text className="text-gray-700 text-xl font-medium">Ads</Text>
-        </View>
+        {!isSubscribed && <View className="bg-gray-100 p-2 rounded-[5px] items-center justify-center min-h-[120px]">
+            {(adData)?
+                <Image
+                    source={{uri: adData?.url}}
+                    style={{
+                        objectFit:'cover'
+                    }}
+                    className="min-h-[120px] w-full"
+                />:
+                
+                <View className=" ">
+                    <Text className="text-gray-700 text-xl font-medium">Ads</Text>
+                </View>
+                
+        
+            }
+        </View>}
       </ScrollView>
     </ComponentWrapper>
   );
