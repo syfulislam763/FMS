@@ -59,7 +59,7 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
       <Text className={`text-base font-semibold ${
         isHighlighted ? 'text-orange-500' : 'text-gray-900'
       }`}>
-        £{value}
+        £{value || '0'}
       </Text>
     </View>
   );

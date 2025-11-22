@@ -270,7 +270,7 @@ export const get_debts_summary = async (cb=() => {}) => {
     }catch(e){
         cb(null)
         console.log("date night", JSON.stringify(e.response, null, 2))
-        ToastMessage("error", e?.response?.data?.message, 3000)
+        //ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
 

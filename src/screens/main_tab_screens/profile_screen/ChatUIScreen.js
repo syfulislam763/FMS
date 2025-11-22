@@ -147,6 +147,8 @@ const ChatUIScreen = () => {
             },
           ]);
           setUserMessage("");
+
+       
         }
 
       } catch (e) {
@@ -229,13 +231,13 @@ const ChatUIScreen = () => {
   };
 
   return (
-    <ComponentWrapper title="AI Suggestions" bg_color="bg-[#FFA950]">
+    <ComponentWrapper title="Ask To Reho" bg_color="bg-[#FFA950]">
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
       >
-        {/* ✅ Show loading or start conversation state */}
+     
         {isLoadingHistory ? (
           <View className="flex-1 items-center justify-center">
             <ActivityIndicator size="large" color="#FFA950" />
@@ -315,7 +317,7 @@ const ChatUIScreen = () => {
           </TouchableOpacity>
         )}
 
-        <View className="mb-5" style={{ paddingBottom: Platform.OS === 'android' ? keyboardHeight : 15 }}>
+        <View className="mb-12" style={{ paddingBottom: Platform.OS === 'android' ? keyboardHeight : 15 }}>
           <View className="flex-row items-center bg-white rounded-full px-4 py-2">
             <TouchableOpacity className="mr-3" activeOpacity={0.7}>
               <Smile size={24} color="#9CA3AF" strokeWidth={2} />

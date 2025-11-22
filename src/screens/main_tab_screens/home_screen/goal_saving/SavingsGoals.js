@@ -142,12 +142,12 @@ const SavingsGoals = () => {
       {/* Add Saving Goal Button */}
       <View className="flex-row justify-end">
           <TouchableOpacity onPress={()=> navigation.navigate("SavingsGoalForm")} className="bg-[#2E7D32] w-1/2 rounded-[5px] p-3 mt-4 mb-3 flex-row items-center justify-center ">
-          <View className="w-6 h-6 bg-white rounded-full mr-3 flex-col items-center justify-center">
-            <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
-          </View>
-          <Text className="text-white font-semibold text-lg">
-            Add Saving Goal
-          </Text>
+            <View className="w-6 h-6 bg-white rounded-full mr-3 flex-col items-center justify-center">
+              <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
+            </View>
+            <Text className="text-white font-semibold text-lg">
+              Add Saving Goal
+            </Text>
         </TouchableOpacity>
       </View>
 
@@ -156,7 +156,7 @@ const SavingsGoals = () => {
         bgColor='bg-[#2E7D32]'
         onPress={() => navigation.navigate("FinancialForm")}
       />
-      <View className="mb-5"/>
+      <View className="h-12"/>
 
       {visible && <Indicator visible={visible} onClose={() => setVisible(false)}>
           <ActivityIndicator size={"large"}/>
