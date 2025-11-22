@@ -7,7 +7,7 @@ import ComponentWrapper from '../../../components/ComponentWrapper';
 import PrimaryButton from '../../../components/PrimaryButton'; 
 
 import { useAuth } from '../../../context/AuthProvider';
-import { REVENUECAT_IOS_API_KEY, PREMIUM_ENTITLEMENT_ID } from '../../../constants/Paths';
+import { REVENUECAT_IOS_API_KEY, PREMIUM_ENTITLEMENT_ID, REVENUECAT_ANDROID_API_KEY } from '../../../constants/Paths';
 
 const features = [
     "Ask financial planners questions via AI chat",
@@ -64,22 +64,29 @@ const PremiumFinancialAdvice = () => {
 
     const initializeRevenueCat = async () => {
         try {
+
+
+            if (__DEV__) {
+                Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+                  console.log(`TESTING MODE: ${Platform.OS === 'ios' ? 'StoreKit' : 'Google Play Billing'} Testing Active`);
+            } else {
+                Purchases.setLogLevel(LOG_LEVEL.ERROR);
+            }
+
             if (Platform.OS === "ios") {
-                if (__DEV__) {
-                    Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
-                    console.log('TESTING MODE: StoreKit Configuration Active');
-                } else {
-                    Purchases.setLogLevel(LOG_LEVEL.ERROR);
-                }
-                
                 Purchases.configure({ apiKey: REVENUECAT_IOS_API_KEY });
-                console.log('RevenueCat initialized');
-                
-            
-                await identifyUserInRevenueCat();
+                console.log('RevenueCat initialized for iOS');
+            } else if (Platform.OS === "android") {
+                Purchases.configure({ apiKey: REVENUECAT_ANDROID_API_KEY });
+                console.log('RevenueCat initialized for Android');
+            }
+
+            if (Platform.OS === "ios") {
                 
                 await detectTestingEnvironment();
             }
+
+            await identifyUserInRevenueCat();
             
        
             await checkSubscriptionStatus();
@@ -462,7 +469,7 @@ const PremiumFinancialAdvice = () => {
                 {__DEV__ && testingMode && (
                     <View className="mb-4 p-3 bg-yellow-100 border border-yellow-400 rounded-lg">
                         <Text className="text-yellow-800 text-xs font-semibold text-center">
-                            TESTING MODE - StoreKit Configuration
+                             TESTING MODE - {Platform.OS === 'ios' ? 'StoreKit Configuration' : 'Google Play Billing Test'}
                         </Text>
                         <Text className="text-yellow-700 text-xs text-center mt-1">
                             No real payments will be processed

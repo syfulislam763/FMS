@@ -2,30 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Platform, Alert } from 'react-native';
 import Purchases, { LOG_LEVEL, PURCHASES_ERROR_CODE } from 'react-native-purchases';
 import { useAuth } from '../context/AuthProvider';
-
-const REVENUECAT_IOS_API_KEY = "appl_uiclOCoavDbvXvmuhpQAGkmqbCu";
-const PREMIUM_ENTITLEMENT_ID = 'monthly_subscription';
-
+import { REVENUECAT_ANDROID_API_KEY, REVENUECAT_IOS_API_KEY, PREMIUM_ENTITLEMENT_ID } from '../constants/Paths';
 
 
 export const initializeRevenueCat = async (user, getInfo=()=>{}) => {
     try {
+
+
+        if (__DEV__) {
+            Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+            console.log('TESTING MODE: StoreKit Configuration Active');
+        } else {
+            Purchases.setLogLevel(LOG_LEVEL.ERROR);
+        }
+
         if (Platform.OS === "ios") {
-            if (__DEV__) {
-                Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
-                console.log('TESTING MODE: StoreKit Configuration Active');
-            } else {
-                Purchases.setLogLevel(LOG_LEVEL.ERROR);
-            }
-            
             Purchases.configure({ apiKey: REVENUECAT_IOS_API_KEY });
-        
-            
-        
-            await identifyUserInRevenueCat(user);
+            console.log('RevenueCat initialized for iOS');
+        } else if (Platform.OS === "android") {
+            Purchases.configure({ apiKey: REVENUECAT_ANDROID_API_KEY });
+            console.log('RevenueCat initialized for Android');
+        }
+
+        if (Platform.OS === "ios") {
             
             await detectTestingEnvironment();
         }
+        
+
+        await identifyUserInRevenueCat(user);
         
     
         await checkSubscriptionStatus(getInfo);
