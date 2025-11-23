@@ -179,11 +179,15 @@ const FinadateScreen = () => {
   return (
     <ComponentWrapper title='Date Night' bg_color='bg-[#1976D2]' >
       <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
-        <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: Platform.OS === 'android' ? 120 : 40 }}
+          keyboardShouldPersistTaps="handled"
+        >
         <View className="">
             
             <Text className="text-2xl font-archivo-extra-bold text-gray-900 mb-8">
@@ -295,7 +299,7 @@ const FinadateScreen = () => {
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Location
             </Text>
-            <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
+            <View className="bg-white rounded-[5px] px-4 py-1 flex-row items-center">
                 <MapPin size={20} color="#9CA3AF" className="mr-3" />
                 <TextInput
                 className="flex-1 text-lg text-gray-900 ml-3"

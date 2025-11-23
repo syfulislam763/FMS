@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 import CommponentWrapper from '../../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
@@ -126,7 +127,11 @@ const FutureValueCalculator = () => {
 
   return (
     <CommponentWrapper container_bg='bg-white' title='Inflation Calculator'>
-      <ScrollView showsVerticalScrollIndicator={false} className="flex-1 pt-8 bg-gray-50 px-3 border border-gray-200 rounded-[5px]">
+      <ScrollView contentContainerStyle={{ 
+                  flexGrow: 1, 
+                  paddingBottom: Platform.OS === 'android' ? 200 : 20 
+                }}
+                keyboardShouldPersistTaps="handled"  showsVerticalScrollIndicator={false} className="flex-1 pt-8 bg-gray-50 px-3 border border-gray-200 rounded-[5px]">
         {/* Tab Switcher */}
         <View className="flex-row bg-gray-100 rounded-[5px] mb-6">
           <TabButton

@@ -105,7 +105,11 @@ const AddDebtScreen = () => {
                 className="flex-1"
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
             >
-                <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+                <ScrollView contentContainerStyle={{ 
+                            flexGrow: 1, 
+                            paddingBottom: Platform.OS === 'android' ? 200 : 20 
+                          }}
+                          keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} className="flex-1">
                     <View className="space-y-4">
                         <View className="mb-4">
                             <Text className="text-gray-800 font-medium mb-2">Debt Name</Text>

@@ -41,11 +41,19 @@ const ContactFormScreen = () => {
   return (
     <ComponentWrapper title='Book Appointment' bg_color='bg-[#5055ba]'>
       <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{ flex: 1 }}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
-        <ScrollView className="flex-1 bg-gray-200" showsVerticalScrollIndicator={false}>
+        <ScrollView 
+          className="flex-1 bg-gray-200" 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ 
+            flexGrow: 1, 
+            paddingBottom: Platform.OS === 'android' ? 200 : 20 
+          }}
+          keyboardShouldPersistTaps="handled"
+        >
           <View className="">
             
             <View className="mb-4">

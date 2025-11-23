@@ -182,7 +182,7 @@ const VideoTutorialsScreen = () => {
   return (
     <ComponentWrapper bg_color="bg-[#5055ba]" title="Financial Videos">
       <View className="flex-1">
-        <View className="flex-row items-center py-5">
+        <View className="flex-row flex-wrap gap-y-2 items-center py-5">
           {categories.map((cat, i) => (
             <CategoryButton key={i} category={cat} isActive={activeCategory === cat} />
           ))}

@@ -70,7 +70,10 @@ const FinancialForm = () => {
         <ScrollView 
           showsVerticalScrollIndicator={false} 
           style={{ flex: 1 }}
-          contentContainerStyle={{ flexGrow: 1 }}
+          contentContainerStyle={{ 
+            flexGrow: 1, 
+            paddingBottom: Platform.OS === 'android' ? 200 : 20 
+            }}
           keyboardShouldPersistTaps="handled"
         >
         <View style={{ paddingBottom: 20 }}>
