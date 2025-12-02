@@ -10,6 +10,11 @@ import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView } from "react-native";
 import RootNavigation from "./src/navigation/RootNavigation";
+import CustomToast from "./src/components/CustomToast";
+
+const toastConfig = {
+  customToast: (props) => <CustomToast {...props} />,
+};
 
 
 export default function App() {
@@ -28,7 +33,12 @@ export default function App() {
             </View>
           </AuthProvider>
         </NavigationContainer>
-      <Toast/>
+      <Toast 
+        topOffset={300}
+        bottomOffset={0}
+        
+        //config={toastConfig}
+      />
     </FontLoader>
   );
 }

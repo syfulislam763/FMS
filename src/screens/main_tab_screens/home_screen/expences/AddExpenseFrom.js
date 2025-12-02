@@ -1,16 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../../../components/PrimaryButton';
-import { post_expence } from '../../ScreensAPI';
+import { post_expence, update_expense } from '../../ScreensAPI';
 import Indicator from '../../../../components/Indicator';
 import { ActivityIndicator } from 'react-native';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import ToastMessage from '../../../../constants/ToastMessage';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
+import { useRoute } from '@react-navigation/native';
+
+function convertToISO(dateStr) {
+  const months = {
+    January: 0, February: 1, March: 2, April: 3,
+    May: 4, June: 5, July: 6, August: 7,
+    September: 8, October: 9, November: 10, December: 11,
+  };
+
+  const [monthName, dayWithComma, year] = dateStr.split(" ");
+
+  const month = months[monthName.trim()];
+  const day = parseInt(dayWithComma.replace(",", "").trim(), 10);
+
+  if (month === undefined || isNaN(day) || isNaN(year)) {
+    throw new Error("Invalid date format");
+  }
+
+  const date = new Date(Date.UTC(year, month, day));
+  return date.toISOString();  // always safe
+}
 
 const AddExpenseForm = () => {
   const [expenseName, setExpenseName] = useState('Mortgage or Rent');
@@ -19,10 +40,12 @@ const AddExpenseForm = () => {
   const [date, setDate] = useState(dayjs());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showExpenseDropdown, setShowExpenseDropdown] = useState(false);
+  const capitalize = (str) => str?.charAt(0)?.toUpperCase() + str.slice(1);
+  const route = useRoute();
 
   const navigation = useNavigation();
 
-  const frequencies = ['Weekly', 'Monthly', 'Yearly', 'On-off'];
+  const frequencies = ['Monthly', 'Yearly', 'On-off'];
   
   const expenseNames = [
     'Mortgage or Rent',
@@ -86,19 +109,41 @@ const AddExpenseForm = () => {
 
     setVisible(true);
 
-    post_expence(payload, (res) => {
-      if(res){
-        //success
-        console.log("created", JSON.stringify(res, null, 2));
-        ToastMessage("success", "Expense added successfully!", 2000);
-        navigation.goBack();
-      }else{
-        //failed
-        ToastMessage("error", "Failed to add expense", 2000);
-      }
-      setVisible(false);
-    })
+    if(route?.params?.type == "edit"){
+      update_expense(route?.params?.id, payload, res => {
+        if(res){
+          navigation.goBack()
+        }
+        setVisible(false);
+      })
+    }else{
+      post_expence(payload, (res) => {
+        if(res){
+          //success
+          console.log("created", JSON.stringify(res, null, 2));
+          ToastMessage("success", "Expense added successfully!", 2000);
+          navigation.goBack();
+        }else{
+          //failed
+          ToastMessage("error", "Failed to add expense", 2000);
+        }
+        setVisible(false);
+      })
+    }
   }
+
+  useEffect(() => {
+    if(route?.params?.type == "edit"){
+      console.log(JSON.stringify(route?.params, null, 2))
+      setExpenseName(route?.params?.title)
+      setFrequency(capitalize(route?.params?.frequency))
+      const iso = convertToISO(route?.params?.date);
+      setAmount(route?.params?.amount+"");
+      
+      setDate(dayjs(iso))
+      
+    }
+  }, [route?.params])
 
   const RadioButton = ({ selected, onPress, label }) => (
     <TouchableOpacity onPress={onPress} className="flex-row items-center mr-5">
@@ -112,7 +157,7 @@ const AddExpenseForm = () => {
   );
 
   return (
-    <ComponentWrapper bg_color="bg-red-500" title='Add Expense'>
+    <ComponentWrapper bg_color="bg-red-500" title= {route?.params?.type == "edit"?"Edit Expense":'Add Expense'} >
     
 
       <View className="flex-1 py-2 bg-[##e7eaef]">

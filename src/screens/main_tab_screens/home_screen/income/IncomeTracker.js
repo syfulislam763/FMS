@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image, Pressable } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
@@ -38,15 +38,14 @@ const IncomeTracker = () => {
     setVisible(true);
     get_incomes(res => {
       if(res){
-      
         const temp = res.data.map(item => {
-          const d = get_formated_time(item.createdAt)
+          const d = get_formated_time(item.receiveDate)
           return {
             id: item._id,
             userId: item.userId,
             title: item.name,
             date: d.month+" "+d.day+", "+d.year,
-            amount: '+£'+item.amount,
+            amount: item.amount,
             icon: icons[item.name]?icons[item.name]:'',
             bgColor: 'bg-pink-100',
             frequency: item.frequency
@@ -81,9 +80,19 @@ const IncomeTracker = () => {
   const handleTabFilter = (tab) => {
     if(tab.toLowerCase() == "all"){
       setFilteredIncomeList(incomeList)
+      let totalIncome = 0;
+        incomeList.forEach(item => {
+          totalIncome += Number(item.amount);
+        });
+      setTotalIncome(totalIncome)
     }else{
       const filtered = incomeList.filter(item => item.frequency == tab.toLowerCase())
       setFilteredIncomeList(filtered)
+      let totalIncome = 0;
+        filtered.forEach(item => {
+          totalIncome += Number(item.amount);
+        });
+        setTotalIncome(totalIncome)
     }
     setActiveTab(tab)
   }
@@ -144,10 +153,10 @@ const IncomeTracker = () => {
         {/* Monthly Income Header */}
         <View className="bg-[#2E7D32] rounded-2xl p-6 mb-6">
           <Text className="text-white font-inter-regular text-center text-lg font-medium mb-2">
-            Monthly Income
+            {activeTab=="All"?"Total":activeTab} Income
           </Text>
           <Text className="text-white text-center text-3xl font-archivo-extra-bold">
-            £{totalIncome}
+            £{Number(totalIncome).toFixed(0)}
           </Text>
         </View>
 
@@ -183,7 +192,7 @@ const IncomeTracker = () => {
               overshootRight={false}
               rightThreshold={40}
             >
-              <View className="bg-[#ffffff] rounded-[7px] p-3 mb-3">
+              <Pressable onPress={() => navigation.navigate("AddIncomeForm", {type:"edit", ...entry})} className="bg-[#ffffff] rounded-[7px] p-3 mb-3">
                 <View className="flex-row items-center">
                   {/* Icon Container */}
                   <View className={`w-12 h-12 ${entry.bgColor} rounded-xl items-center justify-center mr-4`}>
@@ -208,10 +217,10 @@ const IncomeTracker = () => {
                   
                   {/* Amount */}
                   <Text className="text-[#2E7D32] font-inter-semi-bold text-lg">
-                    {entry.amount}
+                    {'+£'+entry.amount}
                   </Text>
                 </View>
-              </View>
+              </Pressable>
             </Swipeable>
           ))}
         </ScrollView>

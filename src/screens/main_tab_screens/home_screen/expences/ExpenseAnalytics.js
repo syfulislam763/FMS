@@ -89,7 +89,7 @@ const BarChart = ({budgetDataFromAPI}) => {
     <View className="bg-white rounded-2xl p-6 mb-6 ">
       {/* Chart Header */}
       <Text className="text-gray-900 font-semibold text-lg mb-6">
-        Monthly Budget
+        Monthly Expense
       </Text>
 
       {/* Y-axis Labels and Chart Container */}
@@ -187,7 +187,6 @@ export default function ExpenseAnalytics() {
         handleGetChartData()
         handleGetRehoSuggetions()
 
-        console.log("isSubscribed", isSubscribed);
       }, [])
     )
   
@@ -198,10 +197,10 @@ export default function ExpenseAnalytics() {
   ];
 
   return (
-    <ComponentWrapper bg_color="bg-red-500" title='Analytics Chart'>
+    <ComponentWrapper bg_color="bg-red-500" title='Expenses Analytics Chart'>
       {/* Header with Back Button */}
     
-      <ScrollView className=" pt-4 flex-1 bg-[##e7eaef]">
+      <ScrollView showsVerticalScrollIndicator={false} className=" pt-4 flex-1 bg-[##e7eaef]">
         {/* Bar Chart Component */}
         <BarChart budgetDataFromAPI={budgetDataFromAPI}/>
 

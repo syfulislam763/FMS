@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, FlatList, Pressable } from 'react-native';
 import { ShoppingBag, Home, Zap, Building2, Briefcase, Shirt, Plus, MinusCircle } from 'lucide-react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
@@ -49,13 +49,16 @@ export default function ExpenseItem() {
     const [expenceList, setExpenceList] = useState([]);
     const [visible, setVisible] = useState(false);
     const [totalExpence, setTotalExpence] = useState(0);
+    const [activeTab, setActiveTab] = useState('All');
+    const [filteredExpenseList, setFilteredExpenseList] = useState([])
 
     const handleGetExpence = () => {
       setVisible(true);
       get_expence(res => {
         if(res){
+          console.log(JSON.stringify(res, null, 2))
           const temp = res.data.map(item => {
-            const d = get_formated_time(item.createdAt);
+            const d = get_formated_time(item.endDate);
             return {
               id: item._id,
               userId: item.userId,
@@ -63,7 +66,8 @@ export default function ExpenseItem() {
               date: d.month+" "+d.day+", "+d.year,
               amount: Number(item.amount),
               icon: icons[item.name] ? icons[item.name] : '',
-              iconBg: 'bg-pink-100'
+              iconBg: 'bg-pink-100',
+              frequency: item?.frequency
             }
           });
 
@@ -74,6 +78,7 @@ export default function ExpenseItem() {
           
           setExpenceList(temp);
           setTotalExpence(sum);
+          setFilteredExpenseList(temp);
         }
         setVisible(false);
       });
@@ -92,7 +97,7 @@ export default function ExpenseItem() {
         if(res){
           const updatedList = expenceList.filter(item => item.id !== id);
           
-          setExpenceList(updatedList);
+          setFilteredExpenseList(updatedList);
           
           let newTotal = 0;
           updatedList.forEach(item => {
@@ -117,6 +122,29 @@ export default function ExpenseItem() {
       );
     };
 
+
+    const handleTabFilter = (tab) => {
+      if(tab.toLowerCase() == "all"){
+        setFilteredExpenseList(expenceList)
+        let totalExpence = 0;
+          expenceList.forEach(item => {
+            totalExpence += Number(item.amount);
+          });
+        setTotalExpence(totalExpence)
+      }else{
+        const filtered = expenceList.filter(item => item.frequency == tab.toLowerCase())
+        setFilteredExpenseList(filtered)
+        let totalExpence = 0;
+          filtered.forEach(item => {
+            totalExpence += Number(item.amount);
+          });
+        setTotalExpence(totalExpence)
+      }
+      setActiveTab(tab)
+    }
+
+    const tabs = ['All', 'Monthly', 'Yearly', 'On-off'];
+
     return (
       <SafeAreaView className="flex-1 bg-red-500 ">
           <View className="px-5 pb-3">
@@ -130,16 +158,39 @@ export default function ExpenseItem() {
               <View className="bg-red-500 rounded-xl h-32 my-5 justify-center items-center">
                   <View>
                       <Text className="text-white text-lg font-archivo-semi-bold mb-2 text-center">
-                          Monthly Expenses
+                          {activeTab=="All"?"Total":activeTab} Expenses
                       </Text>
                       <Text className="text-white text-4xl font-archivo-extra-bold text-center">
-                          £{totalExpence}
+                          £{totalExpence?.toFixed(0)}
                       </Text>
                   </View>
               </View>
 
+
+              <View className="flex-row mb-6 rounded-xl p-1 shadow-sm">
+                {tabs.map((tab) => (
+                  <TouchableOpacity
+                    key={tab}
+                    onPress={() => handleTabFilter(tab)}
+                    className={`flex-1 py-3 px-3 border-[1px] border-red-500 m-1 rounded-lg ${
+                      activeTab === tab 
+                        ? 'bg-red-500' 
+                        : 'bg-transparent'
+                    }`}
+                  >
+                    <Text className={`text-center font-archivo-semi-bold text-sm  ${
+                      activeTab === tab 
+                        ? 'text-white' 
+                        : 'text-red-500'
+                    }`}>
+                      {tab}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
               <FlatList
-                data={expenceList}
+                data={filteredExpenseList}
                 keyExtractor={(item) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
@@ -148,7 +199,7 @@ export default function ExpenseItem() {
                     overshootRight={false}
                     rightThreshold={40}
                   >
-                    <View className="bg-white rounded-[7px] p-3 mb-2">
+                    <Pressable onPress={() => navigation.navigate("AddExpenseForm", {type:"edit", ...item})} className="bg-white rounded-[7px] p-3 mb-2">
                       <View className="flex-row items-center">
                         {/* Icon Container */}
                         <View className={`w-12 h-12 ${item.iconBg} rounded-xl items-center justify-center mr-4`}>
@@ -176,12 +227,12 @@ export default function ExpenseItem() {
                           £{item.amount}
                         </Text>
                       </View>
-                    </View>
+                    </Pressable>
                   </Swipeable>
                 )}
               />
 
-              <View className="my-20">
+              <View className="my-12">
                   <View className="flex-row-reverse items-end">
                       {/* Add New Expenses Button */}
                       <TouchableOpacity 

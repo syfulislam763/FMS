@@ -3,7 +3,7 @@
     "eula" : "",
     "policies" : [
       {
-        "locale" : "en_US",
+        "locale" : "en_UK",
         "policyText" : "",
         "policyURL" : ""
       }
@@ -18,8 +18,8 @@
   ],
   "settings" : {
     "_failTransactionsEnabled" : false,
-    "_locale" : "en_US",
-    "_storefront" : "USA",
+    "_locale" : "en_UK",
+    "_storefront" : "UK",
     "_storeKitErrors" : [
       {
         "current" : null,
@@ -82,7 +82,7 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "4.99",
+          "displayPrice" : "3.99",
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "6755343711",
@@ -91,10 +91,10 @@
             {
               "description" : "Monthly access to premium financial advice and planning features",
               "displayName" : "Monthly Subscription",
-              "locale" : "en_US"
+              "locale" : "en_UK"
             }
           ],
-          "productID" : "monthly_subscription",
+          "productID" : "monthly_subscription1",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Monthly Subscription",
           "subscriptionGroupID" : "21506338",

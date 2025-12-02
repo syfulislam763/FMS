@@ -475,6 +475,18 @@ export const delete_expence = async (id, cb=() => {}) => {
     }
 }
 
+
+export const update_expense = async (id, payload, cb=() => {}) => {
+    try{
+        const res = await api.patch(EXPENSE+id, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
 export const post_expence = async (payload, cb=() => {}) => {
     try{
         const res = await api.post(EXPENSE, payload);
@@ -518,6 +530,18 @@ export const delete_income = async (id, cb=() => {}) => {
         ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
+
+export const update_income = async (id, payload, cb=() => {}) => {
+    try{
+        const res = await api.patch(INCOME+id, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
+
 export const post_incomes = async (payload, cb=() => {}) => {
     try{
         const res = await api.post(INCOME, payload);

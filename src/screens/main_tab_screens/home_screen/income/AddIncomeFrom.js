@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import AppHeader from '../../../../components/AppHeader';
 import BackButtion from '../../../../components/BackButtion';
 import { useNavigation } from '@react-navigation/native';
-import { post_incomes } from '../../ScreensAPI';
+import { post_incomes, update_income } from '../../ScreensAPI';
 import Indicator from '../../../../components/Indicator';
 import { ActivityIndicator } from 'react-native';
 import DateTimePicker from 'react-native-ui-datepicker';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import dayjs from 'dayjs';
+import { useRoute } from '@react-navigation/native';
+
+
+function convertToISO(dateStr) {
+  const months = {
+    January: 0, February: 1, March: 2, April: 3,
+    May: 4, June: 5, July: 6, August: 7,
+    September: 8, October: 9, November: 10, December: 11,
+  };
+
+  const [monthName, dayWithComma, year] = dateStr.split(" ");
+
+  const month = months[monthName.trim()];
+  const day = parseInt(dayWithComma.replace(",", "").trim(), 10);
+
+  if (month === undefined || isNaN(day) || isNaN(year)) {
+    throw new Error("Invalid date format");
+  }
+
+  const date = new Date(Date.UTC(year, month, day));
+  return date.toISOString();  // always safe
+}
+
 
 
 const AddIncomeForm = () => {
@@ -18,8 +41,8 @@ const AddIncomeForm = () => {
   const [date, setDate] = useState(dayjs());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showIncomeDropdown, setShowIncomeDropdown] = useState(false);
-
-
+  const route = useRoute();
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
   const navigation = useNavigation();
 
   const frequencies = ['Monthly', 'Yearly', 'On-off'];
@@ -47,6 +70,7 @@ const AddIncomeForm = () => {
   };
 
   const handleDateSelect = (params) => {
+    console.log(params)
     setDate(dayjs(params.date));
     setShowDatePicker(false);
   };
@@ -68,17 +92,40 @@ const AddIncomeForm = () => {
 
     setVisible(true);
 
-    post_incomes(payload, (res) => {
-      if(res){
-        //success
-        console.log("created", JSON.stringify(res, null, 2))
-        navigation.goBack();
-      }else{
-        //failed
-      }
-      setVisible(false);
-    })
+    if(route?.params?.type == "edit"){
+      update_income(route?.params?.id, payload, res => {
+        if(res){
+          navigation.goBack()
+        }
+
+        setVisible(false);
+      })
+    }else{
+      post_incomes(payload, (res) => {
+        if(res){
+          //success
+          console.log("created", JSON.stringify(res, null, 2))
+          navigation.goBack();
+        }else{
+          //failed
+        }
+        setVisible(false);
+      })
+    }
   }
+
+  useEffect(() => {
+    if(route?.params?.type == "edit"){
+      setIncomeSource(route?.params?.title)
+      setFrequency(capitalize(route?.params?.frequency))
+      const iso = convertToISO(route?.params?.date);
+      setAmount(route?.params?.amount+"");
+      console.log(iso, route?.params?.date)
+      setDate(dayjs(iso))
+
+    }
+    console.log(JSON.stringify(route.params, null, 2))
+  }, [route?.params])
 
   const RadioButton = ({ selected, onPress, label }) => (
     <TouchableOpacity onPress={onPress} className="flex-row items-center mr-5">
@@ -92,7 +139,7 @@ const AddIncomeForm = () => {
   );
 
   return (
-    <ComponentWrapper bg_color="bg-[#2E7D32]" title='Add Income'>
+    <ComponentWrapper bg_color="bg-[#2E7D32]" title={route?.params?.type=="edit"?"Edit Income":'Add Income'}>
        
       <View className="flex-1 py-2 bg-[##e7eaef]">
         {/* Income Source Dropdown */}

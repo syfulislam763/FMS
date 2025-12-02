@@ -11,7 +11,7 @@ import { REVENUECAT_IOS_API_KEY, PREMIUM_ENTITLEMENT_ID } from '../../../constan
 
 const features = [
     "Ask financial planners questions via AI chat",
-    "Financial Book Appointment With Planner",
+    "Financial Book Appointment With Planner (UK)",
     "Access Exclusive tips, insights, and market analysis", 
     "Priority support for all your financial queries"
 ];
@@ -429,6 +429,8 @@ const PremiumFinancialAdvice = () => {
     const priceDisplay = currentPackage 
         ? `${currentPackage.product.priceString}/month` 
         : "Loading...";
+
+        console.log("hellow -----", currentPackage.product.priceString)
 
     if (isLoading) {
         return (

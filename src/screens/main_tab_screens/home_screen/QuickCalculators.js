@@ -17,7 +17,7 @@ const QuickCalculators = () => {
       route: "FutureValueCalculator"
     },
     {
-      title: 'Debt Manage',
+      title: 'Debt Management',
       description: 'Estimate payments.',
       icon: Calculator,
       iconColor: '#8B5CF6',

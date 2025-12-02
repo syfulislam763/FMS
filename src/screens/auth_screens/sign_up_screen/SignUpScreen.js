@@ -87,7 +87,7 @@ const SignUpScreen = () => {
                 value={email}
                 onChange={setEmail}
                 label='Email'
-                placeholder='Enter your new email'
+                placeholder='Enter your email'
             />
 
             <PrimaryInputFieldWithVisibility
@@ -97,7 +97,7 @@ const SignUpScreen = () => {
                 label='Password'
                 visible={showPassword}
                 setIsVisible={setShowPassword}
-                placeholder='Enter your new password'
+                placeholder='Enter your password'
             />
 
             <PrimaryInputFieldWithVisibility

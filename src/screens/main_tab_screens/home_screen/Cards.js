@@ -14,10 +14,10 @@ const Cards = () => {
 
   const {userProfile} = useAuth();
 
-  const income = userProfile?.analytics?.totalIncome? "£"+userProfile?.analytics?.totalIncome:"£00"
-  const expense = userProfile?.analytics?.totalExpenses? "£"+userProfile?.analytics?.totalExpenses:"£00"
-  const budget = userProfile?.analytics?.totalBudget? "£"+userProfile?.analytics?.totalBudget: "£00"
-  const disposal = userProfile?.analytics?.disposal? "£"+userProfile?.analytics?.disposal: "£00"
+  const income = userProfile?.analytics?.totalIncome? "£"+Number(userProfile?.analytics?.totalIncome).toFixed(0):"£0"
+  const expense = userProfile?.analytics?.totalExpenses? "£"+Number(userProfile?.analytics?.totalExpenses).toFixed(0):"£0"
+  const budget = userProfile?.analytics?.totalBudget? "£"+Number(userProfile?.analytics?.totalBudget).toFixed(0): "£0"
+  const disposal = userProfile?.analytics?.disposal? "£"+Number(userProfile?.analytics?.disposal).toFixed(0): "£0"
 
 
   const cards = [
@@ -114,7 +114,7 @@ const Cards = () => {
             style={{ backgroundColor: `${card.iconColor}15` }}
           >
             <IconComponent 
-              size={20} 
+              size={25} 
               color={card.iconColor}
               strokeWidth={2.5}
             />
@@ -122,7 +122,7 @@ const Cards = () => {
         </View>
 
         {/* Title */}
-        <Text className={`text-sm font-inter-regular ${card.textColor} mb-2 relative z-10`}>
+        <Text className={`text-xl font-archivo-extra-bold ${card.textColor} mb-2 relative z-10`}>
           {card.title}
         </Text>
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, ActivityIndicator} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, ActivityIndicator, Alert} from "react-native";
 //import { CheckBox } from "react-native-elements";
 import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons";
@@ -40,7 +40,8 @@ const SignInScreen = () => {
         login_user(payload, (data) => {
             console.log(data, "tt");
             if(data?.statusCode==409){
-                ToastMessage("error", "User is exist, verification needed", 3000)
+                // ToastMessage("error", "User is exist, verification needed", 3000)
+              
                 resend_otp({email: payload.email}, (data) => {
                     if(data){
                         navigation.navigate("SignUpOTPVerification", {...payload})
@@ -79,7 +80,7 @@ const SignInScreen = () => {
             <Text className="text-sm ml-1 font-archivo-semi-bold text-black mt-6">Email or Phone</Text>
             <TextInput
                 className="rounded-2xl px-4 py-5 mt-2 bg-[#E6E6E680] font-inter-regular text[12px]"
-                placeholder="Enter your new email or phone"
+                placeholder="Enter your email"
                 placeholderTextColor="#7D848D"
                 value={email}
                 onChangeText={setEmail}
@@ -90,7 +91,7 @@ const SignInScreen = () => {
             <View className="relative mt-2">
             <TextInput
                 className="rounded-2xl px-4 py-5 bg-[#E6E6E680] font-inter-regular text[12px] pr-12"
-                placeholder="Enter your new password"
+                placeholder="Enter your password"
                 secureTextEntry={!showPassword}
                 placeholderTextColor="#7D848D"
                 value={password}

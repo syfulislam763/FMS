@@ -17,6 +17,7 @@ import { useAuth } from '../../../context/AuthProvider';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { initializeRevenueCat } from '../../../hooks/SubscriptionStatus';
+import { User } from 'lucide-react-native';
 
 const HomeScreen = () => {
     
@@ -32,7 +33,7 @@ const HomeScreen = () => {
         setVisible(true);
         get_analytics((res) => {
             if(res){
-                
+                console.log(JSON.stringify(res, null, 2), "**")
                 setUserProfile(res?.data);
                 initializeRevenueCat(res?.data?.user, (isSubscribed, subscriptionInfo) => {
                     setIsSubscribed(isSubscribed);
@@ -45,7 +46,7 @@ const HomeScreen = () => {
         })
         get_last_analytics((res) => {
             if(res){
-                //console.log(JSON.stringify(res, null, 2), "dfd")
+                console.log(JSON.stringify(res, null, 2), "dfd")
                 setFinancialForecast(res?.data)
             }
         })
@@ -98,10 +99,16 @@ const HomeScreen = () => {
                     left={() => {
                         return <View className="flex-row justify-between items-center"> 
 
-                            <Image
-                                className="h-[30] w-[30] rounded-full"
-                                source={{uri:userProfile?.user?.image}}
-                            />
+                            
+                            {userProfile?.user?.image ?
+                                <Image
+                                    className="h-[30] w-[30] rounded-full"
+                                    source={{uri:userProfile?.user?.image}}
+                                />:
+                                <View className="items-center rounded-full justify-center h-[40] w-[40] bg-white">
+                                    <User size={25}/>
+                                </View>
+                            }
 
                             <View className="ml-3">
                                 <Text className="text-white font-inter-regular text-lg">Welcome Back</Text>
