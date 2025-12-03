@@ -11,10 +11,10 @@ import { Swipeable } from 'react-native-gesture-handler';
 import ToastMessage from '../../../constants/ToastMessage';
 
 const category = {
-  "Groceries": ShoppingBasket,
+  "Essential(Needs)": ShoppingBasket,
   "Transportation": Truck,
-  "Entertainment": Theater,
-  "Utilities": BrickWall,
+  "Discretionary(Wants)": Theater,
+  "Savings": BrickWall,
   "Healthcare": Ambulance,
   "Education": GraduationCap
 }
@@ -62,9 +62,19 @@ const MonthlyBudgetComponent = () => {
   const handleTabFilter = (tab) => {
     if(tab.toLowerCase() == "all"){
       setFilteredBudgetList(budgetList)
+      let sum = 0;
+      budgetList.forEach(item => {
+        sum += parseInt(item.amount);
+      })
+      setTotalBudget(sum);
     }else{
       const filtered = budgetList.filter(item => item.type == tab.toLowerCase())
       setFilteredBudgetList(filtered)
+      let sum = 0;
+      filtered.forEach(item => {
+        sum += parseInt(item.amount);
+      })
+      setTotalBudget(sum);
     }
     setSelectedTab(tab)
   }
@@ -118,8 +128,8 @@ const MonthlyBudgetComponent = () => {
       <View className="flex-1">
         {/* Monthly Budget Header */}
         <View className="bg-[#1976D2] rounded-2xl p-6 mb-6">
-          <Text className="text-white font-inter-regular text-center text-lg font-medium mb-2">
-            Monthly Budget
+          <Text className="text-white font-archivo-semi-bold text-center text-lg font-medium mb-2">
+            {selectedTab=="All"?"Total":selectedTab} Budget
           </Text>
           <Text className="text-white text-center text-3xl font-archivo-extra-bold">
             £{totalBudget}
@@ -152,11 +162,11 @@ const MonthlyBudgetComponent = () => {
         {/* Budget Entries */}
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {filteredBudgetList.map((entry) => (
-            <Swipeable
+            <View
               key={entry.id}
-              renderRightActions={() => renderRightActions(entry.id)}
-              overshootRight={false}
-              rightThreshold={40}
+              // renderRightActions={() => renderRightActions(entry.id)}
+              // overshootRight={false}
+              // rightThreshold={40}
             >
               <View className="bg-[#ffffff] rounded-[7px] p-3 mb-3">
                 <View className="flex-row items-center">
@@ -181,7 +191,7 @@ const MonthlyBudgetComponent = () => {
                   </Text>
                 </View>
               </View>
-            </Swipeable>
+            </View>
           ))}
         </ScrollView>
 

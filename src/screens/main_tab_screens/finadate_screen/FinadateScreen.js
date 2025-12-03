@@ -126,7 +126,7 @@ const FinadateScreen = () => {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  const repeatOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+  const repeatOptions = ['Monthly', 'Quarterly', 'Half Yearly or Yearly'];
   const navigation = useNavigation();
 
   const formatDateForPayload = (date) => {
@@ -177,7 +177,7 @@ const FinadateScreen = () => {
   }
 
   return (
-    <ComponentWrapper title='Date Night' bg_color='bg-[#1976D2]' >
+    <ComponentWrapper title='Money Chats(date night)' bg_color='bg-[#1976D2]' >
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
@@ -302,7 +302,7 @@ const FinadateScreen = () => {
             <View className="bg-white rounded-[5px] px-4 py-1 flex-row items-center">
                 <MapPin size={20} color="#9CA3AF" className="mr-3" />
                 <TextInput
-                className="flex-1 text-lg text-gray-900 ml-3"
+                className="flex-1 text-lg text-gray-900 py-2 ml-3"
                 placeholder="Location name"
                 placeholderTextColor="#9CA3AF"
                 value={location}

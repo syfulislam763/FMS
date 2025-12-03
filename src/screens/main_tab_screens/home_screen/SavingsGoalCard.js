@@ -54,7 +54,7 @@ const SavingsGoalCard = ({
           </View>
           
           {/* Title */}
-          <Text className="text-gray-700 text-sm font-inter-regular">
+          <Text className="text-gray-700 text-xl font-archivo-extra-bold">
             {title}
           </Text>
 

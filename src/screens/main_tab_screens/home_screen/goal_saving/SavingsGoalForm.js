@@ -57,7 +57,7 @@ const SavingsGoalForm = () => {
         navigation.goBack();
       }else{
         //failed
-        ToastMessage("error", "Failed to add savings goal", 2000);
+        //ToastMessage("error", "Failed to add savings goal", 2000);
       }
       setVisible(false);
     })

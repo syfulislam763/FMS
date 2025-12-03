@@ -116,7 +116,7 @@ const BudgetScreen = () => {
   );
 
   return (
-    <ComponentWrapper headerComponent={() => <AppHeader middle={()=><Text className="text-white font-archivo-semi-bold text-2xl">{"Budget"}</Text>}/>} bg_color='bg-[#1976D2]'>
+    <ComponentWrapper headerComponent={() => <AppHeader middle={()=><Text className="text-white font-archivo-semi-bold text-2xl">{"Budget Planner"}</Text>}/>} bg_color='bg-[#1976D2]'>
         <View className="flex-1">
 
         <View className="flex-row items-center justify-between pt-6 pb-4">
@@ -160,7 +160,7 @@ const BudgetScreen = () => {
                         <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
                     </View>
                     <Text className="text-white font-archivo-semi-bold text-lg">
-                        Add New Income
+                        Add New a Budget
                     </Text>
                 </TouchableOpacity>
             </View>

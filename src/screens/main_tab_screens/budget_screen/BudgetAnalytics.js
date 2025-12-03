@@ -206,7 +206,7 @@ export default function BudgetAnalytics() {
   ];
 
   return (
-    <ComponentWrapper bg_color='bg-[#1976D2]' title='Dashboard chart'>
+    <ComponentWrapper bg_color='bg-[#1976D2]' title='Monthly Budget Analytics'>
         <ScrollView className=" pt-4 flex-1 bg-[##e7eaef]">
             {/* Bar Chart Component */}
             <BarChart budgetDataFromAPI={budgetDataFromAPI} />

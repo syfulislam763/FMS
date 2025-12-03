@@ -11,13 +11,13 @@ const BudgetFormComponent = () => {
   const [budgetName, setBudgetName] = useState('Transportation');
   const [budgetType, setBudgetType] = useState('Personal');
   const [amount, setAmount] = useState('5000');
-  const [category, setCategory] = useState('Groceries');
+  const [category, setCategory] = useState('Essential(Needs)');
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const navigation = useNavigation();
 
-  const categories = ['Groceries', 'Transportation', 'Entertainment', 'Utilities', 'Healthcare', 'Education'];
+  const categories = ['Essential(Needs)', 'Discretionary(Wants)', 'Savings'];
 
   const handleCreateBudget = () => {
     const payload = {

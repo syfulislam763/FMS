@@ -60,7 +60,7 @@ const FinancialSummary = () => {
   );
 
   return (
-    <ComponentWrapper  title='Calculator Results' bg_color='bg-[#2E7D32]' >
+    <ComponentWrapper  title='Savings Calculator Summary' bg_color='bg-[#2E7D32]' >
       <ScrollView className="flex-1 py-6">
         {/* Financial Summary Card */}
         <View className="bg-white rounded-[7px] p-6 mb-4">

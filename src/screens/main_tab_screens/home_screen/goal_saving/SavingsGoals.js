@@ -129,7 +129,7 @@ const SavingsGoals = () => {
   );
 
   return (
-    <ComponentWrapper title='Saving Goal' bg_color='bg-[#2E7D32]'>
+    <ComponentWrapper title='Saving Plans' bg_color='bg-[#2E7D32]'>
       <SavingsGoalCard amount={0} progress={route?.params?.goals_rate || 0} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
       <FlatList
         data={savingGoalsList}
@@ -141,12 +141,12 @@ const SavingsGoals = () => {
       
       {/* Add Saving Goal Button */}
       <View className="flex-row justify-end">
-          <TouchableOpacity onPress={()=> navigation.navigate("SavingsGoalForm")} className="bg-[#2E7D32] w-1/2 rounded-[5px] p-3 mt-4 mb-3 flex-row items-center justify-center ">
+          <TouchableOpacity onPress={()=> navigation.navigate("SavingsGoalForm")} className="bg-[#2E7D32] rounded-[5px] px-3 py-3 mt-4 mb-3 flex-row items-center justify-center ">
             <View className="w-6 h-6 bg-white rounded-full mr-3 flex-col items-center justify-center">
               <Text className="text-[#2E7D32] font-bold text-lg h-7">+</Text>
             </View>
             <Text className="text-white font-semibold text-lg">
-              Add Saving Goal
+              Add a savings plan
             </Text>
         </TouchableOpacity>
       </View>

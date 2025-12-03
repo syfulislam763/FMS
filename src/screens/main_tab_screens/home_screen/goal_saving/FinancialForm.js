@@ -61,7 +61,7 @@ const FinancialForm = () => {
   }
 
   return (
-    <ComponentWrapper title='Regular Savings' bg_color='bg-[#2E7D32]' >
+    <ComponentWrapper title='Regular Savings Calculator' bg_color='bg-[#2E7D32]' >
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}

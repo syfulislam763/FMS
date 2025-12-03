@@ -29,7 +29,7 @@ const FeatureItem = React.memo(({ text }) => (
 
 const PremiumFinancialAdvice = () => {
     const [currentPackage, setCurrentPackage] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [isPurchasing, setIsPurchasing] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [subscriptionInfo, setSubscriptionInfo] = useState(null);
@@ -430,7 +430,7 @@ const PremiumFinancialAdvice = () => {
         ? `${currentPackage.product.priceString}/month` 
         : "Loading...";
 
-        console.log("hellow -----", currentPackage.product.priceString)
+       
 
     if (isLoading) {
         return (
