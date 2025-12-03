@@ -75,15 +75,21 @@ const PremiumFinancialAdvice = () => {
                 Purchases.configure({ apiKey: REVENUECAT_IOS_API_KEY });
                 console.log('RevenueCat initialized');
                 
+
+                const customerInfo = await Purchases.getCustomerInfo();
+                console.log("custormer infor", JSON.stringify(customerInfo, null, 2));
+
+                const offerings = await Purchases.getOfferings();
+                console.log("offerings", JSON.stringify(offerings, null, 2));
             
-                await identifyUserInRevenueCat();
+                // await identifyUserInRevenueCat();
                 
-                await detectTestingEnvironment();
+                // await detectTestingEnvironment();
             }
             
        
-            await checkSubscriptionStatus();
-            await fetchOfferings();
+            // await checkSubscriptionStatus();
+            // await fetchOfferings();
             
             setIsLoading(false);
         } catch (error) {

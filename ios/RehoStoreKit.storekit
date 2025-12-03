@@ -1,25 +1,15 @@
 {
   "appPolicies" : {
     "eula" : "",
-    "policies" : [
-      {
-        "locale" : "en_UK",
-        "policyText" : "",
-        "policyURL" : ""
-      }
-    ]
+    "policies" : []
   },
   "identifier" : "60698F07",
-  "nonRenewingSubscriptions" : [
-
-  ],
-  "products" : [
-
-  ],
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
   "settings" : {
     "_failTransactionsEnabled" : false,
-    "_locale" : "en_UK",
-    "_storefront" : "UK",
+    "_locale" : "en_US",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,
@@ -76,12 +66,8 @@
       "name" : "Premium Financial Advice",
       "subscriptions" : [
         {
-          "adHocOffers" : [
-
-          ],
-          "codeOffers" : [
-
-          ],
+          "adHocOffers" : [],
+          "codeOffers" : [],
           "displayPrice" : "3.99",
           "familyShareable" : true,
           "groupNumber" : 1,
@@ -91,17 +77,15 @@
             {
               "description" : "Monthly access to premium financial advice and planning features",
               "displayName" : "Monthly Subscription",
-              "locale" : "en_UK"
+              "locale" : "en_US"
             }
           ],
           "productID" : "monthly_subscription1",
           "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "Monthly Subscription",
-          "subscriptionGroupID" : "21506338",
+          "referenceName" : "monthly_subscription1",
+          "subscriptionGroupID" : "21833599",
           "type" : "RecurringSubscription",
-          "winbackOffers" : [
-
-          ]
+          "winbackOffers" : []
         }
       ]
     }

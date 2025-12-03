@@ -35,10 +35,10 @@ const HomeScreen = () => {
             if(res){
                 console.log(JSON.stringify(res, null, 2), "**")
                 setUserProfile(res?.data);
-                initializeRevenueCat(res?.data?.user, (isSubscribed, subscriptionInfo) => {
-                    setIsSubscribed(isSubscribed);
-                    setSubscriptionInfo(subscriptionInfo);
-                })
+                // initializeRevenueCat(res?.data?.user, (isSubscribed, subscriptionInfo) => {
+                //     setIsSubscribed(isSubscribed);
+                //     setSubscriptionInfo(subscriptionInfo);
+                // })
             }else{
 
             }
