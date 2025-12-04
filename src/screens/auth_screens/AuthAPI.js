@@ -84,7 +84,7 @@ export const verify_email = async (payload, cb) => {
     }catch(e){
         cb(null)
         console.log(JSON.stringify(e, null, 2))
-        ToastMessage("error", e?.response?.data?.message, 3000)
+        //ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
 

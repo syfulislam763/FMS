@@ -45,7 +45,7 @@ const SignUpScreen = () => {
                 }
                 else if(data){
                     console.log("res ->", JSON.stringify(data, null, 2))
-                    navigation.navigate("SignUpOTPVerification", {...data.data})
+                    navigation.navigate("SignUpOTPVerification", {...payload})
                 }
                 else{
                     console.log("went wrong")

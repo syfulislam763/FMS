@@ -61,13 +61,11 @@ const SignUpOTPVerification = () => {
         verify_email(payload, (data) => {
             if(data){
                 console.log(JSON.stringify(data, null, 2), " email verified")
-                ToastMessage("success", "Verified email!", 3000, ()=>{
-                    if(route.params?.flag){
-                        navigation.navigate("CreateNewPassword", {verifyToken: data.data.verifyToken})
-                    }else{
-                        navigation.navigate("SignInScreen")
-                    }
-                })
+                if(route.params?.flag){
+                    navigation.navigate("CreateNewPassword", {verifyToken: data.data.verifyToken})
+                }else{
+                    navigation.navigate("SignInScreen")
+                }
                 
             }else{
                 ToastMessage("error", "Email varification failed, try again!", 3000);

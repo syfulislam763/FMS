@@ -13,13 +13,14 @@ import { useCallback } from 'react';
 
 
 const category = {
-  "Groceries": ShoppingBasket,
+  "Essential(Needs)": ShoppingBasket,
   "Transportation": Truck,
-  "Entertainment": Theater,
-  "Utilities": BrickWall,
+  "Discretionary(Wants)": Theater,
+  "Savings": BrickWall,
   "Healthcare": Ambulance,
   "Education": GraduationCap
 }
+
 
 const BudgetScreen = () => {
 
@@ -109,7 +110,7 @@ const BudgetScreen = () => {
           </Text>
         </View>
         <Text className="text-base font-semibold text-gray-900">
-          {item.amount}
+          {item.amount?.toFixed(0)}
         </Text>
       </View>
     </TouchableOpacity>

@@ -45,7 +45,7 @@ export const delete_account = async (cb=() => {}) => {
     }catch(e){
         cb(null)
         console.log("re", JSON.stringify(e.response, null, 2))
-        ToastMessage("error", e?.response?.data?.message, 3000)
+       
     }
 }
 export const get_ad = async (cb=() => {}) => {

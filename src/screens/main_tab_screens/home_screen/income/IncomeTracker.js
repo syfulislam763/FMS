@@ -45,7 +45,7 @@ const IncomeTracker = () => {
             userId: item.userId,
             title: item.name,
             date: d.month+" "+d.day+", "+d.year,
-            amount: item.amount,
+            amount: Number(item.amount).toFixed(0),
             icon: icons[item.name]?icons[item.name]:'',
             bgColor: 'bg-pink-100',
             frequency: item.frequency

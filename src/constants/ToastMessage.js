@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message"
 import { Alert } from "react-native"
-
+const capitalize = (str) => str?.charAt(0)?.toUpperCase() + str.slice(1);
 
 const ToastMessage = (type, msg,duration=4000, goTo=()=>{}, show=()=>{}) => {
     // Toast.show({
@@ -12,7 +12,9 @@ const ToastMessage = (type, msg,duration=4000, goTo=()=>{}, show=()=>{}) => {
     //     onHide: () => goTo(),
     //     onShow: () => show()
     // })
-    Alert.alert(type, msg)
+    Alert.alert(capitalize(type), msg)
+    goTo();
+    show();
 }
 
 export default ToastMessage

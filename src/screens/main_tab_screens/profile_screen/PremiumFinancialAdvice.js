@@ -29,7 +29,7 @@ const FeatureItem = React.memo(({ text }) => (
 
 const PremiumFinancialAdvice = () => {
     const [currentPackage, setCurrentPackage] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isPurchasing, setIsPurchasing] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [subscriptionInfo, setSubscriptionInfo] = useState(null);
@@ -76,20 +76,20 @@ const PremiumFinancialAdvice = () => {
                 console.log('RevenueCat initialized');
                 
 
-                const customerInfo = await Purchases.getCustomerInfo();
-                console.log("custormer infor", JSON.stringify(customerInfo, null, 2));
+                // const customerInfo = await Purchases.getCustomerInfo();
+                // console.log("custormer infor", JSON.stringify(customerInfo, null, 2));
 
-                const offerings = await Purchases.getOfferings();
-                console.log("offerings", JSON.stringify(offerings, null, 2));
+                // const offerings = await Purchases.getOfferings();
+                // console.log("offerings", JSON.stringify(offerings, null, 2));
             
-                // await identifyUserInRevenueCat();
+                await identifyUserInRevenueCat();
                 
-                // await detectTestingEnvironment();
+                await detectTestingEnvironment();
             }
             
        
-            // await checkSubscriptionStatus();
-            // await fetchOfferings();
+            await checkSubscriptionStatus();
+            await fetchOfferings();
             
             setIsLoading(false);
         } catch (error) {

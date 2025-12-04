@@ -224,7 +224,7 @@ export default function ExpenseItem() {
                         
                         {/* Amount */}
                         <Text className="text-red-500 font-inter-semi-bold text-lg">
-                          £{item.amount}
+                          £{item.amount?.toFixed(0)}
                         </Text>
                       </View>
                     </Pressable>

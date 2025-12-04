@@ -187,7 +187,7 @@ const MonthlyBudgetComponent = () => {
                   
                   {/* Amount */}
                   <Text className="text-[#1976D2] font-inter-semi-bold text-lg">
-                    £{entry.amount}
+                    £{entry.amount?.toFixed(0)}
                   </Text>
                 </View>
               </View>
