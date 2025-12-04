@@ -33,7 +33,8 @@ import {
     SUBSCRIPTION,
     UPDATE_PROFILE,
     AD_URL,
-    DELETE_ACCOUNT
+    DELETE_ACCOUNT,
+    SAVINGS_TIPS
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
@@ -94,6 +95,21 @@ export const get_notifications = async (cb=() => {}) => {
     }
 }
 
+
+export const get_savings_tips = async (token, cb=() => {}) => {
+    try{
+        const res = await axios.get(SAVINGS_TIPS, {
+            headers:{
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        cb(res?.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e, null, 2))
+        ToastMessage("error", e?.message, 3000)
+    }
+}
 export const get_debt_suggestions = async (token, cb=() => {}) => {
     try{
         const res = await axios.get(DEBT_FEEDBACK, {

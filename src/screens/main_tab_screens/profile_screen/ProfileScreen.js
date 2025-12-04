@@ -35,7 +35,7 @@ const ProfileScreen = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const {SignOutUser, userProfile} = useAuth();
+  const {SignOutUser, userProfile, isSubscribed} = useAuth();
   const navigation = useNavigation();
 
   const [visible, setVisible] = useState(false);
@@ -245,9 +245,39 @@ const ProfileScreen = () => {
             title="Suggestion Adviser"
             onPress={() => setShowSuggestionDropdown(!showSuggestionDropdown)}
           >
-            {showSuggestionDropdown && (
+            {showSuggestionDropdown && (-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                           
               <View className="">
-                <SubMenuItem route='ChatUIScreen' title="Ask Financial Planner ( ReHo )" />
+                <SubMenuItem route={isSubscribed?'ChatUIScreen':'PremiumFinancialAdvice'} title="Ask Financial Planner ( ReHo )" />
                 <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>
             )}

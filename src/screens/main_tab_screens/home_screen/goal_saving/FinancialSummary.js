@@ -12,7 +12,7 @@ import { useRoute } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useAuth } from '../../../../context/AuthProvider';
-import { get_ad } from '../../ScreensAPI';
+import { get_ad, get_savings_tips } from '../../ScreensAPI';
 
 const FinancialSummary = () => {
   const route = useRoute();
@@ -20,8 +20,17 @@ const FinancialSummary = () => {
   const [adData, setAdData] = useState(null)
 
 
-  const {isSubscribed} = useAuth()
-  
+  const {isSubscribed, authToken} = useAuth()
+  const [tips, setTips] = useState(null)
+
+
+  const handleGetTips = () => {
+    get_savings_tips(authToken.accessToken, res => {
+      if(res){
+        setTips(res);
+      }
+    })
+  }
   
   const handleGetAdData = () => {
       get_ad(res => {
@@ -34,6 +43,7 @@ const FinancialSummary = () => {
   useFocusEffect(
       useCallback(() => {
           handleGetAdData()
+          handleGetTips()
       }, [])
   )
 
@@ -89,8 +99,11 @@ const FinancialSummary = () => {
             <Text className="text-green-600 text-lg mr-2">💡</Text>
             <Text className="text-green-600 text-lg font-semibold">Financial Tip</Text>
           </View>
-          <Text className="text-gray-500 text-sm leading-6">
+          {/* <Text className="text-gray-500 text-sm leading-6">
             Your monthly disposable Income will decrease by %{financialData.monthlyDecrease.toFixed(2)} due to this loan. Plan accordingly!
+          </Text> */}
+          <Text className="text-gray-500 text-sm leading-6">
+            {tips&& tips?.tip}
           </Text>
         </View>
 
