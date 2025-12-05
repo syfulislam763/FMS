@@ -16,6 +16,7 @@ const SavingsGoalForm = () => {
   const [monthlyTarget, setMonthlyTarget] = useState('');
   const [date, setDate] = useState(dayjs());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [currentValue, setCurrentValue] = useState(0);
 
   const [visible, setVisible] = useState(false);
 
@@ -84,17 +85,31 @@ const SavingsGoalForm = () => {
 
             {/* Total Goal Amount Field */}
             <View className="mb-6">
-            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
-                Total Goal Amount
-            </Text>
-            <TextInput
-                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
-                placeholder="Enter total amount"
-                placeholderTextColor="#9CA3AF"
-                value={totalAmount}
-                onChangeText={setTotalAmount}
-                keyboardType="numeric"
-            />
+              <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                  Current Savings Amount
+              </Text>
+              <TextInput
+                  className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
+                  placeholder="Enter total amount"
+                  placeholderTextColor="#9CA3AF"
+                  value={currentValue}
+                  onChangeText={setCurrentValue}
+                  keyboardType="numeric"
+              />
+            </View>
+
+            <View className="mb-6">
+              <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                  Total Goal Amount
+              </Text>
+              <TextInput
+                  className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
+                  placeholder="Enter total amount"
+                  placeholderTextColor="#9CA3AF"
+                  value={totalAmount}
+                  onChangeText={setTotalAmount}
+                  keyboardType="numeric"
+              />
             </View>
 
             {/* Monthly Saving Target */}
@@ -106,12 +121,12 @@ const SavingsGoalForm = () => {
                 <View className="flex-1">
                 <View className="bg-white rounded-[5px] px-4 py-4 flex-row items-center">
                     <TextInput
-                        className="flex-1 text-lg text-gray-900"
-                        placeholder="Enter monthly target"
-                        placeholderTextColor="#9CA3AF"
-                        value={monthlyTarget}
-                        onChangeText={setMonthlyTarget}
-                        keyboardType='numeric'
+                      className="flex-1 text-lg text-gray-900"
+                      placeholder="Enter monthly target"
+                      placeholderTextColor="#9CA3AF"
+                      value={monthlyTarget}
+                      onChangeText={setMonthlyTarget}
+                      keyboardType='numeric'
                     />
                 </View>
                 </View>

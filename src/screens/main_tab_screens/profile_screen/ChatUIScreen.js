@@ -132,6 +132,7 @@ const ChatUIScreen = () => {
             isUser: item.role == "user" ? true : false,
           }));
           setMessages(temp);
+          console.log(JSON.stringify(temp, null, 2))
           setIsLoadingHistory(false); 
         }
 

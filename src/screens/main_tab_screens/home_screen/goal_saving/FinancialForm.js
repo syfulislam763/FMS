@@ -19,12 +19,14 @@ const FinancialForm = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [returnRate, setReturnRate] = useState("")
   const [inflationRate, setInflationRate] = useState("")
-  const [taxation, setTaxation] = useState("")
+  const [taxation, setTaxation] = useState('20% - BRT')
+  const [customTaxation, setCustomTaxation] = useState('')
   const [taxationDropdown, setTaxationDropdown] = useState(false);
 
-  const taxationOptions = ["20% BRT"]
+  const taxationOptions = ['20% - BRT', '40% - HRT', '45% - ADRT', 'Other']
 
-  const repeatOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
+  const repeatOptions = ['Monthly', 'Yearly'];
+
   const navigation = useNavigation()
 
 
@@ -38,7 +40,7 @@ const FinancialForm = () => {
         returnRate:parseInt(returnRate),
         years:1,
         inflationRate:parseInt(inflationRate),
-        taxRate:parseInt(taxation)
+        taxRate: taxation=="Other"?customTaxation:taxation
     }
 
     setVisible(true);
@@ -94,34 +96,35 @@ const FinancialForm = () => {
             </View>
 
             <View className="mb-6">
-            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
-                Frequency:
-            </Text>
-            <TouchableOpacity
-                className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
-                onPress={() => setShowDropdown(!showDropdown)}
-            >
-                <Text className="text-lg text-gray-900">{repeatEvery}</Text>
-                <ChevronDown size={20} color="#6B7280" />
-            </TouchableOpacity>
-            
-            {showDropdown && (
-                <View className="bg-white rounded-[5px] mt-2 shadow-sm">
-                {repeatOptions.map((option, index) => (
-                    <TouchableOpacity
-                    key={index}
-                    className="px-4 py-3 border-b border-gray-100 last:border-b-0"
-                    onPress={() => {
-                        setRepeatEvery(option);
-                        setShowDropdown(false);
-                    }}
-                    >
-                    <Text className="text-lg text-gray-900">{option}</Text>
-                    </TouchableOpacity>
-                ))}
-                </View>
-            )}
+                <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                    Frequency:
+                </Text>
+                <TouchableOpacity
+                    className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
+                    onPress={() => setShowDropdown(!showDropdown)}
+                >
+                    <Text className="text-lg text-gray-900">{repeatEvery}</Text>
+                    <ChevronDown size={20} color="#6B7280" />
+                </TouchableOpacity>
+                
+                {showDropdown && (
+                    <View className="bg-white rounded-[5px] mt-2 shadow-sm">
+                    {repeatOptions.map((option, index) => (
+                        <TouchableOpacity
+                        key={index}
+                        className="px-4 py-3 border-b border-gray-100 last:border-b-0"
+                        onPress={() => {
+                            setRepeatEvery(option);
+                            setShowDropdown(false);
+                        }}
+                        >
+                        <Text className="text-lg text-gray-900">{option}</Text>
+                        </TouchableOpacity>
+                    ))}
+                    </View>
+                )}
             </View>
+           
 
 
             <View className="mb-6">
@@ -155,35 +158,43 @@ const FinancialForm = () => {
 
 
         
-            <View className="mb-6">
-            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
-                Taxation Rate
-            </Text>
-            <TextInput
-                className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
-                placeholder="1"
-                placeholderTextColor="#9CA3AF"
-                value={taxation}
-                onChangeText={setTaxation}
-                keyboardType='numeric'
-            />
-            
-            {taxationDropdown && (
-                <View className="bg-white rounded-[5px] mt-2 shadow-sm">
-                {taxationOptions.map((option, index) => (
-                    <TouchableOpacity
-                    key={index}
-                    className="px-4 py-3 border-b border-gray-100 last:border-b-0"
-                    onPress={() => {
-                        setTaxation(option);
-                        setTaxationDropdown(false);
-                    }}
-                    >
-                    <Text className="text-lg text-gray-900">{option}</Text>
-                    </TouchableOpacity>
-                ))}
-                </View>
-            )}
+             <View className="mb-6">
+                <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                    Taxation:
+                </Text>
+                <TouchableOpacity
+                    className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
+                    onPress={() => setTaxationDropdown(!taxationDropdown)}
+                >
+                    <Text className="text-lg text-gray-900">{taxation}</Text>
+                    <ChevronDown size={20} color="#6B7280" />
+                </TouchableOpacity>
+
+                {taxation == 'Other' && <TextInput
+                    className="bg-white rounded-[5px] mt-3 px-4 py-4 text-lg text-gray-900"
+                    placeholder="Enter custom taxation"
+                    placeholderTextColor="#9CA3AF"
+                    value={customTaxation}
+                    onChangeText={setCustomTaxation}
+                    keyboardType="numeric"
+                />}
+                
+                {taxationDropdown && (
+                    <View className="bg-white rounded-[5px] mt-2 shadow-sm">
+                    {taxationOptions.map((option, index) => (
+                        <TouchableOpacity
+                        key={index}
+                        className="px-4 py-3 border-b border-gray-100 last:border-b-0"
+                        onPress={() => {
+                            setTaxation(option);
+                            setTaxationDropdown(false);
+                        }}
+                        >
+                        <Text className="text-lg text-gray-900">{option}</Text>
+                        </TouchableOpacity>
+                    ))}
+                    </View>
+                )}
             </View>
 
 

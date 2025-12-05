@@ -245,39 +245,8 @@ const ProfileScreen = () => {
             title="Suggestion Adviser"
             onPress={() => setShowSuggestionDropdown(!showSuggestionDropdown)}
           >
-            {showSuggestionDropdown && (-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                           
-              <View className="">
-                <SubMenuItem route={isSubscribed?'ChatUIScreen':'PremiumFinancialAdvice'} title="Ask Financial Planner ( ReHo )" />
+            {showSuggestionDropdown && ( <View className="">
+                <SubMenuItem route={isSubscribed?'ChatUIScreen':'ChatUIScreen'} title="Ask Financial Planner ( ReHo )" />
                 <SubMenuItem title="Book Appointment" route='ContactFormScreen' />
               </View>
             )}

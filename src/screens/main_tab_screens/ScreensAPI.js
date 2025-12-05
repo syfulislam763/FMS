@@ -351,7 +351,7 @@ export const calculate_regular_savings = async (payload, cb=() => {}) => {
     }catch(e){
         cb(null)
         console.log("re", JSON.stringify(e.response, null, 2))
-        ToastMessage("error", e?.response?.data?.message, 3000)
+        //ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
 export const get_saving_goals = async (cb=() => {}) => {
@@ -418,7 +418,7 @@ export const post_date_night = async (payload, cb=() => {}) => {
     }catch(e){
         cb(null)
         console.log("re", JSON.stringify(e.response, null, 2))
-        ToastMessage("error", e?.response?.data?.message, 3000)
+        //ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
 
