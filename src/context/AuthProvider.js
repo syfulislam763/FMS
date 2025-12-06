@@ -6,7 +6,7 @@ import { get_formated_time } from "../screens/main_tab_screens/ScreensAPI";
 import { Token } from "@stripe/stripe-react-native";
 import { io } from "socket.io-client";
 import { endEvent } from "react-native/Libraries/Performance/Systrace";
-
+import { logout_user } from "../screens/main_tab_screens/ScreensAPI";
 
 
 const AuthContext = createContext(null);
@@ -74,6 +74,7 @@ export const AuthProvider = ({children}) => {
                 accessToken: "",
                 refreshToken: "",
             })
+            logout_user();
             setIsAuthenticated(false);
         })
 

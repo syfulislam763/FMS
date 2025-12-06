@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, KeyboardAvo
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ChevronDown } from 'lucide-react-native';
 
 const ContactFormScreen = () => {
   const [formData, setFormData] = useState({
@@ -11,13 +12,29 @@ const ContactFormScreen = () => {
     additionalAttendees: '',
     age: '',
     hasChildren: true,
-    householdIncome: '',
+    householdIncome: 'Less than £50k',
     investments: 'Less than £50K',
     investmentValue: '15000',
-    whatToDiscuss: '',
+    whatToDiscuss: 'Pensions and investment',
     whyReachingOut: '',
     askYouThis: ''
   });
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [incomeDropdown, setIncomeDropdown] = useState(false);
+  const incomeOptions = [
+    'Less than £50k',
+    '£50k - £100k',
+    '£100k - £200k',
+    '£200k and above'
+  ]
+  const repeatOptions = [
+    'Pensions and investment',
+    'Tax advice',
+    'Savings advice',
+    'Life insurance, critical illness cover',
+    'Retirement Advice/Options',
+    'Inheritance tax planning'
+  ]
 
   const navigation = useNavigation()
 
@@ -141,6 +158,44 @@ const ContactFormScreen = () => {
                 keyboardType="numeric"
               />
             </View>
+            <View className="mb-6">
+              <Text className="text-gray-800 text-base mb-2 font-medium">
+                  What is your approx. Household Income?
+              </Text>
+              <TouchableOpacity
+                  className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
+                  onPress={() => setIncomeDropdown(!incomeDropdown)}
+              >
+                  <Text className="text-lg text-gray-900">{formData.householdIncome}</Text>
+                  <ChevronDown size={20} color="#6B7280" />
+              </TouchableOpacity>
+              
+              {incomeDropdown && (
+                  <View className="bg-white rounded-[5px] mt-2 shadow-sm">
+                  {incomeOptions.map((option, index) => (
+                      <TouchableOpacity
+                      key={index}
+                      className={`px-4 py-3 border-b border-gray-100 ${
+                        formData.householdIncome === option ? 'bg-blue-50' : ''
+                      }`}
+                      onPress={() => {
+                          handleInputChange('householdIncome', option)
+                          setIncomeDropdown(false);
+                      }}
+                      >
+                      <Text className={`text-lg ${
+                        formData.householdIncome === option ? 'text-[#1976D2] font-semibold' : 'text-gray-900'
+                      }`}>
+                        {option}
+                      </Text>
+                      </TouchableOpacity>
+                  ))}
+                  </View>
+              )}
+            </View>
+
+
+
 
             <View className="mb-4">
               <Text className="text-gray-800 text-base mb-3 font-medium">
@@ -181,7 +236,7 @@ const ContactFormScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="mb-4">
+            {/* <View className="mb-4">
               <Text className="text-gray-800 text-base mb-2 font-medium">What Would You Like to Discuss?</Text>
               <TextInput
                 className="bg-white border border-gray-300 rounded-md px-3 py-3 text-gray-800"
@@ -193,6 +248,42 @@ const ContactFormScreen = () => {
                 numberOfLines={4}
                 textAlignVertical="top"
               />
+            </View> */}
+            
+            <View className="mb-6">
+              <Text className="text-gray-800 text-base mb-2 font-medium">
+                  What Would You Like to Discuss?
+              </Text>
+              <TouchableOpacity
+                  className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
+                  onPress={() => setShowDropdown(!showDropdown)}
+              >
+                  <Text className="text-lg text-gray-900">{formData.whatToDiscuss}</Text>
+                  <ChevronDown size={20} color="#6B7280" />
+              </TouchableOpacity>
+              
+              {showDropdown && (
+                  <View className="bg-white rounded-[5px] mt-2 shadow-sm">
+                  {repeatOptions.map((option, index) => (
+                      <TouchableOpacity
+                      key={index}
+                      className={`px-4 py-3 border-b border-gray-100 ${
+                        formData.whatToDiscuss === option ? 'bg-blue-50' : ''
+                      }`}
+                      onPress={() => {
+                          handleInputChange('whatToDiscuss', option)
+                          setShowDropdown(false);
+                      }}
+                      >
+                      <Text className={`text-lg ${
+                        formData.whatToDiscuss === option ? 'text-[#1976D2] font-semibold' : 'text-gray-900'
+                      }`}>
+                        {option}
+                      </Text>
+                      </TouchableOpacity>
+                  ))}
+                  </View>
+              )}
             </View>
 
             <View className="mb-4">

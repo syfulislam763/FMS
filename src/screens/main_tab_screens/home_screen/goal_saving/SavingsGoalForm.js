@@ -43,7 +43,8 @@ const SavingsGoalForm = () => {
       name: goalName,
       totalAmount: Number(totalAmount),
       monthlyTarget: Number(monthlyTarget),
-      date: formatDateForPayload(date)
+      date: formatDateForPayload(date),
+      savedMoney: currentValue
     }
 
     console.log(payload);

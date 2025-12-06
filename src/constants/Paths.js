@@ -33,6 +33,7 @@ export const RESET_PASS = "/auth/reset-password";
 export const CHANGE_PASS = "/auth/change-password";
 export const UPDATE_PROFILE = "/users/profile";
 export const USER_PROFILE = "/users/profile";
+export const LOGOUT = "/auth/logout"
 
 // Budget Endpoints
 export const BUDGET = "/budgets/";

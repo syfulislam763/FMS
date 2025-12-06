@@ -232,7 +232,7 @@ const ChatUIScreen = () => {
   };
 
   return (
-    <ComponentWrapper title="Ask To Reho" bg_color="bg-[#FFA950]">
+    <ComponentWrapper title="Reho AI Lab" bg_color="bg-[#FFA950]">
       <KeyboardAvoidingView
         className="flex-1"
         behavior={Platform.OS === "ios" ? "padding" : undefined}

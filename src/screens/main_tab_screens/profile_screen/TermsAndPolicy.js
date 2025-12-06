@@ -8,7 +8,7 @@ const TermsAndPolicy = () => {
     const data = [
         {
             title: 'Information We Collect',
-            text: `Account Information: Email address, login credentials.Usage Data: AI interactions, prompt data, chat logs, feature usage.Device Data: Device type, IP address, OS version (for analytics & security).Payment Information: Processed securely via App Store / Google Play; HRlynx does not store payment data directly.`,
+            text: `Account Information: Email address, login credentials.Usage Data: AI interactions, prompt data, chat logs, feature usage.Device Data: Device type, IP address, OS version (for analytics & security).Payment Information: Processed securely via App Store / Google Play; Reho app does not store payment data directly.`,
             id: 1
         },
         {
@@ -28,7 +28,7 @@ const TermsAndPolicy = () => {
         },
         {
             title: 'Data Control',
-            text: `You may request deletion of your account and associated data at any time by contacting info@lynxova.com.You may access or export your chat history subject to reasonable processing time.`,
+            text: `Under data protection law you have the right to ask us for a copy of the information we hold about you, and to have any inaccuracies corrected or removed. You may also ask us to delete all personal data held by us or any controller or processor with which we have shared your data as well as request that we ease to process any of your contact data. To do this, please either contact us in writing or email. Contact us on \nEmail: clientsupport@rehowealth.co.uk\nAddress: Reho Wealth Group Ltd, Acorn Bussiness Center, Unit C Aldow enterprise park, Manchester, M12 6AE`,
             id: 5
         },
         {

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Platform, Alert } from 'react-native';
 import Purchases, { LOG_LEVEL, PURCHASES_ERROR_CODE } from 'react-native-purchases';
 import { useAuth } from '../context/AuthProvider';
-
-const REVENUECAT_IOS_API_KEY = "appl_uiclOCoavDbvXvmuhpQAGkmqbCu";
-const PREMIUM_ENTITLEMENT_ID = 'monthly_subscription';
+import { REVENUECAT_ANDROID_API_KEY, PREMIUM_ENTITLEMENT_ID, REVENUECAT_IOS_API_KEY } from '../constants/Paths';
 
 
 

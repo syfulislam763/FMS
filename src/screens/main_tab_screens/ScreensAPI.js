@@ -34,10 +34,24 @@ import {
     UPDATE_PROFILE,
     AD_URL,
     DELETE_ACCOUNT,
-    SAVINGS_TIPS
+    SAVINGS_TIPS,
+
+    LOGOUT
 } from "../../constants/Paths";
 import ToastMessage from "../../constants/ToastMessage";
 
+
+
+export const logout_user = async (payload, cb = () => {}) => {
+    try{
+        const res = await api.post(LOGOUT);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+       
+    }
+}
 
 export const delete_account = async (cb=() => {}) => {
     try{

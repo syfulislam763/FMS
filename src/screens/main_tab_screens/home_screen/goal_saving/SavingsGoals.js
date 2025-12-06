@@ -118,7 +118,7 @@ const SavingsGoals = () => {
         {/* Amount Display */}
         <View className="flex-row justify-between items-center">
           <Text className="text-gray-900 text-base font-medium">
-            £{item.currentAmount.toFixed(2)}
+            £{item.currentAmount.toFixed(0)}
           </Text>
           <Text className="text-gray-900 text-base font-medium">
             £{item.targetAmount.toLocaleString()}
