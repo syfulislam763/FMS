@@ -147,7 +147,7 @@ const ContactFormScreen = () => {
               </TouchableOpacity>
             </View>
 
-            <View className="mb-4">
+            {/* <View className="mb-4">
               <Text className="text-gray-800 text-base mb-2 font-medium">What is your approx. Household Income?</Text>
               <TextInput
                 className="bg-white border border-gray-300 rounded-md px-3 py-4 text-gray-800"
@@ -157,7 +157,7 @@ const ContactFormScreen = () => {
                 placeholderTextColor="#9CA3AF"
                 keyboardType="numeric"
               />
-            </View>
+            </View> */}
             <View className="mb-6">
               <Text className="text-gray-800 text-base mb-2 font-medium">
                   What is your approx. Household Income?
