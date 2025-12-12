@@ -13,7 +13,7 @@ import {
   ActivityIndicator,
   Keyboard,
 } from 'react-native';
-import { Send, Smile, ArrowDown } from 'lucide-react-native';
+import { Send, Smile, ArrowDown, User } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useAuth } from '../../../context/AuthProvider';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -148,8 +148,6 @@ const ChatUIScreen = () => {
             },
           ]);
           setUserMessage("");
-
-       
         }
 
       } catch (e) {
@@ -189,6 +187,143 @@ const ChatUIScreen = () => {
     }
   };
 
+  const formatMessageText = (text) => {
+    if (!text) return null;
+
+    const lines = text.split('\n');
+    const formattedLines = [];
+
+    lines.forEach((line, lineIndex) => {
+      if (!line.trim()) {
+        formattedLines.push(<View key={`empty-${lineIndex}`} style={{ height: 8 }} />);
+        return;
+      }
+
+      const boldPattern = /\*\*(.+?)\*\*/g;
+      const parts = [];
+      let lastIndex = 0;
+      let match;
+
+      while ((match = boldPattern.exec(line)) !== null) {
+        if (match.index > lastIndex) {
+          const beforeText = line.substring(lastIndex, match.index);
+          parts.push(...highlightKeywords(beforeText, parts.length));
+        }
+        
+        parts.push(
+          <Text key={`bold-${lineIndex}-${parts.length}`} style={{ fontWeight: 'bold' }}>
+            {match[1]}
+          </Text>
+        );
+        
+        lastIndex = match.index + match[0].length;
+      }
+
+      if (lastIndex < line.length) {
+        const remainingText = line.substring(lastIndex);
+        parts.push(...highlightKeywords(remainingText, parts.length));
+      }
+
+      formattedLines.push(
+        <Text key={`line-${lineIndex}`} style={{ marginBottom: 4 }}>
+          {parts}
+        </Text>
+      );
+    });
+
+    return <View>{formattedLines}</View>;
+  };
+
+  const highlightKeywords = (text, startKey) => {
+    const redKeywords = ['income', 'debts', 'debt', 'expense', 'expenses'];
+    const greenKeywords = ['savings goal', 'savings goals', 'saving goal'];
+    
+    const keywordPattern = `\\b(${[...redKeywords, ...greenKeywords].join('|')})\\b`;
+    const amountPattern = '£[\\d,]+(?:\\.\\d{2})?';
+    const combinedPattern = new RegExp(`(${keywordPattern}|${amountPattern})`, 'gi');
+    
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+
+    const detectAmountContext = (textBeforeAmount) => {
+      const lowerText = textBeforeAmount.toLowerCase();
+      
+
+      if (lowerText.includes('savings goal') || 
+          lowerText.includes('saving goal') || 
+          lowerText.includes('save')) {
+        return 'green';
+      }
+      
+
+      if (lowerText.includes('debt') || 
+          lowerText.includes('expense') || 
+          lowerText.includes('income') ||
+          lowerText.includes('cost') ||
+          lowerText.includes('pay')) {
+        return 'red';
+      }
+      
+      return null;
+    };
+
+    while ((match = combinedPattern.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(
+          <Text key={`text-${startKey}-${parts.length}`}>
+            {text.substring(lastIndex, match.index)}
+          </Text>
+        );
+      }
+
+      const matchedText = match[0];
+      const isAmount = matchedText.startsWith('£');
+      
+      let color = null;
+      
+      if (isAmount) {
+ 
+        const textBefore = text.substring(0, match.index);
+        color = detectAmountContext(textBefore);
+      } else {
+
+        const keyword = matchedText.toLowerCase();
+        const isGreen = greenKeywords.some(gk => keyword.includes(gk));
+        color = isGreen ? 'green' : 'red';
+      }
+
+      if (color) {
+        const colorCode = color === 'green' ? '#10B981' : '#EF4444';
+        parts.push(
+          <Text key={`highlight-${startKey}-${parts.length}`} style={{ color: colorCode, fontWeight: 'bold' }}>
+            {matchedText}
+          </Text>
+        );
+      } else {
+    
+        parts.push(
+          <Text key={`normal-${startKey}-${parts.length}`}>
+            {matchedText}
+          </Text>
+        );
+      }
+
+      lastIndex = match.index + matchedText.length;
+    }
+    
+    if (lastIndex < text.length) {
+      parts.push(
+        <Text key={`text-${startKey}-${parts.length}`}>
+          {text.substring(lastIndex)}
+        </Text>
+      );
+    }
+
+    return parts.length > 0 ? parts : [<Text key={`text-${startKey}`}>{text}</Text>];
+  };
+
   const renderMessage = ({ item: msg }) => (
     <View>
       {msg.isUser ? (
@@ -196,11 +331,18 @@ const ChatUIScreen = () => {
           <View className="max-w-[80%] bg-[#FFA950] rounded-3xl rounded-br-md px-5 py-4 mr-3">
             <Text className="text-white text-small">{msg.text}</Text>
           </View>
-          <Image
-            source={{ uri: userProfile?.user?.image }}
-            className="w-8 h-8 rounded-full"
-            resizeMode="cover"
-          />
+
+          {userProfile?.user?.image ?
+              <Image
+                source={{ uri: userProfile?.user?.image }}
+                className="w-8 h-8 rounded-full"
+                resizeMode="cover"
+              />:
+              <View className="items-center rounded-full justify-center h-[35] w-[35] bg-white">
+                  <User size={18}/>
+              </View>
+          }
+          
         </View>
       ) : (
         <View className="flex-row justify-start mb">
@@ -213,7 +355,9 @@ const ChatUIScreen = () => {
           </View>
           <View className="max-w-[80%] mb-3">
             <View className="bg-white rounded-3xl rounded-bl-md px-5 py-4">
-              <Text className="text-gray-800 text-base leading-6">{msg.text}</Text>
+              <Text className="text-gray-800 text-base leading-6">
+                {formatMessageText(msg.text)}
+              </Text>
             </View>
           </View>
         </View>

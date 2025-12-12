@@ -38,13 +38,13 @@ const TermsAndPolicy = () => {
         },
         {
             title: 'GDPR / CCPA Compliance (if applicable)',
-            text: `We honor applicable data subject rights under GDPR and CCPA for covered jurisdictions. California users may request disclosure of data collection practices and opt-out of certain data uses.`,
+            text: `Rehoboth Wealth Group Ltd is registered with the infromation Commissioner in the UK as a *data Controller*, the registration reference number is ZB807386. Full details of the registration can be accessed on the ICO data controller register here - https://ico.org.uk/about-the-ico/what-we-do/register-of-data-controllers`,
             id: 7
         },
 
         {
             title: 'Contact',
-            text: `If you have any privacy concerns, contact us at Lynxova LLC`,
+            text: `If you have any privacy concerns, contact us at clientsupport@rehowealth.co.uk`,
             id: 8
         },
 
