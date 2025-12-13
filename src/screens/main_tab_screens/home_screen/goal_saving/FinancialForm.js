@@ -20,10 +20,15 @@ const FinancialForm = () => {
   const [returnRate, setReturnRate] = useState("")
   const [inflationRate, setInflationRate] = useState("")
   const [taxation, setTaxation] = useState('20% - BRT')
-  const [customTaxation, setCustomTaxation] = useState('')
+  const [customTaxation, setCustomTaxation] = useState(0)
   const [taxationDropdown, setTaxationDropdown] = useState(false);
-
-  const taxationOptions = ['20% - BRT', '40% - HRT', '45% - ADRT', 'Other']
+  const values = {
+    '20% - BRT': 20,
+    '40% - HRT': 40,
+    '45% - ADRT': 45,
+    '': 0
+  }
+  const taxationOptions = ['20% - BRT', '40% - HRT', '45% - ADRT', 'Custom']
 
   const repeatOptions = ['Monthly', 'Yearly'];
 
@@ -40,7 +45,7 @@ const FinancialForm = () => {
         returnRate:parseInt(returnRate),
         years:1,
         inflationRate:parseInt(inflationRate),
-        taxRate: taxation=="Other"?customTaxation:taxation
+        taxRate: taxation=="Custom"?Number(customTaxation):values[taxation]
     }
 
     setVisible(true);
@@ -170,7 +175,7 @@ const FinancialForm = () => {
                     <ChevronDown size={20} color="#6B7280" />
                 </TouchableOpacity>
 
-                {taxation == 'Other' && <TextInput
+                {taxation == 'Custom' && <TextInput
                     className="bg-white rounded-[5px] mt-3 px-4 py-4 text-lg text-gray-900"
                     placeholder="Enter custom taxation"
                     placeholderTextColor="#9CA3AF"
