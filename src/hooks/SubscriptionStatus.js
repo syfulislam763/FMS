@@ -8,28 +8,31 @@ import { REVENUECAT_ANDROID_API_KEY, PREMIUM_ENTITLEMENT_ID, REVENUECAT_IOS_API_
 
 export const initializeRevenueCat = async (user, getInfo=()=>{}) => {
     try {
+        if (__DEV__) {
+            Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+                console.log(`TESTING MODE: ${Platform.OS === 'ios' ? 'StoreKit' : 'Google Play Billing'} Testing Active`);
+        } else {
+            Purchases.setLogLevel(LOG_LEVEL.ERROR);
+        }
+
         if (Platform.OS === "ios") {
-            if (__DEV__) {
-                Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
-                console.log('TESTING MODE: StoreKit Configuration Active');
-            } else {
-                Purchases.setLogLevel(LOG_LEVEL.ERROR);
-            }
-            
             Purchases.configure({ apiKey: REVENUECAT_IOS_API_KEY });
-        
-            
-        
-            await identifyUserInRevenueCat(user);
+            console.log('RevenueCat initialized for iOS');
+        } else if (Platform.OS === "android") {
+            Purchases.configure({ apiKey: REVENUECAT_ANDROID_API_KEY });
+            console.log('RevenueCat initialized for Android');
+        }
+
+        if (Platform.OS === "ios") {
             
             await detectTestingEnvironment();
         }
+
+        await identifyUserInRevenueCat();
         
     
-        await checkSubscriptionStatus(getInfo);
-
-        
-   
+        await checkSubscriptionStatus();
+         
     } catch (error) {
         console.error('Error initializing RevenueCat:', error);
        

@@ -20,6 +20,7 @@ export const AuthProvider = ({children}) => {
         accessToken: "",
         refreshToken: "",
     });
+    const [loginVideoUrl, setLoginVideoUrl] = useState(null)
     const [userProfile, setUserProfile] = useState({})
     const [financialForecast, setFinancialForecast] = useState({})
     const [notifications, setNotifications] = useState([])
@@ -80,14 +81,18 @@ export const AuthProvider = ({children}) => {
 
     }
 
+    const tempVideo1 = "https://rehoapp.lon1.digitaloceanspaces.com/others/IMG_0721.mp4";
+    const tempVideo2 = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+
     const handleLogin = (data) => {
 
         setTokens(data.accessToken, data.refreshToken, ()=>{
             setIsAuthenticated(true);
             setAuthToken({
-                accessToken: data.accessToken,
-                refreshToken: data.refreshToken
+                accessToken: data?.accessToken,
+                refreshToken: data?.refreshToken
             })
+            setLoginVideoUrl(data?.videoToShow || tempVideo1);
             //initiateNotificationSocket(data.accessToken)
         })
     }
@@ -139,7 +144,9 @@ export const AuthProvider = ({children}) => {
                 setIsSubscribed,
 
                 subscriptionInfo,
-                setSubscriptionInfo
+                setSubscriptionInfo,
+
+                loginVideoUrl
             }}
         >
             {children}
