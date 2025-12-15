@@ -48,7 +48,9 @@ const TimeSelector = () => {
     const payload = {
       date: dayjs(selectedDate).format('YYYY-MM-DD'),
       timeSlot: selectedTime,
-
+      title: route.params.formData.title,
+      number: route.params.formData.number,
+      bestContact: route.params.formData.bestContact,
       name: route.params.formData.name,
       email: route.params.formData.email,
       attendant: route.params.formData.additionalAttendees,

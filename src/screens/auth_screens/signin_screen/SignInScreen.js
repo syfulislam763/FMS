@@ -66,7 +66,7 @@ const SignInScreen = () => {
     
 
     return (
-    <SafeAreaView className="flex-1 bg-white px-5">
+    <SafeAreaView className="flex-1 bg-white px-5 pt-10">
         <ScrollView className="">
             {/* Title */}
             <View className="flex-col items-center">
@@ -77,7 +77,7 @@ const SignInScreen = () => {
             </View>
 
             {/* Email / Phone Input */}
-            <Text className="text-sm ml-1 font-archivo-semi-bold text-black mt-6">Email or Phone</Text>
+            <Text className="text-sm ml-1 font-archivo-semi-bold text-black mt-6">Email</Text>
             <TextInput
                 className="rounded-2xl px-4 py-5 mt-2 bg-[#E6E6E680] font-inter-regular text[12px]"
                 placeholder="Enter your email"

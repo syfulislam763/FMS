@@ -17,16 +17,31 @@ const ContactFormScreen = () => {
     investmentValue: '15000',
     whatToDiscuss: 'Pensions and investment',
     whyReachingOut: '',
-    askYouThis: ''
+    askYouThis: '',
+    bestContact: 'Email',
+    title: '',
+    number: ''
   });
   const [showDropdown, setShowDropdown] = useState(false);
   const [incomeDropdown, setIncomeDropdown] = useState(false);
+  const [bestMethodDropdown, setBestMethodDropdown] = useState(false);
+  const contactOptions = [
+    'Number',
+    'Email',
+  ]
   const incomeOptions = [
     'Less than £50k',
     '£50k - £100k',
     '£100k - £200k',
     '£200k and above'
   ]
+
+  const householdValue = {
+    'Less than £50k': 40,
+    '£50k - £100k':65,
+    '£100k - £200k': 110,
+    '£200k and above': 210
+  }
   const repeatOptions = [
     'Pensions and investment',
     'Tax advice',
@@ -52,7 +67,7 @@ const ContactFormScreen = () => {
 
   const handleContinue = () => {
     console.log("form", formData)
-    navigation.navigate("TimeSelector", {formData: formData})
+    navigation.navigate("TimeSelector", {formData: {...formData, householdIncome: householdValue[formData.householdIncome]}})
   };
 
   return (
@@ -72,7 +87,16 @@ const ContactFormScreen = () => {
           keyboardShouldPersistTaps="handled"
         >
           <View className="">
-            
+            <View className="mb-4">
+              <Text className="text-gray-800 text-base mb-2 font-medium">Title</Text>
+              <TextInput
+                className="bg-white border border-gray-300 rounded-md px-3 py-4 text-gray-800"
+                value={formData.title}
+                onChangeText={(value) => handleInputChange('title', value)}
+                placeholder=""
+                placeholderTextColor="#9CA3AF"
+              />
+            </View>
             <View className="mb-4">
               <Text className="text-gray-800 text-base mb-2 font-medium">Name</Text>
               <TextInput
@@ -94,6 +118,52 @@ const ContactFormScreen = () => {
                 placeholderTextColor="#9CA3AF"
                 keyboardType="email-address"
               />
+            </View>
+            <View className="mb-4">
+              <Text className="text-gray-800 text-base mb-2 font-medium">Number</Text>
+              <TextInput
+                className="bg-white border border-gray-300 rounded-md px-3 py-4 text-gray-800"
+                value={formData.number}
+                onChangeText={(value) => handleInputChange('number', value)}
+                placeholder=""
+                placeholderTextColor="#9CA3AF"
+              />
+            </View>
+
+            <View className="mb-6">
+              <Text className="text-gray-800 text-base mb-2 font-medium">
+                  Best method of contact
+              </Text>
+              <TouchableOpacity
+                  className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
+                  onPress={() => setBestMethodDropdown(!bestMethodDropdown)}
+              >
+                  <Text className="text-lg text-gray-900">{formData.bestContact}</Text>
+                  <ChevronDown size={20} color="#6B7280" />
+              </TouchableOpacity>
+              
+              {bestMethodDropdown && (
+                  <View className="bg-white rounded-[5px] mt-2 shadow-sm">
+                  {contactOptions.map((option, index) => (
+                      <TouchableOpacity
+                      key={index}
+                      className={`px-4 py-3 border-b border-gray-100 ${
+                        formData.bestContact === option ? 'bg-blue-50' : ''
+                      }`}
+                      onPress={() => {
+                          handleInputChange('bestContact', option)
+                          setBestMethodDropdown(false);
+                      }}
+                      >
+                      <Text className={`text-lg ${
+                        formData.bestContact === option ? 'text-[#1976D2] font-semibold' : 'text-gray-900'
+                      }`}>
+                        {option}
+                      </Text>
+                      </TouchableOpacity>
+                  ))}
+                  </View>
+              )}
             </View>
 
             <View className="mb-4">
@@ -160,7 +230,7 @@ const ContactFormScreen = () => {
             </View> */}
             <View className="mb-6">
               <Text className="text-gray-800 text-base mb-2 font-medium">
-                  What is your approx. Household Income?
+                  What is your approximate Household Income?
               </Text>
               <TouchableOpacity
                   className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"

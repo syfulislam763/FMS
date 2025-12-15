@@ -144,7 +144,7 @@ const BudgetListComponent = () => {
         <AppHeader 
           middle={() => (
             <Text className="text-white font-archivo-semi-bold text-2xl">
-              Date Night
+              Money Chats
             </Text>
           )}
         />

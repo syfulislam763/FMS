@@ -83,6 +83,7 @@ export const AuthProvider = ({children}) => {
 
     const tempVideo1 = "https://rehoapp.lon1.digitaloceanspaces.com/others/IMG_0721.mp4";
     const tempVideo2 = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    const tempVideo3 = "https://rehoapp.lon1.cdn.digitaloceanspaces.com/others/How%20to%20create%20a%20budget%20v3%20(1).mp4"
 
     const handleLogin = (data) => {
 
@@ -92,7 +93,7 @@ export const AuthProvider = ({children}) => {
                 accessToken: data?.accessToken,
                 refreshToken: data?.refreshToken
             })
-            setLoginVideoUrl(data?.videoToShow || tempVideo1);
+            setLoginVideoUrl(data?.videoToShow || tempVideo3);
             //initiateNotificationSocket(data.accessToken)
         })
     }

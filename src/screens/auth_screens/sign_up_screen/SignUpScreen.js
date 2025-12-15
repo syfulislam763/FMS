@@ -61,7 +61,7 @@ const SignUpScreen = () => {
     }
 
     return (
-    <SafeAreaView className="flex-1 bg-white px-5">
+    <SafeAreaView className="flex-1 bg-white px-5 pt-10">
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ 
                     flexGrow: 1, 
                     paddingBottom: Platform.OS === 'android' ? 200 : 20 
