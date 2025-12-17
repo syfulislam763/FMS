@@ -483,9 +483,13 @@ export const post_budget = async (payload, cb=() => {}) => {
 
 
 
-export const get_expence = async (cb=() => {}) => {
+export const get_expence = async (frequency, cb=() => {}) => {
+    let url = EXPENSE;
+    if(frequency != 'all'){
+        url = `${EXPENSE}?frequency=${frequency}`
+    }
     try{
-        const res = await api.get(EXPENSE);
+        const res = await api.get(url);
         cb(res.data)
     }catch(e){
         cb(null)
@@ -540,9 +544,15 @@ export const get_expense_analysis = async (cb=() => {}) => {
 }
 
 
-export const get_incomes = async (cb=() => {}) => {
+export const get_incomes = async (frequency, cb=() => {}) => {
+    let url = INCOME
+    if(frequency!='all'){
+        url =  `${INCOME}?frequency=${frequency}`
+    }
+
+
     try{
-        const res = await api.get(INCOME);
+        const res = await api.get(url);
         cb(res.data)
     }catch(e){
         cb(null)

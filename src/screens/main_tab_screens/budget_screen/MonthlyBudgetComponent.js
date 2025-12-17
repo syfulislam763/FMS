@@ -162,11 +162,11 @@ const MonthlyBudgetComponent = () => {
         {/* Budget Entries */}
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {filteredBudgetList.map((entry) => (
-            <View
+            <Swipeable
               key={entry.id}
-              // renderRightActions={() => renderRightActions(entry.id)}
-              // overshootRight={false}
-              // rightThreshold={40}
+              renderRightActions={() => renderRightActions(entry.id)}
+              overshootRight={false}
+              rightThreshold={40}
             >
               <View className="bg-[#ffffff] rounded-[7px] p-3 mb-3">
                 <View className="flex-row items-center">
@@ -178,10 +178,10 @@ const MonthlyBudgetComponent = () => {
                   {/* Content */}
                   <View className="flex-1">
                     <Text className="text-gray-900 font-inter-semi-bold text-lg mb-1">
-                      {entry.title}
+                      {entry.category}
                     </Text>
                     <Text className="text-gray-500 font-inter-regular text-sm">
-                      {entry.category}
+                      {entry.title}
                     </Text>
                   </View>
                   
@@ -191,7 +191,7 @@ const MonthlyBudgetComponent = () => {
                   </Text>
                 </View>
               </View>
-            </View>
+            </Swipeable>
           ))}
         </ScrollView>
 

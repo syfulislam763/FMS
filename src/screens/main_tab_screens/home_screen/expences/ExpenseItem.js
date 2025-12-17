@@ -54,7 +54,8 @@ export default function ExpenseItem() {
 
     const handleGetExpence = () => {
       setVisible(true);
-      get_expence(res => {
+      const frequency = activeTab.toLowerCase();
+      get_expence(frequency, res => {
         if(res){
           console.log(JSON.stringify(res, null, 2))
           const temp = res.data.map(item => {
@@ -87,7 +88,7 @@ export default function ExpenseItem() {
     useFocusEffect(
       useCallback(() => {
         handleGetExpence();
-      }, [])
+      }, [activeTab])
     );
 
     const handleDelete = (id) => {
@@ -124,22 +125,12 @@ export default function ExpenseItem() {
 
 
     const handleTabFilter = (tab) => {
-      if(tab.toLowerCase() == "all"){
-        setFilteredExpenseList(expenceList)
-        let totalExpence = 0;
-          expenceList.forEach(item => {
-            totalExpence += Number(item.amount);
-          });
-        setTotalExpence(totalExpence)
-      }else{
-        const filtered = expenceList.filter(item => item.frequency == tab.toLowerCase())
-        setFilteredExpenseList(filtered)
-        let totalExpence = 0;
-          filtered.forEach(item => {
-            totalExpence += Number(item.amount);
-          });
-        setTotalExpence(totalExpence)
-      }
+      setFilteredExpenseList(expenceList)
+      let totalExpence = 0;
+        expenceList.forEach(item => {
+          totalExpence += Number(item.amount);
+        });
+      setTotalExpence(totalExpence)
       setActiveTab(tab)
     }
 

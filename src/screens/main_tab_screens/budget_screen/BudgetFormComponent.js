@@ -8,16 +8,44 @@ import ToastMessage from '../../../constants/ToastMessage';
 import { useNavigation } from '@react-navigation/native';
 
 const BudgetFormComponent = () => {
-  const [budgetName, setBudgetName] = useState('Transportation');
+  const [budgetName, setBudgetName] = useState('Mortgage or Rent');
   const [budgetType, setBudgetType] = useState('Personal');
   const [amount, setAmount] = useState('5000');
   const [category, setCategory] = useState('Essential(Needs)');
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [showBudgetName, setSHowBudgetName] = useState(false);
 
   const navigation = useNavigation();
 
   const categories = ['Essential(Needs)', 'Discretionary(Wants)', 'Savings'];
+  const budgetNames = [
+    'Mortgage or Rent',
+    'Building or Home insurance',
+    'Travel expenses',
+    'Car insurance',
+    'Food and grocery shopping',
+    'Childcare cost',
+    'Clothing',
+    'Gas Bill',
+    'Electricity Bill',
+    'Water Bill',
+    'Broadband cost',
+    'Mobile phone bill',
+    'Entertainment',
+    'Credit card',
+    'Student Loan',
+    'Loans',
+    'Personal Upkeep',
+    'Health Insurance',
+    'Gym Membership',
+    'Sport Membership',
+    'Life insurance',
+    'TV Licence',
+    'Council Tax',
+    'Subscription i.e. TV packages, netflix',
+    'Other'
+  ];
 
   const handleCreateBudget = () => {
     const payload = {
@@ -68,7 +96,7 @@ const BudgetFormComponent = () => {
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1 py-6">
             
             {/* Budget Name Field */}
-            <View className="mb-6">
+            {/* <View className="mb-6">
             <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
                 Budget
             </Text>
@@ -79,6 +107,42 @@ const BudgetFormComponent = () => {
                 placeholder="Enter budget name"
                 placeholderTextColor="#9CA3AF"
             />
+            </View> */}
+
+            <View className="mb-8">
+              <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                  Budget Description
+              </Text>
+              <TouchableOpacity
+                  className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
+                  onPress={() => setSHowBudgetName(!showBudgetName)}
+              >
+                  <Text className="text-base text-gray-900">{budgetName}</Text>
+                  <ChevronDown size={20} color="#6B7280" />
+              </TouchableOpacity>
+              
+              {showBudgetName && (
+                  <View className="bg-white rounded-[7px] mt-2 shadow-sm">
+                  {budgetNames.map((cat, index) => (
+                      <TouchableOpacity
+                      key={index}
+                      className={`px-4 py-3 border-b border-gray-100 ${
+                        budgetName === cat ? 'bg-blue-50' : ''
+                      }`}
+                      onPress={() => {
+                          setBudgetName(cat);
+                          setSHowBudgetName(false);
+                      }}
+                      >
+                      <Text className={`text-base ${
+                        budgetName === cat ? 'text-[#1976D2] font-semibold' : 'text-gray-900'
+                      }`}>
+                        {cat}
+                      </Text>
+                      </TouchableOpacity>
+                  ))}
+                  </View>
+              )}
             </View>
 
             {/* Budget Type Radio Buttons */}

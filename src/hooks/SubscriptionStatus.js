@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Platform, Alert } from 'react-native';
 import Purchases, { LOG_LEVEL, PURCHASES_ERROR_CODE } from 'react-native-purchases';
 import { useAuth } from '../context/AuthProvider';
-import { REVENUECAT_ANDROID_API_KEY, PREMIUM_ENTITLEMENT_ID, REVENUECAT_IOS_API_KEY } from '../constants/Paths';
-
+import { REVENUECAT_ANDROID_API_KEY, REVENUECAT_IOS_API_KEY, PREMIUM_ENTITLEMENT_ID } from '../constants/Paths';
 
 
 export const initializeRevenueCat = async (user, getInfo=()=>{}) => {
     try {
+
+
         if (__DEV__) {
             Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
-                console.log(`TESTING MODE: ${Platform.OS === 'ios' ? 'StoreKit' : 'Google Play Billing'} Testing Active`);
+            console.log('TESTING MODE: StoreKit Configuration Active');
         } else {
             Purchases.setLogLevel(LOG_LEVEL.ERROR);
         }
@@ -27,12 +28,15 @@ export const initializeRevenueCat = async (user, getInfo=()=>{}) => {
             
             await detectTestingEnvironment();
         }
+        
 
-        await identifyUserInRevenueCat();
+        await identifyUserInRevenueCat(user);
         
     
-        await checkSubscriptionStatus();
-         
+        await checkSubscriptionStatus(getInfo);
+
+        
+   
     } catch (error) {
         console.error('Error initializing RevenueCat:', error);
        

@@ -36,7 +36,9 @@ const IncomeTracker = () => {
 
   const handleGetIncomeList = () => {
     setVisible(true);
-    get_incomes(res => {
+    const frequency = activeTab.toLowerCase();
+    console.log(frequency);
+    get_incomes(frequency, res => {
       if(res){
         const temp = res.data.map(item => {
           const d = get_formated_time(item.receiveDate)
@@ -73,27 +75,17 @@ const IncomeTracker = () => {
   useFocusEffect(
     useCallback(() => {
       handleGetIncomeList()
-    }, [])
+    }, [activeTab])
   )
 
 
   const handleTabFilter = (tab) => {
-    if(tab.toLowerCase() == "all"){
-      setFilteredIncomeList(incomeList)
-      let totalIncome = 0;
-        incomeList.forEach(item => {
-          totalIncome += Number(item.amount);
-        });
-      setTotalIncome(totalIncome)
-    }else{
-      const filtered = incomeList.filter(item => item.frequency == tab.toLowerCase())
-      setFilteredIncomeList(filtered)
-      let totalIncome = 0;
-        filtered.forEach(item => {
-          totalIncome += Number(item.amount);
-        });
-        setTotalIncome(totalIncome)
-    }
+    setFilteredIncomeList(incomeList)
+    let totalIncome = 0;
+      incomeList.forEach(item => {
+        totalIncome += Number(item.amount);
+      });
+    setTotalIncome(totalIncome)
     setActiveTab(tab)
   }
 
