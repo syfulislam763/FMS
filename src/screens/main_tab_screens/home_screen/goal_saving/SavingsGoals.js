@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   SafeAreaView,
+  Pressable
 } from 'react-native';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import SavingsGoalCard from '../SavingsGoalCard';
@@ -20,13 +21,14 @@ import { ActivityIndicator } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Trash2 } from 'lucide-react-native';
 import ToastMessage from '../../../../constants/ToastMessage';
+import { useAuth } from '../../../../context/AuthProvider';
+import { get_analytics } from '../../ScreensAPI';
 
 const SavingsGoals = () => {
     const route = useRoute();
-
     const [savingGoalsList, setSavingGoalsList] = useState([]);
     const [visible, setVisible] = useState(false);
-
+    const {setFinancialForecast, setUserProfile, userProfile, setIsSubscribed, setSubscriptionInfo, loginVideoUrl} = useAuth()  
     const handleGetSavingGoalsList = () => {
       setVisible(true);
 
@@ -41,7 +43,8 @@ const SavingsGoals = () => {
                 currentAmount: item.savedMoney,
                 targetAmount: item.totalAmount,
                 icon: '',
-                progress:  item.completionRation
+                progress:  item.completionRation,
+                monthlyTarget: item.monthlyTarget
             }
           })
 
@@ -52,6 +55,22 @@ const SavingsGoals = () => {
       })
     }
 
+    const handleGetHistory = () => {
+      get_analytics((res) => {
+          if(res){
+              setUserProfile(res?.data);
+          }else{
+
+          }
+      })       
+    }
+
+    useFocusEffect(
+      useCallback(() => {
+          handleGetHistory()
+      }, [savingGoalsList])
+    )
+
     const handleDeleteSavingGoal = (id) => {
       setVisible(true);
       
@@ -60,6 +79,7 @@ const SavingsGoals = () => {
           const updatedList = savingGoalsList.filter(item => item.id !== id);
           setSavingGoalsList(updatedList);
           ToastMessage("success", "Deleted successfully!", 2000);
+          
         }else{
           ToastMessage("error", "Failed to delete", 2000);
         }
@@ -93,7 +113,7 @@ const SavingsGoals = () => {
       overshootRight={false}
       rightThreshold={40}
     >
-      <View className="bg-white rounded-[7px] p-4 mb-3">
+      <Pressable onPress={() => navigation.navigate("SavingsGoalForm", {isEdit:true, ...item})} className="bg-white rounded-[7px] p-4 mb-3">
         {/* Header with icon and title */}
         <View className="flex-row items-center mb-2">
           {/* <View className="w-10 h-10 rounded-lg bg-orange-100 items-center justify-center mr-3">
@@ -124,13 +144,13 @@ const SavingsGoals = () => {
             £{item.targetAmount.toLocaleString()}
           </Text>
         </View>
-      </View>
+      </Pressable>
     </Swipeable>
   );
 
   return (
     <ComponentWrapper title='Saving Plans' bg_color='bg-[#2E7D32]'>
-      <SavingsGoalCard amount={0} progress={route?.params?.goals_rate || 0} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
+      <SavingsGoalCard amount={'£'+ Number(userProfile?.totalSavedMoney).toFixed(0) || 0} progress={parseInt(userProfile?.savingGoalCompletionRate)} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
       <FlatList
         data={savingGoalsList}
         renderItem={renderSavingItem}

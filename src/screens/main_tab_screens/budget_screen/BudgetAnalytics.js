@@ -125,16 +125,30 @@ const BarChart = ({budgetDataFromAPI}) => {
             {chartData.map((data, index) => (
               <View key={index} className="items-center">
                 {/* Bar Value Display (Only for values exceeding the cap) */}
-                <Text 
-                  className="text-gray-700 text-xs font-semibold mb-1" 
-                  style={{ position: 'absolute', bottom: data.height + 2 }}>
-                    {data.amount > SCALING_CAP ? `£${formatNumber(data.amount)}` : ''}
-                </Text>
+                
 
                 <View 
-                  className="bg-[#1976D2] w-8 rounded-t-sm"
-                  style={{ height: data.height }}
-                />
+                  className="bg-[#1976D2] w-8 rounded-t-sm justify-end align-bottom"
+                  style={{ height: data.height, position:'relative' }}
+                >
+              
+                  <Text 
+                    className="text-white text-xs font-semibold mb-1" 
+                    numberOfLines={1}
+                    ellipsizeMode="clip"
+                    style={{
+                      position: 'absolute',
+                      bottom: 40,
+                      left: -47,
+                      width: 120,
+                      transform: [{ rotate: '-90deg' }],
+                      color: '#fff',
+                      textAlign: 'center',
+                    }}
+                  >
+                      {data.amount > SCALING_CAP ? `£${formatNumber(data.amount)}` : ''}
+                  </Text>
+                </View>
               </View>
             ))}
           </View>

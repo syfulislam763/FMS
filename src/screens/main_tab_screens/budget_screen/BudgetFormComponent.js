@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
-import { ChevronDown } from 'lucide-react-native';
+import { ChevronDown, } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
-import { post_budget } from '../ScreensAPI';
+import { post_budget, update_budget } from '../ScreensAPI';
 import Indicator from '../../../components/Indicator';
 import ToastMessage from '../../../constants/ToastMessage';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 const BudgetFormComponent = () => {
   const [budgetName, setBudgetName] = useState('Mortgage or Rent');
@@ -17,6 +18,18 @@ const BudgetFormComponent = () => {
   const [showBudgetName, setSHowBudgetName] = useState(false);
 
   const navigation = useNavigation();
+  const route = useRoute();
+
+  console.log("do know", JSON.stringify(route.params, null, 2))
+
+  useEffect(() => {
+    if(route?.params?.isEdit){
+      setAmount(route.params?.amount+"");
+      setBudgetName(route?.params?.title);
+      setCategory(route.params?.category);
+      setBudgetType(route?.params?.type);
+    }
+  }, [])
 
   const categories = ['Essential(Needs)', 'Discretionary(Wants)', 'Savings'];
   const budgetNames = [
@@ -59,19 +72,37 @@ const BudgetFormComponent = () => {
 
     setVisible(true);
 
-    post_budget(payload, res => {
+    if(route.params?.isEdit){
+      update_budget(payload, route?.params?.id, res => {
       if(res){
         //success
         console.log("created", JSON.stringify(res, null, 2));
-        ToastMessage("success", "Budget added successfully!", 2000);
+        ToastMessage("success", "Budget updated successfully!", 2000);
         navigation.goBack();
       }
       else{
         //failed
-        ToastMessage("error", "Failed to add budget", 2000);
+        ToastMessage("error", "Failed to update budget", 2000);
       }
       setVisible(false);
     })
+    }else{
+      post_budget(payload, res => {
+        if(res){
+          //success
+          console.log("created", JSON.stringify(res, null, 2));
+          ToastMessage("success", "Budget added successfully!", 2000);
+          navigation.goBack();
+        }
+        else{
+          //failed
+          ToastMessage("error", "Failed to add budget", 2000);
+        }
+        setVisible(false);
+      })
+    }
+
+    
   }
 
   const RadioButton = ({ selected, onPress, label }) => (
@@ -91,7 +122,7 @@ const BudgetFormComponent = () => {
   );
 
   return (
-    <ComponentWrapper bg_color='bg-[#1976D2]' title='Add New Budget'>
+    <ComponentWrapper bg_color='bg-[#1976D2]' title={route.params?.isEdit?"Edit Budget Form":'Add New Budget'}>
         <View className="flex-1">
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1 py-6">
             
@@ -152,12 +183,12 @@ const BudgetFormComponent = () => {
             </Text>
             <View className="flex-row">
                 <RadioButton
-                selected={budgetType === 'Personal'}
+                selected={budgetType.toLowerCase() === 'personal'}
                 onPress={() => setBudgetType('Personal')}
                 label="Personal"
                 />
                 <RadioButton
-                selected={budgetType === 'Household'}
+                selected={budgetType.toLowerCase() === 'household'}
                 onPress={() => setBudgetType('Household')}
                 label="Household"
                 />

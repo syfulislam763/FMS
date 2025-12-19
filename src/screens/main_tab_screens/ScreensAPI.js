@@ -399,6 +399,16 @@ export const post_saving_goal = async (payload, cb=() => {}) => {
         ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
+export const update_saving_goal = async (payload,id, cb=() => {}) => {
+    try{
+        const res = await api.patch(SAVING_GOAL+id, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 
 
@@ -480,7 +490,15 @@ export const post_budget = async (payload, cb=() => {}) => {
         ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
-
+export const update_budget = async (payload,id, cb=() => {}) => {
+    try{
+        const res = await api.patch(BUDGET+id, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+    }
+}
 
 
 export const get_expence = async (frequency, cb=() => {}) => {

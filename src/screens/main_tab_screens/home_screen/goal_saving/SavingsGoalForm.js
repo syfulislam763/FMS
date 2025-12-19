@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView, ActivityIndicator } from 'react-native';
 import { ChevronDown, Calendar, Clock, MapPin, InfoIcon } from 'lucide-react-native';
 import AppHeader from '../../../../components/AppHeader';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import Indicator from '../../../../components/Indicator';
-import { post_saving_goal } from '../../ScreensAPI';
+import { post_saving_goal, update_saving_goal } from '../../ScreensAPI';
 import ToastMessage from '../../../../constants/ToastMessage';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
+import { useRoute } from '@react-navigation/native';
+import { convertToISO } from '../../../../utils/utils';
 
 const SavingsGoalForm = () => {
   const [goalName, setGoalName] = useState('');
@@ -17,6 +19,9 @@ const SavingsGoalForm = () => {
   const [date, setDate] = useState(dayjs());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentValue, setCurrentValue] = useState(0);
+
+  const route = useRoute();
+
 
   const [visible, setVisible] = useState(false);
 
@@ -38,6 +43,17 @@ const SavingsGoalForm = () => {
     setShowDatePicker(false);
   };
 
+  useEffect(() => {
+    if(route.params?.isEdit){
+      const iso = convertToISO(route?.params?.date);
+      setDate(dayjs(iso))
+      setGoalName(route.params?.title);
+      setCurrentValue(route.params?.currentAmount+"");
+      setTotalAmount(route.params?.targetAmount+"");
+      setMonthlyTarget(route.params?.monthlyTarget+"");
+    }
+  }, [])
+
   const handleSavingGoal = () => {
     const payload = {
       name: goalName,
@@ -51,22 +67,36 @@ const SavingsGoalForm = () => {
 
     setVisible(true);
 
-    post_saving_goal(payload, res => {
-      if(res){
-        //success
-        console.log("created", JSON.stringify(res, null, 2));
-        ToastMessage("success", "Savings goal added successfully!", 2000);
-        navigation.goBack();
-      }else{
-        //failed
-        //ToastMessage("error", "Failed to add savings goal", 2000);
-      }
-      setVisible(false);
-    })
+    if(route.params?.isEdit){
+      update_saving_goal(payload, route.params?.id, res => {
+        if(res){
+          ToastMessage("success", "Savings goal updated successfully!", 2000);
+          navigation.goBack();
+        }else{
+          
+        }
+        setVisible(false);
+      })
+    }else{
+
+      post_saving_goal(payload, res => {
+        if(res){
+          //success
+          console.log("created", JSON.stringify(res, null, 2));
+          ToastMessage("success", "Savings goal added successfully!", 2000);
+          navigation.goBack();
+        }else{
+          //failed
+          //ToastMessage("error", "Failed to add savings goal", 2000);
+        }
+        setVisible(false);
+      })
+
+    }
   }
 
   return (
-    <ComponentWrapper title='Add Savings Goal' bg_color='bg-[#2E7D32]' >
+    <ComponentWrapper title={route.params?.isEdit?"Edit Savings Goal":'Add Savings Goal'} bg_color='bg-[#2E7D32]' >
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         <View className="">
             

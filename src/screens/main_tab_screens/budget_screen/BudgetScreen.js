@@ -14,12 +14,11 @@ import { useCallback } from 'react';
 
 const category = {
   "Essential(Needs)": ShoppingBasket,
-  "Transportation": Truck,
   "Discretionary(Wants)": Theater,
   "Savings": BrickWall,
-  "Healthcare": Ambulance,
-  "Education": GraduationCap
 }
+
+
 
 
 const BudgetScreen = () => {
@@ -32,28 +31,54 @@ const BudgetScreen = () => {
 
     get_monthly_budget(res => {
       if(res){
-        const temp = res.data.map(item => {
-          return {
-            id: item._id,
-            icon: category[item.category] ? category[item.category] : null,
+        let totalSavings = 0;
+        let totalEssential = 0;
+        let totalWants = 0;
+        res?.data?.forEach(item => {
+          if(item.category == "Essential(Needs)"){
+            totalEssential += Number(item.amount)
+          }else if(item.category == "Savings"){
+            totalSavings += Number(item.amount);
+          }else{
+            totalWants += Number(item.amount);
+          }
+        });
+
+        const tempList = [
+          {
+            id: 1,
+            icon: ShoppingBasket,
             iconBg: 'bg-blue-100',
             iconColor: '#3B82F6',
-            title: item.name,
-            amount: item.amount,
-            category: item.category,
-            type: item.type
+            title: "Essential(Needs)",
+            amount: totalEssential,
+            category: "",
+            type: ""
+          },
+          {
+            id: 2,
+            icon: Theater,
+            iconBg: 'bg-blue-100',
+            iconColor: '#3B82F6',
+            title: "Discretionary(Wants)",
+            amount: totalWants,
+            category: "",
+            type: ""
+          },
+          {
+            id: 3,
+            icon: BrickWall,
+            iconBg: 'bg-blue-100',
+            iconColor: '#3B82F6',
+            title: "Savings",
+            amount: totalSavings,
+            category: "",
+            type: ""
           }
-        })
+          
+        ];
 
-        const temp2 = [];
-        temp.forEach(item => {
-          if(temp2.length < 3){
-            temp2.push(item);
-          }
-        })
-
-      
-        setBudgetList(temp2);
+        setBudgetList(tempList)
       }
     })
   }
@@ -67,36 +92,6 @@ const BudgetScreen = () => {
   )
   
 
-
-
-
-
-  const budgetItems = [
-    {
-      id: 1,
-      icon: Globe,
-      iconBg: 'bg-blue-100',
-      iconColor: '#3B82F6',
-      title: 'Internet & Mobile Bills',
-      amount: '£350'
-    },
-    {
-      id: 2,
-      icon: Truck,
-      iconBg: 'bg-orange-100',
-      iconColor: '#F97316',
-      title: 'Transportation',
-      amount: '£250'
-    },
-    {
-      id: 3,
-      icon: Building2,
-      iconBg: 'bg-yellow-100',
-      iconColor: '#EAB308',
-      title: 'Bank Loan Installments',
-      amount: '£2000'
-    }
-  ];
   const navigation = useNavigation()
   const BudgetItem = ({ item }) => (
     <TouchableOpacity className="bg-white rounded-[7px] mb-3 p-3 ">

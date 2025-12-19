@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Pressable } from 'react-native';
 import { Globe, Building2, Trash2, InfoIcon, FileIcon } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { get_monthly_budget, delete_budget } from '../ScreensAPI';
@@ -9,6 +9,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
 import ToastMessage from '../../../constants/ToastMessage';
+import { useNavigation } from '@react-navigation/native';
 
 const category = {
   "Essential(Needs)": ShoppingBasket,
@@ -26,6 +27,8 @@ const MonthlyBudgetComponent = () => {
   const [filteredBudgetList, setFilteredBudgetList] = useState([]);
   const [visible, setVisible] = useState(false);
   const [totalBudget, setTotalBudget] = useState(0);
+
+  const navigation = useNavigation();
 
   const handleGetBudgets = () => {
     setVisible(true);
@@ -168,7 +171,7 @@ const MonthlyBudgetComponent = () => {
               overshootRight={false}
               rightThreshold={40}
             >
-              <View className="bg-[#ffffff] rounded-[7px] p-3 mb-3">
+              <Pressable onPress={() => navigation.navigate("BudgetFormComponent", {isEdit:true, ...entry})} className="bg-[#ffffff] rounded-[7px] p-3 mb-3">
                 <View className="flex-row items-center">
                   {/* Icon Container */}
                   <View className={`w-12 h-12 ${entry.iconBg} rounded-xl items-center justify-center mr-4`}>
@@ -190,7 +193,7 @@ const MonthlyBudgetComponent = () => {
                     £{entry.amount?.toFixed(0)}
                   </Text>
                 </View>
-              </View>
+              </Pressable>
             </Swipeable>
           ))}
         </ScrollView>
