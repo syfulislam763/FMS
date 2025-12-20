@@ -121,6 +121,7 @@ const MonthlyBudgetComponent = () => {
   useFocusEffect(
     useCallback(() => {
       handleGetBudgets()
+      setSelectedTab("All")
     }, [])
   )
 
@@ -163,6 +164,13 @@ const MonthlyBudgetComponent = () => {
         </View>
 
         {/* Budget Entries */}
+        {selectedTab.toLowerCase() == "household" && 
+          <TouchableOpacity onPress={() => navigation.navigate("PartnerForm")} className="mb-2 items-center bg-[#1976D2] p-2 w-1/2 rounded-sm">
+            <Text className="font-archivo-semi-bold text-white text-sm">Share Your Household</Text>
+          </TouchableOpacity>}
+
+
+
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {filteredBudgetList.map((entry) => (
             <Swipeable

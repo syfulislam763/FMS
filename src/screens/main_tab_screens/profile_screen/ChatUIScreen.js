@@ -13,7 +13,7 @@ import {
   ActivityIndicator,
   Keyboard,
 } from 'react-native';
-import { Send, Smile, ArrowDown, User } from 'lucide-react-native';
+import { Send, Smile, ArrowDown } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useAuth } from '../../../context/AuthProvider';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -35,7 +35,7 @@ const ChatUIScreen = () => {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const insets = useSafeAreaInsets();
 
-  // Animation setup for three dots
+
   const dot1 = useRef(new Animated.Value(0)).current;
   const dot2 = useRef(new Animated.Value(0)).current;
   const dot3 = useRef(new Animated.Value(0)).current;
@@ -199,14 +199,21 @@ const ChatUIScreen = () => {
         return;
       }
 
+      const isBulletPoint = line.trim().startsWith('- ');
+      let lineContent = line;
+      
+      if (isBulletPoint) {
+        lineContent = line.trim().substring(2);
+      }
+
       const boldPattern = /\*\*(.+?)\*\*/g;
       const parts = [];
       let lastIndex = 0;
       let match;
 
-      while ((match = boldPattern.exec(line)) !== null) {
+      while ((match = boldPattern.exec(lineContent)) !== null) {
         if (match.index > lastIndex) {
-          const beforeText = line.substring(lastIndex, match.index);
+          const beforeText = lineContent.substring(lastIndex, match.index);
           parts.push(...highlightKeywords(beforeText, parts.length));
         }
         
@@ -219,16 +226,26 @@ const ChatUIScreen = () => {
         lastIndex = match.index + match[0].length;
       }
 
-      if (lastIndex < line.length) {
-        const remainingText = line.substring(lastIndex);
+      if (lastIndex < lineContent.length) {
+        const remainingText = lineContent.substring(lastIndex);
         parts.push(...highlightKeywords(remainingText, parts.length));
       }
 
-      formattedLines.push(
-        <Text key={`line-${lineIndex}`} style={{ marginBottom: 4 }}>
-          {parts}
-        </Text>
-      );
+      if (isBulletPoint) {
+
+        formattedLines.push(
+          <View key={`line-${lineIndex}`} style={{ flexDirection: 'row', marginBottom: 4 }}>
+            <Text style={{ fontWeight: 'bold', marginRight: 8, fontSize: 16 }}>•</Text>
+            <Text style={{ flex: 1 }}>{parts}</Text>
+          </View>
+        );
+      } else {
+        formattedLines.push(
+          <Text key={`line-${lineIndex}`} style={{ marginBottom: 4 }}>
+            {parts}
+          </Text>
+        );
+      }
     });
 
     return <View>{formattedLines}</View>;
@@ -238,6 +255,7 @@ const ChatUIScreen = () => {
     const redKeywords = ['income', 'debts', 'debt', 'expense', 'expenses'];
     const greenKeywords = ['savings goal', 'savings goals', 'saving goal'];
     
+
     const keywordPattern = `\\b(${[...redKeywords, ...greenKeywords].join('|')})\\b`;
     const amountPattern = '£[\\d,]+(?:\\.\\d{2})?';
     const combinedPattern = new RegExp(`(${keywordPattern}|${amountPattern})`, 'gi');
@@ -257,7 +275,7 @@ const ChatUIScreen = () => {
         return 'green';
       }
       
-
+ 
       if (lowerText.includes('debt') || 
           lowerText.includes('expense') || 
           lowerText.includes('income') ||
@@ -270,6 +288,7 @@ const ChatUIScreen = () => {
     };
 
     while ((match = combinedPattern.exec(text)) !== null) {
+
       if (match.index > lastIndex) {
         parts.push(
           <Text key={`text-${startKey}-${parts.length}`}>
@@ -284,11 +303,11 @@ const ChatUIScreen = () => {
       let color = null;
       
       if (isAmount) {
- 
+
         const textBefore = text.substring(0, match.index);
         color = detectAmountContext(textBefore);
       } else {
-
+  
         const keyword = matchedText.toLowerCase();
         const isGreen = greenKeywords.some(gk => keyword.includes(gk));
         color = isGreen ? 'green' : 'red';
@@ -302,7 +321,7 @@ const ChatUIScreen = () => {
           </Text>
         );
       } else {
-    
+
         parts.push(
           <Text key={`normal-${startKey}-${parts.length}`}>
             {matchedText}
@@ -313,6 +332,7 @@ const ChatUIScreen = () => {
       lastIndex = match.index + matchedText.length;
     }
     
+
     if (lastIndex < text.length) {
       parts.push(
         <Text key={`text-${startKey}-${parts.length}`}>
@@ -331,18 +351,11 @@ const ChatUIScreen = () => {
           <View className="max-w-[80%] bg-[#FFA950] rounded-3xl rounded-br-md px-5 py-4 mr-3">
             <Text className="text-white text-small">{msg.text}</Text>
           </View>
-
-          {userProfile?.user?.image ?
-              <Image
-                source={{ uri: userProfile?.user?.image }}
-                className="w-8 h-8 rounded-full"
-                resizeMode="cover"
-              />:
-              <View className="items-center rounded-full justify-center h-[35] w-[35] bg-white">
-                  <User size={18}/>
-              </View>
-          }
-          
+          <Image
+            source={{ uri: userProfile?.user?.image }}
+            className="w-8 h-8 rounded-full"
+            resizeMode="cover"
+          />
         </View>
       ) : (
         <View className="flex-row justify-start mb">

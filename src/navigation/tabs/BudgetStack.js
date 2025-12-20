@@ -5,6 +5,8 @@ import MonthlyBudgetComponent from "../../screens/main_tab_screens/budget_screen
 import BudgetFormComponent from "../../screens/main_tab_screens/budget_screen/BudgetFormComponent";
 import BudgetAnalytics from "../../screens/main_tab_screens/budget_screen/BudgetAnalytics";
 import PremiumFinancialAdvice from "../../screens/main_tab_screens/profile_screen/PremiumFinancialAdvice";
+import PartnerForm from "../../screens/auth_screens/otp_verification/PartnerForm";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +34,10 @@ export default function BudgetStack() {
             <Stack.Screen 
                 name="PremiumFinancialAdvice"
                 component={PremiumFinancialAdvice}
+            />
+            <Stack.Screen
+                name="PartnerForm"
+                component={PartnerForm}
             />
         </Stack.Navigator>
     )
