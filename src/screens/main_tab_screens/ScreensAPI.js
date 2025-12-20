@@ -445,6 +445,16 @@ export const post_date_night = async (payload, cb=() => {}) => {
         //ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
+export const update_date_night = async (payload, id, cb=() => {}) => {
+    try{
+        const res = await api.patch(DATE_NIGHT+id, payload);
+        cb(res.data)
+    }catch(e){
+        cb(null)
+        console.log("re", JSON.stringify(e.response, null, 2))
+        //ToastMessage("error", e?.response?.data?.message, 3000)
+    }
+}
 
 export const get_budget_analysis = async (cb=() => {}) => {
     try{

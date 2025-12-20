@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, FlatList, Pressable } from 'react-native';
 import { Calendar, RotateCcw, MapPin } from 'lucide-react-native';
 import AppHeader from '../../../components/AppHeader';
 import ComponentWrapper from '../../../components/ComponentWrapper';
@@ -34,8 +34,8 @@ const BudgetListComponent = () => {
             id: item._id,
             title: item.plan,
             amount: item.budget,
-            date: d.month + ", " + d.day + " " + d.year,
-            time: d.time,
+            date: d.month + " ," + d.day + " " + d.year,
+            time: item.time,
             frequency: item.repeatEvery,
             location: item.location,
             userId: item.userId,
@@ -94,7 +94,7 @@ const BudgetListComponent = () => {
       overshootRight={false}
       rightThreshold={40}
     >
-      <View className="bg-white rounded-[7px] mb-3 p-4">
+      <Pressable onPress={() => navigation.navigate("FinadateScreen", {isEdit:true, ...item})} className="bg-white rounded-[7px] mb-3 p-4">
         <View className="flex-row justify-between items-start mb-1">
           <Text className="text-lg font-archivo-semi-bold text-gray-900 flex-1">
             {item.title}
@@ -134,7 +134,7 @@ const BudgetListComponent = () => {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </Pressable>
     </Swipeable>
   );
 

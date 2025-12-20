@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, ScrollView, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import { ChevronDown, Calendar, Clock, MapPin } from 'lucide-react-native';
 import AppHeader from '../../../components/AppHeader';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useNavigation } from '@react-navigation/native';
 import Indicator from '../../../components/Indicator';
-import { post_date_night } from '../ScreensAPI';
+import { post_date_night, update_date_night } from '../ScreensAPI';
 import ToastMessage from '../../../constants/ToastMessage';
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
+import { useRoute } from '@react-navigation/native';
+import { convertToISO, toISOStringFromDateTime } from '../../../utils/utils';
 
 const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
   const [selectedHour, setSelectedHour] = useState(12);
@@ -129,6 +131,8 @@ const FinadateScreen = () => {
   const repeatOptions = ['Monthly', 'Quarterly', 'Half Yearly or Yearly'];
   const navigation = useNavigation();
 
+  const route = useRoute();
+
   const formatDateForPayload = (date) => {
     return dayjs(date).format('YYYY-MM-DD');
   };
@@ -160,24 +164,50 @@ const FinadateScreen = () => {
       location: location
     }
 
-    console.log(payload);
 
     setVisible(true);
 
-    post_date_night(payload, res => {
-      if(res){
-        console.log("created", JSON.stringify(res, null, 2));
-        ToastMessage("success", "Date night added successfully!", 2000);
-        navigation.goBack();
-      }else{
-        ToastMessage("error", "Failed to add date night", 2000);
-      }
-      setVisible(false);
-    })
+    if(route.params?.isEdit){
+      update_date_night(payload,route.params?.id, res => {
+        if(res){
+          ToastMessage("success", "Date night updated successfully!", 2000);
+          navigation.goBack();
+        }else{
+          ToastMessage("error", "Failed to add date night", 2000);
+        }
+        setVisible(false);
+      })
+    }else{
+
+      post_date_night(payload, res => {
+        if(res){
+          console.log("created", JSON.stringify(res, null, 2));
+          ToastMessage("success", "Date night added successfully!", 2000);
+          navigation.goBack();
+        }else{
+          ToastMessage("error", "Failed to add date night", 2000);
+        }
+        setVisible(false);
+      })
+    }
+    
   }
+  console.log(time);
+  useEffect(() => {
+    if(route.params?.isEdit){
+      const ios = convertToISO(route.params?.date);
+      setDate(dayjs(ios));
+      setRepeatEvery(route.params?.frequency);
+      setTime(toISOStringFromDateTime(route.params?.date, route.params?.time));
+      setBudget(route.params?.amount + "");
+      setPlanName(route.params?.title);
+      setLocation(route.params?.location)
+      // console.log("edit -> ", JSON.stringify(route.params, null, 2));
+    }
+  }, [])
 
   return (
-    <ComponentWrapper title='Money Chats(date night)' bg_color='bg-[#1976D2]' >
+    <ComponentWrapper title={route.params?.isEdit?'Edit Money Chats(date night)':'Money Chats(date night)'} bg_color='bg-[#1976D2]' >
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}

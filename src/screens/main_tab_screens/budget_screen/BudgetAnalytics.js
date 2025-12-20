@@ -139,10 +139,10 @@ const BarChart = ({budgetDataFromAPI}) => {
                     style={{
                       position: 'absolute',
                       bottom: 40,
-                      left: -47,
+                      left: -25,
                       width: 120,
                       transform: [{ rotate: '-90deg' }],
-                      color: '#fff',
+                      color: '#000',
                       textAlign: 'center',
                     }}
                   >

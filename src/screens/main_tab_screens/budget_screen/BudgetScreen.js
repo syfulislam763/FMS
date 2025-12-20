@@ -9,7 +9,7 @@ import PrimaryButton from '../../../components/PrimaryButton';
 import { get_monthly_budget } from '../ScreensAPI';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-
+import BudgetPieChartComparison from '../../../components/BudgetPieChartComparison';
 
 
 const category = {
@@ -125,6 +125,7 @@ const BudgetScreen = () => {
                 </Text>
             </TouchableOpacity>
         </View>
+        <Text className="font-archivo-semi-bold text-black text-sm mb-3">Begin with 50-30-20 budgeting rules (50% for your essentials, 30% for your wants and 20% for savings) </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
     
             {/* Budget Items List */}
@@ -134,7 +135,11 @@ const BudgetScreen = () => {
             ))}
             </View>
 
-        </ScrollView>
+            {/* <BudgetPieChartComparison 
+              optimum={{ essential: 50, discretionary: 30, savings: 20 }}
+              current={{ essential: 60, discretionary: 25, savings: 15 }}
+            /> */}
+        
             
             <View className="mx-4 mt-8 mb-6">
                 <Text className="text-xl font-archivo-semi-bold text-gray-900 mb-4 text-center">
@@ -160,6 +165,7 @@ const BudgetScreen = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
+            </ScrollView>
         </View>
     </ComponentWrapper>
   );
