@@ -34,7 +34,7 @@ const BudgetScreen = () => {
         let totalSavings = 0;
         let totalEssential = 0;
         let totalWants = 0;
-        res?.data?.forEach(item => {
+        res?.data?.budgetData?.forEach(item => {
           if(item.category == "Essential(Needs)"){
             totalEssential += Number(item.amount)
           }else if(item.category == "Savings"){

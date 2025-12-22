@@ -101,7 +101,7 @@ const FinancialCalendar = () => {
 
     if(financialForecast?.expenses){
       const temp = financialForecast?.expenses?.map(item => {
-        const d = get_formated_time(item.createdAt)
+        const d = get_formated_time(item.endDate)
          const date = d.month+" "+d.day+", " + d.year;
          console.log(d.time)
         return {

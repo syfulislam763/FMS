@@ -475,7 +475,7 @@ export const get_monthly_budget = async (cb=() => {}) => {
     }catch(e){
         cb(null)
         console.log("re", JSON.stringify(e, null, 2))
-        ToastMessage("error", e?.response?.data?.message, 3000)
+        ToastMessage("error", "No date is found!", 3000)
     }
 }
 

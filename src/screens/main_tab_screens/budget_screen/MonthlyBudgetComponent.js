@@ -35,7 +35,7 @@ const MonthlyBudgetComponent = () => {
 
     get_monthly_budget(res => {
       if(res){
-        const temp = res.data.map(item => {
+        const temp = res.data?.budgetData?.map(item => {
           return {
             id: item._id,
             icon: category[item.category] ? category[item.category] : null,
