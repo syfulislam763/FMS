@@ -344,7 +344,7 @@ const FinadateScreen = () => {
             <View className="mb-8">
             <View className="flex-row items-center justify-between">
                 <Text className="text-lg font-archivo-semi-bold text-gray-900">
-                Enable Notification
+                  Send email to partner
                 </Text>
                 <Switch
                 value={notificationEnabled}

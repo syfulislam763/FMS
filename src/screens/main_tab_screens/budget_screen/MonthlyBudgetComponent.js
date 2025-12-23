@@ -27,6 +27,7 @@ const MonthlyBudgetComponent = () => {
   const [filteredBudgetList, setFilteredBudgetList] = useState([]);
   const [visible, setVisible] = useState(false);
   const [totalBudget, setTotalBudget] = useState(0);
+  const [partnerInfo, setPartnerInfo] = useState(null);
 
   const navigation = useNavigation();
 
@@ -35,6 +36,7 @@ const MonthlyBudgetComponent = () => {
 
     get_monthly_budget(res => {
       if(res){
+        console.log(JSON.stringify(res, null, 2), "budget data")
         const temp = res.data?.budgetData?.map(item => {
           return {
             id: item._id,
@@ -56,6 +58,7 @@ const MonthlyBudgetComponent = () => {
         setTotalBudget(sum);
         setFilteredBudgetList(temp);
         setBudgetList(temp);
+        setPartnerInfo(res?.data?.partnerInfo);
       }
 
       setVisible(false);
@@ -164,12 +167,15 @@ const MonthlyBudgetComponent = () => {
         </View>
 
         {/* Budget Entries */}
-        {selectedTab.toLowerCase() == "household" && 
+        {(selectedTab.toLowerCase() == "household" && (!partnerInfo) ) &&
           <TouchableOpacity onPress={() => navigation.navigate("PartnerForm")} className="mb-2 items-center bg-[#1976D2] p-2 w-1/2 rounded-sm">
             <Text className="font-archivo-semi-bold text-white text-sm">Share Your Household</Text>
           </TouchableOpacity>}
 
-
+        {(selectedTab.toLowerCase() == "household" && partnerInfo) &&
+          <TouchableOpacity onPress={() => navigation.navigate("PartnerRequestScreen")} className="mb-2 items-center bg-[#1976D2] p-2 w-1/2 rounded-sm">
+            <Text className="font-archivo-semi-bold text-white text-sm">Shared with {partnerInfo?.name}</Text>
+          </TouchableOpacity>}
 
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {filteredBudgetList.map((entry) => (
@@ -197,9 +203,23 @@ const MonthlyBudgetComponent = () => {
                   </View>
                   
                   {/* Amount */}
-                  <Text className="text-[#1976D2] font-inter-semi-bold text-lg">
-                    £{entry.amount?.toFixed(0)}
-                  </Text>
+                  <View>
+                    <Text className="text-[#1976D2] font-inter-semi-bold text-lg">
+                      £{entry.amount?.toFixed(0)}
+                    </Text>
+
+                    {(selectedTab.toLowerCase() == "household" && partnerInfo  ) &&
+                    
+                    <Text className="bg-[#1976D2] text-center rounded-sm text-white font-inter-semi-bold text-xs">
+                      {entry?.taggedPartner?"Partner":"Self"}
+                    </Text>
+                    
+                    
+                    }
+                    
+
+                  </View>
+                  
                 </View>
               </Pressable>
             </Swipeable>

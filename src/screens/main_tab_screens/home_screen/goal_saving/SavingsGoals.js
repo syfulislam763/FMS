@@ -150,7 +150,7 @@ const SavingsGoals = () => {
 
   return (
     <ComponentWrapper title='Saving Plans' bg_color='bg-[#2E7D32]'>
-      <SavingsGoalCard amount={'£'+ Number(userProfile?.totalSavedMoney).toFixed(0) || 0} progress={parseInt(userProfile?.savingGoalCompletionRate)} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
+      <SavingsGoalCard amount={Number(userProfile?.totalSavedMoney)? '£'+ Number(userProfile?.totalSavedMoney).toFixed(0): '£'+0} progress={parseInt(userProfile?.savingGoalCompletionRate) || 0} container_style='bg-green-50 rounded-[7px] p-3 border-[1px] border-green-100'/>
       <FlatList
         data={savingGoalsList}
         renderItem={renderSavingItem}

@@ -24,6 +24,10 @@ const category = {
 const BudgetScreen = () => {
 
   const [budgetList, setBudgetList] = useState([]);
+  const [totalBudget, setTotalBudget] = useState(0);
+  const [totalWants, setTotalWants] = useState(0);
+  const [totalSavings, setTotalSavings] = useState(0);
+  const [totalEssential, setTotalEssential] = useState(0);
 
 
   const handleGetBudgets = () => {
@@ -78,6 +82,10 @@ const BudgetScreen = () => {
           
         ];
 
+        setTotalBudget(totalEssential+totalSavings+totalWants);
+        setTotalEssential(totalEssential);
+        setTotalSavings(totalSavings);
+        setTotalWants(totalWants);
         setBudgetList(tempList)
       }
     })
@@ -110,7 +118,7 @@ const BudgetScreen = () => {
       </View>
     </TouchableOpacity>
   );
-
+ 
   return (
     <ComponentWrapper headerComponent={() => <AppHeader middle={()=><Text className="text-white font-archivo-semi-bold text-2xl">{"Budget Planner"}</Text>}/>} bg_color='bg-[#1976D2]'>
         <View className="flex-1">
@@ -135,10 +143,11 @@ const BudgetScreen = () => {
             ))}
             </View>
 
-            {/* <BudgetPieChartComparison 
+            <BudgetPieChartComparison 
               optimum={{ essential: 50, discretionary: 30, savings: 20 }}
-              current={{ essential: 60, discretionary: 25, savings: 15 }}
-            /> */}
+              //current={{ essential: Math.round((totalEssential*100)/totalBudget), discretionary: Math.round((totalWants*100)/totalBudget), savings: Math.round((totalSavings*100)/totalBudget) }}
+              current={{essential: totalEssential, discretionary: totalWants, savings: totalSavings}}
+            />
         
             
             <View className="mx-4 mt-8 mb-6">

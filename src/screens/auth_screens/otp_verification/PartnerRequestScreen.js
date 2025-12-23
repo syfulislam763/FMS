@@ -8,7 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Check, X, Trash } from 'lucide-react-native';
+import { Check, X, Trash, User } from 'lucide-react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 import { ActivityIndicator } from 'react-native';
 import Indicator from '../../../components/Indicator';
@@ -161,11 +161,15 @@ const PartnerRequestScreen = () => {
   const renderRequest = ({ item }) => (
     <View className="bg-white mb-4 rounded-2xl p-4 flex-row items-center">
       {/* Avatar */}
-      <Image
-        source={{ uri: item?.image }}
-        className="w-16 h-16 rounded-full"
-        resizeMode="cover"
-      />
+      {item?.image ?
+          <Image
+              className="h-[30] w-[30] rounded-full"
+              source={{uri:item?.image}}
+          />:
+          <View className="items-center rounded-full justify-center h-[40] w-[40] bg-slate-300">
+              <User size={25}/>
+          </View>
+      }
 
       {/* User Info */}
       <View className="flex-1 ml-4">

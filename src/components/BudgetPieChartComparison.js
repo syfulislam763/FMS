@@ -21,6 +21,19 @@ const SinglePieChart = ({
 
   // Calculate percentages
   const total = essential + discretionary + savings;
+  
+  // Handle case when all values are 0
+  if (total === 0) {
+    return (
+      <View className="items-center justify-center flex-1 mb-3">
+        <Text className="text-base font-bold text-gray-800 mb-8">{title}</Text>
+        <View className="w-[155px] h-[155px] rounded-full bg-gray-200 items-center justify-center mb-4">
+          <Text className="text-gray-500 font-medium text-sm">No Data</Text>
+        </View>
+      </View>
+    );
+  }
+  
   const essentialPercent = (essential / total) * 100;
   const discretionaryPercent = (discretionary / total) * 100;
   const savingsPercent = (savings / total) * 100;
@@ -29,7 +42,23 @@ const SinglePieChart = ({
   const createArcPath = (startAngle, endAngle) => {
     const start = polarToCartesian(center, center, radius, endAngle);
     const end = polarToCartesian(center, center, radius, startAngle);
-    const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+    
+    // Handle full circle (360 degrees or close to it)
+    const sweepAngle = endAngle - startAngle;
+    if (sweepAngle >= 359.9) {
+      // For full circle, draw as two semicircles to avoid SVG rendering issues
+      const midAngle = startAngle + 180;
+      const mid = polarToCartesian(center, center, radius, midAngle);
+      return [
+        `M ${center} ${center}`,
+        `L ${start.x} ${start.y}`,
+        `A ${radius} ${radius} 0 0 0 ${mid.x} ${mid.y}`,
+        `A ${radius} ${radius} 0 0 0 ${end.x} ${end.y}`,
+        'Z'
+      ].join(' ');
+    }
+    
+    const largeArcFlag = sweepAngle <= 180 ? "0" : "1";
 
     return [
       `M ${center} ${center}`,
@@ -86,43 +115,55 @@ const SinglePieChart = ({
       {/* Pie Chart */}
       <View className="mb-4">
         <Svg width={size} height={size}>
-          {/* Essential slice */}
-          <Path
-            d={essentialPath}
-            fill={colors.essential}
-          />
+          {/* Essential slice - only render if > 0 */}
+          {essentialPercent > 0 && (
+            <Path
+              d={essentialPath}
+              fill={colors.essential}
+            />
+          )}
           
-          {/* Discretionary slice */}
-          <Path
-            d={discretionaryPath}
-            fill={colors.discretionary}
-          />
+          {/* Discretionary slice - only render if > 0 */}
+          {discretionaryPercent > 0 && (
+            <Path
+              d={discretionaryPath}
+              fill={colors.discretionary}
+            />
+          )}
           
-          {/* Savings slice */}
-          <Path
-            d={savingsPath}
-            fill={colors.savings}
-          />
+          {/* Savings slice - only render if > 0 */}
+          {savingsPercent > 0 && (
+            <Path
+              d={savingsPath}
+              fill={colors.savings}
+            />
+          )}
         </Svg>
 
-        {/* Percentage labels on slices */}
-        <View className="absolute" style={{ top: essentialLabelPos.y - 10, left: essentialLabelPos.x - 15 }}>
-          <Text className="text-white font-bold text-xs">
-            {essentialPercent.toFixed(0)}%
-          </Text>
-        </View>
+        {/* Percentage labels on slices - only show if > 0 */}
+        {essentialPercent > 0 && (
+          <View className="absolute" style={{ top: essentialLabelPos.y - 10, left: essentialLabelPos.x - 15 }}>
+            <Text className="text-white font-bold text-xs">
+              {essentialPercent.toFixed(0)}%
+            </Text>
+          </View>
+        )}
 
-        <View className="absolute" style={{ top: discretionaryLabelPos.y - 10, left: discretionaryLabelPos.x - 15 }}>
-          <Text className="text-white font-bold text-xs">
-            {discretionaryPercent.toFixed(0)}%
-          </Text>
-        </View>
+        {discretionaryPercent > 0 && (
+          <View className="absolute" style={{ top: discretionaryLabelPos.y - 10, left: discretionaryLabelPos.x - 15 }}>
+            <Text className="text-white font-bold text-xs">
+              {discretionaryPercent.toFixed(0)}%
+            </Text>
+          </View>
+        )}
 
-        <View className="absolute" style={{ top: savingsLabelPos.y - 10, left: savingsLabelPos.x - 15 }}>
-          <Text className="text-white font-bold text-xs">
-            {savingsPercent.toFixed(0)}%
-          </Text>
-        </View>
+        {savingsPercent > 0 && (
+          <View className="absolute" style={{ top: savingsLabelPos.y - 10, left: savingsLabelPos.x - 15 }}>
+            <Text className="text-white font-bold text-xs">
+              {savingsPercent.toFixed(0)}%
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -181,3 +222,7 @@ const BudgetPieChartComparison = ({
 export default BudgetPieChartComparison;
 
 // Usage Example:
+// <BudgetPieChartComparison 
+//   optimum={{ essential: 50, discretionary: 30, savings: 20 }}
+//   current={{ essential: 60, discretionary: 25, savings: 15 }}
+// />

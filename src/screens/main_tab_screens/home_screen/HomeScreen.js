@@ -228,7 +228,7 @@ const HomeScreen = () => {
                     <SavingsGoalCard 
                         onPress={() => navigation.navigate("SavingsGoals", {goals_rate:parseInt(userProfile?.savingGoalCompletionRate), saved_amount: '£'+ Number(userProfile?.totalSavedMoney).toFixed(0)})}
                         progress={parseInt(userProfile?.savingGoalCompletionRate) || 0}
-                        amount={'£'+ Number(userProfile?.totalSavedMoney).toFixed(0)}
+                        amount={Number(userProfile?.totalSavedMoney)? '£'+ Number(userProfile?.totalSavedMoney).toFixed(0): '£'+0 }
                     />
                     <QuickCalculators/>
                     <FinancialCalendar/>
