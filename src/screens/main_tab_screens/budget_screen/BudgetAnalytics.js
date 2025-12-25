@@ -81,11 +81,10 @@ const BarChart = ({  }) => {
   const SCALING_CAP = 15000;
   const chartHeight = 135;
 
-  // Colors for each category
   const colors = {
-    essential: '#EF4444',      // Red
-    discretionary: '#F59E0B',  // Orange
-    savings: '#10B981',        // Green
+    essential: '#EF4444',  
+    discretionary: '#F59E0B', 
+    savings: '#10B981',    
   };
 
   const chartData = expenseData.map(item => {
@@ -95,7 +94,6 @@ const BarChart = ({  }) => {
       ? Math.max((scaledAmount / referenceMax) * chartHeight, 4) 
       : 4;
 
-    // Calculate individual section heights based on percentage
     const total = item.totalBudget;
     let essentialHeight = 0;
     let discretionaryHeight = 0;
@@ -135,14 +133,11 @@ const BarChart = ({  }) => {
 
   return (
     <View className="bg-white rounded-2xl p-6 mb-6">
-      {/* Chart Header */}
       <Text className="text-gray-900 font-semibold text-lg mb-6">
         Monthly Budget
       </Text>
 
-      {/* Y-axis Labels and Chart Container */}
       <View className="flex-row">
-        {/* Y-axis Labels */}
         <View className="mr-3">
           <View className="h-40 justify-between">
             {yAxisLabels.map((label, index) => (
@@ -153,18 +148,14 @@ const BarChart = ({  }) => {
           </View>
         </View>
 
-        {/* Chart Bars Container */}
         <View className="flex-1">
-          {/* Chart Area */}
           <View className="h-40 flex-row items-end justify-between px-2">
             {chartData.map((data, index) => (
               <View key={index} className="items-center relative">
-                {/* Stacked Bar */}
                 <View 
                   className="w-8 rounded-t-sm overflow-hidden"
                   style={{ height: data.totalHeight }}
                 >
-                  {/* Savings (Top - Green) */}
                   {data.savingsHeight > 0 && (
                     <View 
                       style={{ 
@@ -174,7 +165,6 @@ const BarChart = ({  }) => {
                     />
                   )}
                   
-                  {/* Discretionary (Middle - Orange) */}
                   {data.discretionaryHeight > 0 && (
                     <View 
                       style={{ 
@@ -184,7 +174,6 @@ const BarChart = ({  }) => {
                     />
                   )}
                   
-                  {/* Essential (Bottom - Red) */}
                   {data.essentialHeight > 0 && (
                     <View 
                       style={{ 
@@ -194,8 +183,6 @@ const BarChart = ({  }) => {
                     />
                   )}
                 </View>
-
-                {/* Rotated value for amounts exceeding cap */}
                 {data.totalBudget > SCALING_CAP && (
                   <Text 
                     className="text-xs font-semibold"
@@ -218,7 +205,6 @@ const BarChart = ({  }) => {
             ))}
           </View>
 
-          {/* X-axis Labels */}
           <View className="flex-row justify-between px-2 mt-2">
             {chartData.map((data, index) => (
               <Text key={index} className="text-gray-600 text-xs">
@@ -229,7 +215,6 @@ const BarChart = ({  }) => {
         </View>
       </View>
 
-      {/* Legend */}
       <View className="flex-row justify-center gap-x-4 mt-4 pt-4 border-t border-gray-200">
         <View className="flex-row items-center">
           <View className="w-3 h-3 rounded-sm mr-1" style={{ backgroundColor: colors.essential }} />
@@ -247,7 +232,6 @@ const BarChart = ({  }) => {
     </View>
   );
 };
-
 // const BarChart = ({budgetDataFromAPI}) => {
 
 //   const getLast6Months = () => {

@@ -23,7 +23,7 @@ const VideoTutorialsScreen = () => {
   const [progressWidth, setProgressWidth] = useState(0);
   const videoRef = useRef(null);
 
-  const categories = ['All', 'Budget', 'Debt', 'Saving'];
+  const categories = ['All', 'Budget', 'Debt', 'Saving', 'Investment'];
   const [visible, setVisible] = useState(false);
   const [videos, setVideos] = useState([])
 
@@ -139,7 +139,7 @@ const VideoTutorialsScreen = () => {
 
   const CategoryButton = ({ category, isActive }) => (
     <TouchableOpacity
-      className={`px-4 py-2 h-12 w-24 items-center justify-center rounded-lg mr-3 ${
+      className={`px-4 py-2 h-12 items-center justify-center rounded-lg mr-3 ${
         isActive ? 'bg-blue-500' : 'border border-gray-300'
       }`}
       onPress={() => setActiveCategory(category)}

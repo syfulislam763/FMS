@@ -129,6 +129,11 @@ const FinadateScreen = () => {
   const [visible, setVisible] = useState(false);
 
   const repeatOptions = ['Monthly', 'Quarterly', 'Half Yearly or Yearly'];
+  const frequencyValue = {
+    'Monthly':'Monthly', 
+    'Quarterly':'Quarterly', 
+    'Half Yearly or Yearly': 'Yearly'
+  }
   const navigation = useNavigation();
 
   const route = useRoute();
@@ -158,7 +163,7 @@ const FinadateScreen = () => {
     const payload = {
       plan: planName,
       budget: Number(budget),
-      repeatEvery: repeatEvery,
+      repeatEvery: frequencyValue[repeatEvery],
       date: formatDateForPayload(date),
       time: formatTimeForPayload(time),
       location: location
