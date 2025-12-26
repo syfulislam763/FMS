@@ -34,7 +34,7 @@ const MonthlyBudgetComponent = () => {
   const handleGetBudgets = () => {
     setVisible(true);
 
-    get_monthly_budget(res => {
+    get_monthly_budget(selectedTab.toLowerCase(), res => {
       if(res){
         console.log(JSON.stringify(res, null, 2), "budget data")
         const temp = res.data?.budgetData?.map(item => {
@@ -46,7 +46,8 @@ const MonthlyBudgetComponent = () => {
             title: item.name,
             amount: item.amount,
             category: item.category,
-            type: item.type
+            type: item.type,
+            taggedPartner: item?.taggedPartner
           }
         })
 
@@ -66,22 +67,22 @@ const MonthlyBudgetComponent = () => {
   }
 
   const handleTabFilter = (tab) => {
-    if(tab.toLowerCase() == "all"){
-      setFilteredBudgetList(budgetList)
-      let sum = 0;
-      budgetList.forEach(item => {
-        sum += parseInt(item.amount);
-      })
-      setTotalBudget(sum);
-    }else{
-      const filtered = budgetList.filter(item => item.type == tab.toLowerCase())
-      setFilteredBudgetList(filtered)
-      let sum = 0;
-      filtered.forEach(item => {
-        sum += parseInt(item.amount);
-      })
-      setTotalBudget(sum);
-    }
+    // if(tab.toLowerCase() == "all"){
+    //   setFilteredBudgetList(budgetList)
+    //   let sum = 0;
+    //   budgetList.forEach(item => {
+    //     sum += parseInt(item.amount);
+    //   })
+    //   setTotalBudget(sum);
+    // }else{
+    //   const filtered = budgetList.filter(item => item.type == tab.toLowerCase())
+    //   setFilteredBudgetList(filtered)
+    //   let sum = 0;
+    //   filtered.forEach(item => {
+    //     sum += parseInt(item.amount);
+    //   })
+    //   setTotalBudget(sum);
+    // }
     setSelectedTab(tab)
   }
 
@@ -124,8 +125,8 @@ const MonthlyBudgetComponent = () => {
   useFocusEffect(
     useCallback(() => {
       handleGetBudgets()
-      setSelectedTab("All")
-    }, [])
+      //setSelectedTab("All")
+    }, [selectedTab])
   )
 
   const tabs = ['All', 'Personal', 'Household'];

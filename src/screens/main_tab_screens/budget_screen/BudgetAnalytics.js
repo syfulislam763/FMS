@@ -42,7 +42,7 @@ const budgetDataFromAPI = [
     { "month": "Dec", "totalBudget": 30000 , essential: 10000, discresonary: 10000, savings: 10000},
 ];
 
-const BarChart = ({  }) => {
+const BarChart = ({budgetDataFromAPI}) => {
   const getLast6Months = () => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const currentDate = new Date();
@@ -425,7 +425,7 @@ export default function BudgetAnalytics() {
 
   return (
     <ComponentWrapper bg_color='bg-[#1976D2]' title='Monthly Budget Analytics'>
-        <ScrollView className=" pt-4 flex-1 bg-[##e7eaef]">
+        <ScrollView showsVerticalScrollIndicator={false} className=" pt-4 flex-1 bg-[##e7eaef]">
             {/* Bar Chart Component */}
             <BarChart budgetDataFromAPI={budgetDataFromAPI} />
 
@@ -440,7 +440,7 @@ export default function BudgetAnalytics() {
                 </Text>
                 
               {
-                rehoSuggestions?.insights?.map((suggestion) => (
+                rehoSuggestions?.insights?.map((suggestion, idx) => (
                   <AIsuggestion
                     key={idx}
                     number={idx+1}

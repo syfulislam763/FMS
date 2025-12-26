@@ -118,10 +118,12 @@ const SignUpScreen = () => {
                     value={agreeTerms}
                     onValueChange={() => setAgreeTerms(!agreeTerms)}
                 />
-                <Text className="text-sm text-gray-500 ml-2">
-                    I agree with{" "}
-                    <Text className="text-[12px] font-inter-regular text-[#4F55BA]">Terms <Text className="text-title-color">&</Text> Conditions</Text>
-                </Text>
+                <TouchableOpacity onPress={() => navigation.navigate("TermsAndPolicy")} className="flex-row items-center">
+                  <Text className="text-sm text-gray-500 ml-2">I agree with{" "}</Text>
+                  <Text className="text-[12px] font-inter-regular text-[#4F55BA]">Terms <Text className="text-title-color">&</Text> Conditions</Text>
+                </TouchableOpacity>
+                
+        
             </View>
 
             {/* Log In Button */}

@@ -9,6 +9,7 @@ import ForgetPassOTPVerification from "../screens/auth_screens/otp_verification/
 import PartnerForm from "../screens/auth_screens/otp_verification/PartnerForm";
 import CreateNewPassword from "../screens/auth_screens/forget_pass/CreateNewPassword";
 import ConfirmPasswordChange from "../screens/auth_screens/forget_pass/ConfirmPasswordChange";
+import TermsAndPolicy from "../screens/main_tab_screens/profile_screen/TermsAndPolicy";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,11 @@ export default function AuthStack () {
             <Stack.Screen 
                 name="ConfirmPasswordChange"
                 component={ConfirmPasswordChange}
+            />
+
+            <Stack.Screen 
+                name="TermsAndPolicy"
+                component={TermsAndPolicy}   
             />
 
         </Stack.Navigator>

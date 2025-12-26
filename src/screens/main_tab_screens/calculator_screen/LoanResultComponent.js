@@ -37,7 +37,7 @@ const LoanResultComponent = ({
 
     const route = useRoute()
 
-    console.log(adData)
+    console.log(adData, "data")
 
 
 
@@ -84,7 +84,7 @@ const LoanResultComponent = ({
             </View>
 
             {/* Ads Section */}
-            {!isSubscribed && <View className="bg-gray-100 p-2 rounded-[5px] items-center justify-center min-h-[120px]">
+            { isSubscribed && <View className="bg-gray-100 p-2 rounded-[5px] items-center justify-center min-h-[120px]">
                 {(adData)?
                     <Image
                         source={{uri: adData?.url}}

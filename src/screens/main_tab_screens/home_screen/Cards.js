@@ -18,7 +18,10 @@ const Cards = () => {
   const expense = userProfile?.analytics?.totalExpenses? "£"+Number(userProfile?.analytics?.totalExpenses).toFixed(0):"£0"
   const budget = userProfile?.analytics?.totalBudget? "£"+Number(userProfile?.analytics?.totalBudget).toFixed(0): "£0"
   const disposal = userProfile?.analytics?.disposal? "£"+Number(userProfile?.analytics?.disposal).toFixed(0): "£0"
-
+  const monthlySavings = userProfile?.analytics?.savingGoalMonthly? Number(userProfile?.analytics?.savingGoalMonthly).toFixed(0): 0
+  const expenseValue = userProfile?.analytics?.totalExpenses? Number(userProfile?.analytics?.totalExpenses).toFixed(0): 0
+  const incomeValue = userProfile?.analytics?.totalIncome?Number(userProfile?.analytics?.totalIncome).toFixed(0): 0
+  const value = parseInt(incomeValue)-(parseInt(expenseValue)+parseInt(monthlySavings))
 
   const cards = [
     {
@@ -47,7 +50,7 @@ const Cards = () => {
     },
     {
       title: 'Disposable',
-      amount: disposal,
+      amount:  "£"+value,
       icon: PoundSterling,
       iconColor: '#6366F1',
       bgColor: 'bg-indigo-50',

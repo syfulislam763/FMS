@@ -128,6 +128,7 @@ const FinadateScreen = () => {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [visible, setVisible] = useState(false);
 
+
   const repeatOptions = ['Monthly', 'Quarterly', 'Half Yearly or Yearly'];
   const frequencyValue = {
     'Monthly':'Monthly', 
@@ -166,7 +167,8 @@ const FinadateScreen = () => {
       repeatEvery: frequencyValue[repeatEvery],
       date: formatDateForPayload(date),
       time: formatTimeForPayload(time),
-      location: location
+      location: location,
+      sendEmilNotification:notificationEnabled
     }
 
 

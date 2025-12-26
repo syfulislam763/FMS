@@ -33,7 +33,7 @@ const BudgetScreen = () => {
   const handleGetBudgets = () => {
 
 
-    get_monthly_budget(res => {
+    get_monthly_budget("all", res => {
       if(res){
         let totalSavings = 0;
         let totalEssential = 0;

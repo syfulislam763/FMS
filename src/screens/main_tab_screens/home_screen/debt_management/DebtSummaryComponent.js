@@ -37,7 +37,7 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
           {item.name}
         </Text>
         <Text className="text-gray-500 text-sm mt-1">
-          - {item.interestRate}%
+          <Text className="text-red-500">-{item.interestRate}%</Text> (As a result of high interest rate the capital loss )
         </Text>
       </View>
       

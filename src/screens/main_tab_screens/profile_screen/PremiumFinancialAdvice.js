@@ -287,6 +287,8 @@ const PremiumFinancialAdvice = () => {
             if (hasAccess) {
                 setIsSubscribed(true);
                 setSubscriptionInfo(customerInfo);
+                userProfile?.setIsSubscribed(true);
+                userProfile?.setSubscriptionInfo(customerInfo);
                 
                 console.log('Subscription activated for user:', user.email);
                 

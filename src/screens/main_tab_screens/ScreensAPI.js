@@ -468,9 +468,11 @@ export const get_budget_analysis = async (cb=() => {}) => {
 }
 
 
-export const get_monthly_budget = async (cb=() => {}) => {
+export const get_monthly_budget = async (type, cb=() => {}) => {
+    let url = type == "all"? MONTHLY_BUDGET: `${MONTHLY_BUDGET}?type=${type}`;
+    
     try{
-        const res = await api.get(MONTHLY_BUDGET);
+        const res = await api.get(url);
         cb(res.data)
     }catch(e){
         cb(null)

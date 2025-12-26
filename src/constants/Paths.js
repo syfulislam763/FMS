@@ -16,7 +16,7 @@ if(__DEV__){
 export const EXP_FEEDBACK = `${AI_ROOT_URL}/feedback/optimize-expenses`;
 export const DEBT_FEEDBACK = `${AI_ROOT_URL}/feedback/optimize-debt`;
 export const BUD_FEEDBACK = `${AI_ROOT_URL}/feedback/optimize-budget`;
-export const SAVINGS_TIPS = `${AI_ROOT_URL}/calculator/savings-tip`
+export const SAVINGS_TIPS = `${AI_ROOT_URL}/calculator/tips`
 
 // RevenueCat Configuration
 export const REVENUECAT_IOS_API_KEY = config.REVENUECAT_IOS_API_KEY;
