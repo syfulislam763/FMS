@@ -80,7 +80,7 @@ export const update_profile = async (payload, cb=() => {}) => {
         cb(res.data)
     }catch(e){
         cb(null)
-        console.log("re", JSON.stringify(e.response, null, 2))
+        console.log("re", JSON.stringify(e, null, 2))
         ToastMessage("error", e?.response?.data?.message, 3000)
     }
 }
