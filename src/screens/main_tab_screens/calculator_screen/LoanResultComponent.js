@@ -6,7 +6,7 @@ import ComponentWrapper from '../../../components/ComponentWrapper';
 import { useRoute } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-import { get_ad } from '../ScreensAPI';
+import { get_ad, get_savings_tips } from '../ScreensAPI';
 import { useAuth } from '../../../context/AuthProvider';
 
 
@@ -18,7 +18,8 @@ const LoanResultComponent = ({
     
 
     const [adData, setAdData] = useState(null);
-    const {isSubscribed} = useAuth()
+    const {isSubscribed, authToken} = useAuth();
+    const [tips, setTips] = useState(null);
 
 
     const handleGetAdData = () => {
@@ -28,22 +29,29 @@ const LoanResultComponent = ({
             }
         })
     }
+    const handleGetTips = () => {
+        get_savings_tips(authToken.accessToken, res => {
+          if(res){
+            setTips(res);
+          }
+        })
+      }
 
     useFocusEffect(
         useCallback(() => {
-            handleGetAdData()
+            handleGetAdData();
+            handleGetTips();
         }, [])
     )
 
     const route = useRoute()
 
-    console.log(adData, "data")
 
 
 
   return (
     <ComponentWrapper container_bg='bg-white' bg_color='bg-[#1976D2]' title='Calculator Results'>
-        <ScrollView className="flex-1">
+        <ScrollView  showsVerticalScrollIndicator={false} className="flex-1">
         <View className="">
             
             {/* Monthly Payment Section */}
@@ -79,19 +87,19 @@ const LoanResultComponent = ({
                 </Text>
             </View>
             <Text className="text-gray-600 text-sm leading-5">
-                {financialTip}
+                {tips && tips?.loanTip}
             </Text>
             </View>
 
             {/* Ads Section */}
-            { isSubscribed && <View className="bg-gray-100 p-2 rounded-[5px] items-center justify-center min-h-[120px]">
+            { isSubscribed && <View className="bg-gray-100 rounded-[5px] items-center justify-center min-h-[120px] mb-20">
                 {(adData)?
                     <Image
                         source={{uri: adData?.url}}
                         style={{
-                            objectFit:'cover'
+                            objectFit:'fill'
                         }}
-                        className="min-h-[120px] w-full"
+                        className="min-h-[300px] w-full"
                     />:
                     
                     <View className=" ">

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Lightbulb } from 'lucide-react-native';
 import CommponentWrapper from '../../../../components/ComponentWrapper';
 import { useRoute } from '@react-navigation/native';
+import { get_savings_tips } from '../../ScreensAPI';
+import { useAuth } from '../../../../context/AuthProvider';
+import { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 const coin = require("../../../../../assets/img/coin.png")
 
@@ -10,12 +14,27 @@ const FutureValueProjection = () => {
 
     const route = useRoute();
     const params = route.params;
+    const [tips, setTips] = useState(null);
+    const {authToken} = useAuth();
+
+
+    const handleGetTips = () => {
+        get_savings_tips(authToken.accessToken, res => {
+            if(res){
+            setTips(res);
+            }
+        })
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            handleGetTips();
+        }, [])
+    )
 
 
 
-
-
-
+    console.log(JSON.stringify(tips, null, 2), "resf")
 
 
 
@@ -51,7 +70,7 @@ const FutureValueProjection = () => {
                 {/* Description */}
                 {!(params?.flag) && <Text className="text-gray-500 text-sm text-center leading-5 mb-8">
                 This is the estimated cost of an item{'\n'}
-                currently worth ${params.initialAmount} in {params.years}{'\n'}
+                currently worth £{params.initialAmount} in {params.years}{'\n'}
                 years, assuming an average annual{'\n'}
                 inflation rate of {params.annualInflationRate}%.
                 </Text>}
@@ -93,9 +112,10 @@ const FutureValueProjection = () => {
                 
                 {/* Description */}
                 <Text className="text-gray-700 text-sm leading-5">
-                Inflation erodes purchasing power over time.{'\n'}
-                A small annual rate can have a significant{'\n'}
-                impact on future costs.
+                    {tips?
+                        <Text>{params?.flag?tips?.historicalTip:tips?.futureValueTip}</Text>
+                        :null
+                    }
                 </Text>
             </View>
             </View>

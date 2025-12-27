@@ -3,32 +3,6 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Lightbulb } from 'lucide-react-native';
 
 const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
-  // const paymentOrder = [
-  //   {
-  //     id: 1,
-  //     name: 'Credit Card',
-  //     interestRate: '22%',
-  //     isPriority: true
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Student Loan',
-  //     interestRate: '6.5%',
-  //     isPriority: false
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Car Loan',
-  //     interestRate: '4%',
-  //     isPriority: false
-  //   }
-  // ];
-
-  // const debtSummary = {
-  //   totalDebt: '£150000',
-  //   averageInterestRate: '8.5%',
-  //   monthlyPayment: '£2500'
-  // };
 
   const PaymentOrderItem = ({ item, showPayFirst = false }) => (
     <View className="flex-row items-center justify-between py-4 px-4 border-b border-gray-100">
@@ -37,7 +11,7 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
           {item.name}
         </Text>
         <Text className="text-gray-500 text-sm mt-1">
-          <Text className="text-red-500">-{item.interestRate}%</Text> (As a result of high interest rate the capital loss )
+          <Text className="text-red-500">{item.interestRate}% Total capital loss</Text>
         </Text>
       </View>
       
@@ -87,7 +61,25 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
           ))}
         </View>
       </View>
+        
+      <View className="bg-white rounded-[5px] mb-5">
+        {/* Header */}
+        <View className="flex-row items-center px-4 py-4 border-b border-gray-100">
+          <Lightbulb size={24} color="#F59E0B" className="mr-3" />
+          <Text className="text-gray-900 text-lg font-semibold">
+            Payment Order Calculation Procedure
+          </Text>
+        </View>
+        
+        <Text className="text-green-500 font-archivo-semi-bold text-center py-3">
+           Interest Rate = ( (Interest Repayment)/(Capital Repayment + Interest Repayment) ) * 100
+        </Text>
 
+        <Text className="text-red-300 font-archivo-semi-bold text-center py-3">
+          Debts with highest interest rates presented as ascending order to pay fast
+        </Text>
+        
+      </View>
       {/* Debt Summary Card */}
       <View className="bg-white rounded-[5px]">
         {/* Header */}
