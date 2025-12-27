@@ -76,12 +76,14 @@ export const get_ad = async (cb=() => {}) => {
 
 export const update_profile = async (payload, cb=() => {}) => {
     try{
-        const res = await api.patch(UPDATE_PROFILE, payload);
+        const res = await api.patch(UPDATE_PROFILE, payload, {headers:{
+            'Content-Type': 'multipart/form-data',
+        }});
         cb(res.data)
     }catch(e){
         cb(null)
         console.log("re", JSON.stringify(e, null, 2))
-        ToastMessage("error", e?.response?.data?.message, 3000)
+        ToastMessage("error", "Faild to upload image, Try Again!", 3000)
     }
 }
 

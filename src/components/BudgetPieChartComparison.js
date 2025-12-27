@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Platform } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
 const SinglePieChart = ({ 
@@ -10,7 +10,7 @@ const SinglePieChart = ({
 }) => {
   const size = 180;
   const center = size / 2;
-  const radius = 75;
+  const radius = Platform.OS == 'android'?65:75
 
   // Colors for each section
   const colors = {
