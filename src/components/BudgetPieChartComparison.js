@@ -199,7 +199,7 @@ const BudgetPieChartComparison = ({
       </View>
 
       {/* Legend - Shared for both charts */}
-      <View className="flex-row flex-wrap justify-center gap-x-6 gap-y-3 px-4 pt-4 border-t border-gray-200">
+      <View className="flex-row flex-wrap justify-center gap-x-2 gap-y-3 px-4 pt-4 border-t border-gray-200">
         <View className="flex-row items-center">
           <View className="w-4 h-4 rounded-sm mr-2" style={{ backgroundColor: colors.essential }} />
           <Text className="text-sm font-medium text-gray-700">Essential</Text>
