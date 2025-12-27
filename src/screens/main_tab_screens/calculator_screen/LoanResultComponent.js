@@ -92,7 +92,7 @@ const LoanResultComponent = ({
             </View>
 
             {/* Ads Section */}
-            { isSubscribed && <View className="bg-gray-100 rounded-[5px] items-center justify-center min-h-[120px] mb-20">
+            { <View className="bg-gray-100 rounded-[5px] items-center justify-center min-h-[120px] mb-20">
                 {(adData)?
                     <Image
                         source={{uri: adData?.url}}

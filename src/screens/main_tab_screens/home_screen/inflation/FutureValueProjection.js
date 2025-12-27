@@ -34,12 +34,6 @@ const FutureValueProjection = () => {
 
 
 
-    console.log(JSON.stringify(tips, null, 2), "resf")
-
-
-
-
-
   return (
     <CommponentWrapper container_bg='bg-white' title='Inflation Calculator Results'>
         <View className="flex-1">
