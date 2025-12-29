@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, Modal, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Image, Modal, TouchableOpacity, Dimensions, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Video } from 'expo-av';
@@ -20,7 +20,7 @@ import { useCallback } from 'react';
 import { initializeRevenueCat } from '../../../hooks/SubscriptionStatus';
 import { User } from 'lucide-react-native';
 
-const { width, height } = Dimensions.get('window');
+    const { width, height } = Dimensions.get('window');
 
 const HomeScreen = () => {
     
@@ -38,6 +38,7 @@ const HomeScreen = () => {
     const [isMuted, setIsMuted] = useState(false);
     const [status, setStatus] = useState(null);
     const [showControls, setShowControls] = useState(true);
+    const [scaleVideo, setScaleVideo] = useState(1);
     const videoRef = useRef(null);
     const controlsTimeoutRef = useRef(null);
     const handleGetHistory = () => {
@@ -105,7 +106,10 @@ const HomeScreen = () => {
     }
 
     const toggleResizeMode = () => {
-        setResizeMode(prevMode => prevMode === 'cover' ? 'contain' : 'cover');
+        // setResizeMode(prevMode => prevMode === 'fill' ? 'contain' : 'fill');
+        const temp = scaleVideo == 1? height/width: 1;
+        console.log(height/width)
+        setScaleVideo(temp);
     }
 
     const togglePlayPause = async () => {
@@ -200,19 +204,21 @@ const HomeScreen = () => {
                     left={() => {
                         return <View className="flex-row justify-between items-center"> 
 
+                            <Pressable onPress={() => navigation.navigate("ProfileStack")}>
+                                {userProfile?.user?.image ?
+                                    <Image
+                                        className="h-[30] w-[30] rounded-full"
+                                        source={{uri:userProfile?.user?.image}}
+                                    />:
+                                    <View className="items-center rounded-full justify-center h-[40] w-[40] bg-white">
+                                        <User size={25}/>
+                                    </View>
+                                }
+                            </Pressable>
                             
-                            {userProfile?.user?.image ?
-                                <Image
-                                    className="h-[30] w-[30] rounded-full"
-                                    source={{uri:userProfile?.user?.image}}
-                                />:
-                                <View className="items-center rounded-full justify-center h-[40] w-[40] bg-white">
-                                    <User size={25}/>
-                                </View>
-                            }
 
                             <View className="ml-3">
-                                <Text className="text-white font-inter-regular text-lg">Welcome Back</Text>
+                                <Text className="text-white font-inter-regular text-lg">Welcome</Text>
                                 <Text className="text-white text-sm font-inter-regular">{userProfile?.user?.name}</Text>
                             </View>
 
@@ -256,7 +262,7 @@ const HomeScreen = () => {
                             <Video
                                 ref={videoRef}
                                 source={{ uri: loginVideoUrl }}
-                                style={styles.video}
+                                style={{...styles.video, transform: [{scaleY: scaleVideo}]}}
                                 useNativeControls={false}
                                 resizeMode={resizeMode}
                                 shouldPlay={true}
@@ -302,13 +308,13 @@ const HomeScreen = () => {
                                     onPress={toggleResizeMode}
                                     activeOpacity={0.8}
                                 >
-                                    {resizeMode === 'cover' ? (
+                                    {scaleVideo != 1 ? (
                                         <Minimize size={20} color="white" />
                                     ) : (
                                         <Maximize size={20} color="white" />
                                     )}
                                     <Text style={styles.resizeText}>
-                                        {resizeMode === 'cover' ? 'Fit' : 'Fill'}
+                                        {scaleVideo != 1 ? 'Fit' : 'Fill'}
                                     </Text>
                                 </TouchableOpacity>
 
@@ -395,6 +401,7 @@ const styles = StyleSheet.create({
         width: width,
         height: height,
         backgroundColor: '#000',
+        transform: [{scaleY: 1}]
     },
     topControls: {
         position: 'absolute',

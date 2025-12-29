@@ -71,7 +71,7 @@ const FinancialSummary = () => {
 
   return (
     <ComponentWrapper  title='Savings Calculator Summary' bg_color='bg-[#2E7D32]' >
-      <ScrollView className="flex-1 py-6">
+      <ScrollView showsVerticalScrollIndicator={false} className="flex-1 py-6">
         {/* Financial Summary Card */}
         <View className="bg-white rounded-[7px] p-6 mb-4">
           <SummaryRow 
@@ -113,9 +113,9 @@ const FinancialSummary = () => {
                 <Image
                     source={{uri: adData?.url}}
                     style={{
-                        objectFit:'cover'
+                        objectFit:'fill'
                     }}
-                    className="min-h-[120px] w-full"
+                    className="min-h-[300px] w-full"
                 />:
                 
                 <View className=" ">

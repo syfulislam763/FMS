@@ -90,7 +90,7 @@ const SignInScreen = () => {
             <Text className="text-sm ml-1 font-medium text-black mt-4 font-archivo-semi-bold">Password</Text>
             <View className="relative mt-2">
             <TextInput
-                className="rounded-2xl px-4 py-5 bg-[#E6E6E680] font-inter-regular text[12px] pr-12"
+                className="rounded-2xl px-4 py-5 bg-[#E6E6E680] font-inter-regular text-black text[12px] pr-12"
                 placeholder="Enter your password"
                 secureTextEntry={!showPassword}
                 placeholderTextColor="#7D848D"
@@ -98,13 +98,13 @@ const SignInScreen = () => {
                 onChangeText={setPassword}
             />
             <TouchableOpacity
-                className="absolute right-4 top-5"
+                className="absolute right-0 top-1 p-4"
                 onPress={() => setShowPassword(!showPassword)}
             >
                 <Ionicons
-                name={showPassword ? "eye" : "eye-off"}
-                size={20}
-                color="gray"
+                    name={showPassword ? "eye" : "eye-off"}
+                    size={20}
+                    color="gray"
                 />
             </TouchableOpacity>
             </View>
