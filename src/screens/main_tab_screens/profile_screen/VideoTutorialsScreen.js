@@ -262,16 +262,18 @@ const VideoTutorialsScreen = () => {
                   <Text className="text-white text-xs ml-2">{formatTime(status.durationMillis)}</Text>
                 </View>
 
-                <View className="flex-row justify-center items-center space-x-6">
-                  <TouchableOpacity className="w-12 h-12 bg-white/20 rounded-full items-center justify-center" onPress={skipBackward}>
+                <View className="flex-row justify-center items-center">
+                  <TouchableOpacity className="w-12 h-12 bg-white/20 rounded-full items-center justify-center mr-1" onPress={toggleMute}>
+                    {isMuted ? <VolumeX size={22} color="#FFF" /> : <Volume2 size={22} color="#FFF" />}
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity className="w-12 h-12 bg-white/20 rounded-full items-center justify-center mr-1" onPress={skipBackward}>
                     <SkipBack size={22} color="#FFF" />
                   </TouchableOpacity>
 
-                  <TouchableOpacity className="w-12 h-12 bg-white/20 rounded-full items-center justify-center" onPress={toggleMute}>
-                    {isMuted ? <VolumeX size={22} color="#FFF" /> : <Volume2 size={22} color="#FFF" />}
-                  </TouchableOpacity>
+                  
 
-                  <TouchableOpacity className="w-16 h-16 bg-blue-500 rounded-full items-center justify-center" onPress={togglePlayPause}>
+                  <TouchableOpacity className="w-16 h-16 bg-blue-500 rounded-full items-center justify-center mr-1" onPress={togglePlayPause}>
                     {isPlaying ? <Pause size={32} color="#FFF" /> : <Play size={32} color="#FFF" />}
                   </TouchableOpacity>
 
@@ -279,9 +281,9 @@ const VideoTutorialsScreen = () => {
                     <SkipForward size={22} color="#FFF" />
                   </TouchableOpacity>
 
-                  <TouchableOpacity className="w-12 h-12 bg-white/20 rounded-full items-center justify-center">
+                  {/* <TouchableOpacity className="w-12 h-12 bg-white/20 rounded-full items-center justify-center">
                     <Maximize size={22} color="#FFF" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             )}
