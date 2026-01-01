@@ -25,12 +25,13 @@ const SinglePieChart = ({
   // Handle case when all values are 0
   if (total === 0) {
     return (
-      <View className="items-center justify-center flex-1 mb-3">
-        <Text className="text-base font-bold text-gray-800 mb-8">{title}</Text>
-        <View className="w-[155px] h-[155px] rounded-full bg-gray-200 items-center justify-center mb-4">
-          <Text className="text-gray-500 font-medium text-sm">No Data</Text>
-        </View>
-      </View>
+      // <View className="items-center justify-center flex-1 mb-3">
+      //   <Text className="text-base font-bold text-gray-800 mb-8">{title}</Text>
+      //   <View className={`w-[${Platform.OS == 'android'?"145px":"155px"}] h-[${Platform.OS == 'android'?"145px":"155px"}] rounded-full bg-gray-200 items-center justify-center mb-4`}>
+      //     <Text className="text-gray-500 font-medium text-sm">No Data</Text>
+      //   </View>
+      // </View>
+      null
     );
   }
   

@@ -35,6 +35,7 @@ function convertToISO(dateStr) {
 
 const AddExpenseForm = () => {
   const [expenseName, setExpenseName] = useState('Mortgage or Rent');
+  const [otherExpenseName, setOtherExpenseName] = useState("")
   const [amount, setAmount] = useState('5000');
   const [frequency, setFrequency] = useState('Monthly');
   const [date, setDate] = useState(dayjs());
@@ -99,7 +100,7 @@ const AddExpenseForm = () => {
 
   const handleCreateExpense = () => {
     const payload = {
-      name: expenseName,
+      name: expenseName == "Other"?otherExpenseName:expenseName,
       amount: Number(amount),
       endDate: formatDateForPayload(date),
       frequency: frequency.toLowerCase()
@@ -135,7 +136,13 @@ const AddExpenseForm = () => {
   useEffect(() => {
     if(route?.params?.type == "edit"){
       console.log(JSON.stringify(route?.params, null, 2))
-      setExpenseName(route?.params?.title)
+      if(expenseNames.includes(route?.params?.title)){
+        setExpenseName(route?.params?.title)
+      }else{
+        setExpenseName("Other")
+        setOtherExpenseName(route?.params?.title);
+      }
+      
       setFrequency(capitalize(route?.params?.frequency))
       const iso = convertToISO(route?.params?.date);
       setAmount(route?.params?.amount+"");
@@ -176,6 +183,17 @@ const AddExpenseForm = () => {
             <Text className="text-gray-600 text-lg">▼</Text>
           </TouchableOpacity>
         </View>
+
+        {expenseName == "Other" && <View className="mb-6">
+          <TextInput
+            value={otherExpenseName}
+            onChangeText={setOtherExpenseName}
+            className="bg-white rounded-xl px-4 py-4 text-gray-900 font-archivo-semi-bold border border-gray-300"
+            placeholder="Enter expense name"
+            placeholderTextColor="#9CA3AF"
+
+          />
+        </View>}
 
         {/* Amount */}
         <View className="mb-6">

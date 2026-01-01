@@ -10,28 +10,13 @@ import { useRoute } from '@react-navigation/native';
 
 const BudgetFormComponent = () => {
   const [budgetName, setBudgetName] = useState('Mortgage or Rent');
+  const [otherBudgetName, setOtherBudgetName] = useState("")
   const [budgetType, setBudgetType] = useState('Personal');
   const [amount, setAmount] = useState('5000');
   const [category, setCategory] = useState('Essential(Needs)');
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [visible, setVisible] = useState(false);
   const [showBudgetName, setSHowBudgetName] = useState(false);
-
-  const navigation = useNavigation();
-  const route = useRoute();
-
-  console.log("do know", JSON.stringify(route.params, null, 2))
-
-  useEffect(() => {
-    if(route?.params?.isEdit){
-      setAmount(route.params?.amount+"");
-      setBudgetName(route?.params?.title);
-      setCategory(route.params?.category);
-      setBudgetType(route?.params?.type);
-    }
-  }, [])
-
-  const categories = ['Essential(Needs)', 'Discretionary(Wants)', 'Savings'];
   const budgetNames = [
     'Mortgage or Rent',
     'Building or Home insurance',
@@ -60,9 +45,33 @@ const BudgetFormComponent = () => {
     'Other'
   ];
 
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  console.log("do know", JSON.stringify(route.params, null, 2))
+
+  useEffect(() => {
+    if(route?.params?.isEdit){
+
+      if(budgetNames.includes(route?.params?.title)){
+        setBudgetName(route?.params?.title);
+      }else{
+        setBudgetName("Other")
+        setOtherBudgetName(route?.params?.title)
+      }
+
+      setAmount(route.params?.amount+"");
+      setCategory(route.params?.category);
+      setBudgetType(route?.params?.type);
+    }
+  }, [])
+
+  const categories = ['Essential(Needs)', 'Discretionary(Wants)', 'Savings'];
+  
+
   const handleCreateBudget = () => {
     const payload = {
-      name: budgetName,
+      name: budgetName=="Other"?otherBudgetName:budgetName,
       amount: Number(amount),
       category: category,
       type: budgetType.toLowerCase()
@@ -151,6 +160,17 @@ const BudgetFormComponent = () => {
                   <Text className="text-base text-gray-900">{budgetName}</Text>
                   <ChevronDown size={20} color="#6B7280" />
               </TouchableOpacity>
+
+              {budgetName == "Other" && <View className="my-2">
+          
+              <TextInput
+                  className="bg-white rounded-[5px] px-4 py-4 text-lg text-gray-900"
+                  value={otherBudgetName}
+                  onChangeText={setOtherBudgetName}
+                  placeholder="Enter budget name"
+                  placeholderTextColor="#9CA3AF"
+              />
+            </View>}
               
               {showBudgetName && (
                   <View className="bg-white rounded-[7px] mt-2 shadow-sm">

@@ -14,6 +14,7 @@ import ToastMessage from "../../../constants/ToastMessage";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
+
 const google = require("../../../../assets/img/google.png");
 const apple = require("../../../../assets/img/apple.png")
 
@@ -34,13 +35,20 @@ const SignInScreen = () => {
             email: email,
             password: password
         }
+        if(!email){
+            ToastMessage("error", "Email is required!");
+            return;
+        }
+        if(password.length < 8){
+            ToastMessage("error", "Password should be minimum 8 character");
+            return;
+        }
         console.log("payload ->", payload);
         setLoader(true)
         //setIsAuthenticated(true)
         login_user(payload, (data) => {
             console.log(data, "tt");
             if(data?.statusCode==409){
-                // ToastMessage("error", "User is exist, verification needed", 3000)
               
                 resend_otp({email: payload.email}, (data) => {
                     if(data){

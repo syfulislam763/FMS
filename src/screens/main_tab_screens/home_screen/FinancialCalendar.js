@@ -81,13 +81,14 @@ const FinancialCalendar = () => {
 
   useEffect(() => {
     if(financialForecast?.dateNights){
+      console.log(JSON.stringify(financialForecast?.dateNights, null, 2))
       const temp = financialForecast?.dateNights?.map(item => {
         const d = get_formated_time(item.date)
         const date = d.month+" "+d.day+", " + d.year;
         return {
           title: item.plan,
           date: date,
-          time: d.time,
+          time: item?.time,
           amount: '£'+item.budget,
           type: item.repeatEvery,
           hasLocation: true
@@ -103,7 +104,6 @@ const FinancialCalendar = () => {
       const temp = financialForecast?.expenses?.map(item => {
         const d = get_formated_time(item.endDate)
          const date = d.month+" "+d.day+", " + d.year;
-         console.log(d.time)
         return {
           title: item.name,
           date: date,

@@ -8,10 +8,12 @@ import HomeStack from "./tabs/HomeStack";
 import { Ionicons } from "@expo/vector-icons";
 import {Home, User, Calendar, Calculator, Wallet} from 'lucide-react-native'
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 const Tab = createBottomTabNavigator();
 
 
 export default function MainTabs() {
+    const insets = useSafeAreaInsets();
    return (
     <Tab.Navigator
         screenOptions={({ route }) => {
@@ -22,11 +24,13 @@ export default function MainTabs() {
             return {
                 headerShown: false,
                 tabBarShowLabel: true,
+                tabBarHideOnKeyboard:true,
                 tabBarActiveTintColor: "#4F55BA",
                 tabBarInactiveTintColor: "gray",
                 tabBarStyle: shouldHideTabBar?{display:'none'}: {
                     paddingTop:10,
-                    height:100,
+                    height:60+insets.bottom,
+                    paddingBottom: insets.bottom
                 },
                 tabBarIcon: ({ color, size }) => {
                 let iconName;

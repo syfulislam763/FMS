@@ -71,7 +71,7 @@ export const create_user = async (payload, cb) => {
             cb(null)
             console.log(JSON.stringify(e?.response, null, 2))
             console.log("log ", e.status)
-            ToastMessage("error", e?.response?.data?.message, 3000)
+            ToastMessage("error", "Enter valid information", 3000)
         }   
     }
 }

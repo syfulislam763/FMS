@@ -83,11 +83,11 @@ const PartnerForm = () => {
 
             {/* Email Field */}
                 <View className="mb-6">
-                    <Text className="text-gray-700 text-lg font-archivo-semi-bold mb-2">
+                    <Text className="text-black text-lg font-archivo-semi-bold mb-2">
                     Email
                     </Text>
                     <TextInput
-                    className="border border-gray-300 rounded-lg px-4 py-3.5 text-base text-gray-400 bg-white"
+                    className="border border-gray-300 rounded-lg px-4 py-3.5 text-base text-black bg-white"
                     value={email}
                     onChangeText={setEmail}
                     placeholder="Enter your email"

@@ -12,6 +12,7 @@ import { ThumbsUpIcon } from 'lucide-react-native';
 import Indicator from '../../../components/Indicator';
 import { ActivityIndicator } from 'react-native';
 import {calculate_loan} from '../ScreensAPI'
+import PrimaryInputField from '../../../components/PrimaryInputField';
 
 
 
@@ -119,16 +120,32 @@ const CalculatorScreen = () => {
      <View style={styles.container}>
         <Text style={styles.title}>Loan Repayment Details</Text>
 
-        {/* Initial Amount Slider */}
-        <CustomSlider value={amount} setValue={setAmount} min={100} max={10000} label="Initial Amount" />
+       
+        <PrimaryInputField
+          value={amount+""}
+          onChange={(value) => setAmount(value)}
+          type='numeric'
+          label='Initial Amount'
+        />
+        <PrimaryInputField
+          value={interestRate+""}
+          onChange={(value) => setInterestRate(value)}
+          type='numeric'
+          label='Annual Interest Rate (%)'
+        />
+        <PrimaryInputField
+          value={loanTerm+""}
+          onChange={(value) => setLoanTerm(value)}
+          type='numeric'
+          label='Loan Term (years)'
+        />
+        {/* <CustomSlider value={amount} setValue={setAmount} min={100} max={10000} label="Initial Amount" />
 
-        {/* Annual Interest Rate Slider */}
         <CustomSlider value={interestRate} setValue={setInterestRate} min={1} max={20} label="Annual Interest Rate (%)" step={0.5} />
 
-        {/* Loan Term Slider */}
-        <CustomSlider value={loanTerm} setValue={setLoanTerm} min={1} max={30} label="Loan Term (years)" />
+        <CustomSlider value={loanTerm} setValue={setLoanTerm} min={1} max={30} label="Loan Term (years)" /> */}
 
-        <Pressable onPress={() => handleCalculator()} style={styles.buttonContainer}>
+        <Pressable className="mt-10" onPress={() => handleCalculator()} style={styles.buttonContainer}>
             <Text  style={styles.calculateButton}>
             Calculate Repayment
             </Text>

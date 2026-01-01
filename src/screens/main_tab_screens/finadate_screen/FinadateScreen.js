@@ -14,9 +14,11 @@ import { convertToISO, toISOStringFromDateTime } from '../../../utils/utils';
 
 const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
   const [selectedHour, setSelectedHour] = useState(12);
+  const [selectedMinute, setSelectedMinute] = useState(0);
   const [selectedPeriod, setSelectedPeriod] = useState('AM');
 
   const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+  const minutes = Array.from({ length: 60 }, (_, i) => i);
 
   const handleDone = () => {
     let hour24 = selectedHour;
@@ -26,8 +28,8 @@ const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
       hour24 = 0;
     }
     
-    const timeString = `${hour24.toString().padStart(2, '0')}:00`;
-    const displayTime = `${selectedHour} ${selectedPeriod}`;
+    const timeString = `${hour24.toString().padStart(2, '0')}:${selectedMinute.toString().padStart(2, '0')}`;
+    const displayTime = `${selectedHour}:${selectedMinute.toString().padStart(2, '0')} ${selectedPeriod}`;
     
     onTimeSelect({ time24: timeString, display: displayTime });
     onClose();
@@ -40,6 +42,7 @@ const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
       </Text>
       
       <View className="flex-row justify-center items-center mb-6">
+        {/* Hour Picker */}
         <View className="flex-1 items-center">
           <Text className="text-gray-500 text-sm mb-3">Hour</Text>
           <ScrollView 
@@ -65,7 +68,34 @@ const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
           </ScrollView>
         </View>
 
-        <View className="flex-1 items-center ml-8">
+        {/* Minute Picker */}
+        <View className="flex-1 items-center mx-2">
+          <Text className="text-gray-500 text-sm mb-3">Minute</Text>
+          <ScrollView 
+            className="h-32" 
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingVertical: 40 }}
+          >
+            {minutes.map((minute) => (
+              <TouchableOpacity
+                key={minute}
+                onPress={() => setSelectedMinute(minute)}
+                className="py-2"
+              >
+                <Text className={`text-2xl text-center ${
+                  selectedMinute === minute 
+                    ? 'text-[#1976D2] font-bold' 
+                    : 'text-gray-400'
+                }`}>
+                  {minute.toString().padStart(2, '0')}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* Period Picker */}
+        <View className="flex-1 items-center">
           <Text className="text-gray-500 text-sm mb-3">Period</Text>
           <View className="h-32 justify-center">
             <TouchableOpacity
@@ -97,12 +127,14 @@ const SimpleTimePicker = ({ onTimeSelect, onClose }) => {
         </View>
       </View>
 
+      {/* Selected Time Display */}
       <View className="bg-gray-100 rounded-lg py-3 mb-4">
         <Text className="text-center text-xl font-semibold text-gray-900">
-          {selectedHour} {selectedPeriod}
+          {selectedHour}:{selectedMinute.toString().padStart(2, '0')} {selectedPeriod}
         </Text>
       </View>
 
+      {/* Done Button */}
       <TouchableOpacity 
         onPress={handleDone}
         className="bg-[#1976D2] rounded-lg py-3"
@@ -128,7 +160,6 @@ const FinadateScreen = () => {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [visible, setVisible] = useState(false);
 
-
   const repeatOptions = ['Monthly', 'Quarterly', 'Half Yearly or Yearly'];
   const frequencyValue = {
     'Monthly':'Monthly', 
@@ -136,7 +167,6 @@ const FinadateScreen = () => {
     'Half Yearly or Yearly': 'Yearly'
   }
   const navigation = useNavigation();
-
   const route = useRoute();
 
   const formatDateForPayload = (date) => {
@@ -171,7 +201,6 @@ const FinadateScreen = () => {
       sendEmilNotification:notificationEnabled
     }
 
-
     setVisible(true);
 
     if(route.params?.isEdit){
@@ -185,7 +214,6 @@ const FinadateScreen = () => {
         setVisible(false);
       })
     }else{
-
       post_date_night(payload, res => {
         if(res){
           console.log("created", JSON.stringify(res, null, 2));
@@ -197,9 +225,8 @@ const FinadateScreen = () => {
         setVisible(false);
       })
     }
-    
   }
-  console.log(time);
+
   useEffect(() => {
     if(route.params?.isEdit){
       const ios = convertToISO(route.params?.date);
@@ -209,7 +236,6 @@ const FinadateScreen = () => {
       setBudget(route.params?.amount + "");
       setPlanName(route.params?.title);
       setLocation(route.params?.location)
-      // console.log("edit -> ", JSON.stringify(route.params, null, 2));
     }
   }, [])
 
@@ -310,8 +336,6 @@ const FinadateScreen = () => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-                
-                
             </View>
             </View>
 
@@ -400,8 +424,8 @@ const FinadateScreen = () => {
           <Indicator visible={showTimePicker} onClose={() => setShowTimePicker(false)}>
             <SimpleTimePicker
               onTimeSelect={(timeData) => {
-                const [hours] = timeData.time24.split(':');
-                const newTime = dayjs().hour(parseInt(hours)).minute(0);
+                const [hours, minutes] = timeData.time24.split(':');
+                const newTime = dayjs().hour(parseInt(hours)).minute(parseInt(minutes));
                 setTime(newTime);
               }}
               onClose={() => setShowTimePicker(false)}

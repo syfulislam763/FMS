@@ -30,6 +30,25 @@ const SignUpScreen = () => {
 
 
     const handleSignUp = () =>{
+
+        if(!name){
+            ToastMessage("error", "Name is required!");
+            return ;
+        }
+        if(!email){
+            ToastMessage("error", "Email is required");
+            return;
+        };
+
+        if(!password){
+            ToastMessage("error", "Password is required!");
+            return;
+        }
+        
+        if(password.length < 8){
+            ToastMessage("error", "Password should be minimum 8 character");
+            return;
+        }
         
         if(password == confirmPassword){
             const payload = {
@@ -80,13 +99,13 @@ const SignUpScreen = () => {
                 value={name}
                 onChange={setName}
                 type='default'
-                label='Name'
+                label='Name *'
                 placeholder='Enter your name'
             />
             <PrimaryInputField
                 value={email}
                 onChange={setEmail}
-                label='Email'
+                label='Email *'
                 placeholder='Enter your email'
             />
 
@@ -94,7 +113,7 @@ const SignUpScreen = () => {
                 value={password}
                 onChange={setPassword}
                 type='default'
-                label='Password'
+                label='Password *'
                 visible={showPassword}
                 setIsVisible={setShowPassword}
                 placeholder='Enter your password'

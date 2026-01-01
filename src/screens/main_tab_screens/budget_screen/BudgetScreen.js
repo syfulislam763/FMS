@@ -113,7 +113,7 @@ const BudgetScreen = () => {
           </Text>
         </View>
         <Text className="text-base font-semibold text-gray-900">
-          {item.amount?.toFixed(0)}
+           £{item.amount?.toFixed(0)}
         </Text>
       </View>
     </TouchableOpacity>

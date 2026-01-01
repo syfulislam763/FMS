@@ -24,9 +24,14 @@ const NotificationsFeedScreen = () => {
       </View>
       
       <View className="flex-1">
-        <Text className="text-gray-900 text-base font-semibold mb-1">
-          {notification.title}
-        </Text>
+        <View className="flex-row justify-between items-center">
+          <Text className="text-gray-900 text-base font-semibold mb-1">
+            {notification.title}
+          </Text>
+          {notification?.section == "Recent" && <Text className="bg-green-600 h-2 w-2 rounded-full">
+
+          </Text>}
+        </View>
         <Text className="text-gray-600 text-sm leading-5 mb-2">
           {notification.description}
         </Text>
@@ -50,7 +55,12 @@ const NotificationsFeedScreen = () => {
     <ComponentWrapper bg_color='bg-[#5055ba]' title='Notification'>
         <ScrollView className="flex-1 bg-gray-100" showsVerticalScrollIndicator={false}>
         {/* Today Section */}
-        <SectionHeader title="Recent" />
+
+
+
+        {/* {todayNotifications?.length != 0 && <SectionHeader title="Recent" />} */}
+        
+
         <View className="bg-white">
           {todayNotifications.map((notification) => (
             <NotificationItem key={notification.id} notification={notification} />
@@ -58,7 +68,7 @@ const NotificationsFeedScreen = () => {
         </View>
 
         {/* Yesterday Section */}
-        <SectionHeader title="Old" />
+        {/* {yesterdayNotifications?.length != 0 && <SectionHeader title="Old" />} */}
         <View className="bg-white">
           {yesterdayNotifications.map((notification) => (
             <NotificationItem key={notification.id} notification={notification} />

@@ -11,7 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaView } from "react-native";
 import RootNavigation from "./src/navigation/RootNavigation";
 import CustomToast from "./src/components/CustomToast";
-
+import { SafeAreaProvider } from "react-native-safe-area-context";
 const toastConfig = {
   customToast: (props) => <CustomToast {...props} />,
 };
@@ -22,16 +22,18 @@ export default function App() {
     <FontLoader>
       
         <NavigationContainer>
-          <AuthProvider>
-            <View style={{flex:1, backgroundColor:"white"}}>
-              {/* <StatusBar/> */}
-              <GestureHandlerRootView style={{ flex: 1 }}>
-                <RootNavigation/>
-              </GestureHandlerRootView>
-              
+          <SafeAreaProvider>
+            <AuthProvider>
+              <View style={{flex:1, backgroundColor:"white"}}>
+                {/* <StatusBar/> */}
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  <RootNavigation/>
+                </GestureHandlerRootView>
+                
 
-            </View>
-          </AuthProvider>
+              </View>
+            </AuthProvider>
+          </SafeAreaProvider>
         </NavigationContainer>
       <Toast 
         topOffset={300}

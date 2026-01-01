@@ -10,6 +10,7 @@ import DateTimePicker from 'react-native-ui-datepicker';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import dayjs from 'dayjs';
 import { useRoute } from '@react-navigation/native';
+import ToastMessage from '../../../../constants/ToastMessage';
 
 
 function convertToISO(dateStr) {
@@ -36,6 +37,7 @@ function convertToISO(dateStr) {
 
 const AddIncomeForm = () => {
   const [incomeSource, setIncomeSource] = useState('Salary');
+  const [otherIncomeSource, setOtherIncomeSource] = useState("")
   const [amount, setAmount] = useState('5000');
   const [frequency, setFrequency] = useState('Monthly');
   const [date, setDate] = useState(dayjs());
@@ -54,7 +56,7 @@ const AddIncomeForm = () => {
     'Rental income',
     'Investment Income',
     'Gift',
-    'Other income'
+    'Other'
   ];
 
   const [visible, setVisible] = useState(false);
@@ -82,7 +84,7 @@ const AddIncomeForm = () => {
 
   const handleCreateIncome = () => {
     const payload = {
-      name: incomeSource,
+      name: incomeSource=="Other"?otherIncomeSource:incomeSource,
       amount: Number(amount),
       receiveDate: formatDateForPayload(date),
       frequency: frequency.toLowerCase()
@@ -105,7 +107,9 @@ const AddIncomeForm = () => {
         if(res){
           //success
           console.log("created", JSON.stringify(res, null, 2))
+          ToastMessage("success", "Income added successfully!", 2000);
           navigation.goBack();
+          
         }else{
           //failed
         }
@@ -116,7 +120,12 @@ const AddIncomeForm = () => {
 
   useEffect(() => {
     if(route?.params?.type == "edit"){
-      setIncomeSource(route?.params?.title)
+      if(incomeSources.includes(route?.params?.title)){
+        setIncomeSource(route?.params?.title)
+      }else{
+        setIncomeSource("Other")
+        setOtherIncomeSource(route?.params?.title)
+      }
       setFrequency(capitalize(route?.params?.frequency))
       const iso = convertToISO(route?.params?.date);
       setAmount(route?.params?.amount+"");
@@ -157,6 +166,16 @@ const AddIncomeForm = () => {
             <Text className="text-gray-600 text-lg">▼</Text>
           </TouchableOpacity>
         </View>
+
+        {incomeSource == "Other" && <View className="mb-6">
+          <TextInput
+            value={otherIncomeSource}
+            onChangeText={setOtherIncomeSource}
+            className="bg-white rounded-xl px-4 py-4 text-gray-900 text-base border border-gray-300"
+            placeholder="Enter income source"
+            placeholderTextColor="#9CA3AF"
+          />
+        </View>}
 
         {/* Amount */}
         <View className="mb-6">

@@ -415,8 +415,6 @@ export default function BudgetAnalytics() {
       handleGetRehoSuggetions()
     }, [])
   )
-
-  console.log(rehoSuggestions.summary)
   const suggestions = [
     { id: 1, text: "You are spending 15% more on entertainment" },
     { id: 2, text: "Consider Cutting Down on Subscriptions" },

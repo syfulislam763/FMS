@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, Linking } from 'react-native';
 import ComponentWrapper from '../../../components/ComponentWrapper';
 
 
@@ -28,7 +28,7 @@ const TermsAndPolicy = () => {
         },
         {
             title: 'Data Control',
-            text: `Under data protection law you have the right to ask us for a copy of the information we hold about you, and to have any inaccuracies corrected or removed. You may also ask us to delete all personal data held by us or any controller or processor with which we have shared your data as well as request that we ease to process any of your contact data. To do this, please either contact us in writing or email. Contact us on \nEmail: clientsupport@rehowealth.co.uk\nAddress: Reho Wealth Group Ltd, Acorn Bussiness Center, Unit C Aldow enterprise park, Manchester, M12 6AE`,
+            text: `Under data protection law you have the right to ask us for a copy of the information we hold about you, and to have any inaccuracies corrected or removed. You may also ask us to delete all personal data held by us or any controller or processor with which we have shared your data as well as request that we ease to process any of your contact data. To do this, please either contact us in writing or email. Contact us on \nEmail: clientsupport@rehowealth.co.uk\nAddress: Reho Wealth Group Ltd, Acorn Business Center, Unit C Aldow enterprise park, Manchester, M12 6AE`,
             id: 5
         },
         {
@@ -38,7 +38,8 @@ const TermsAndPolicy = () => {
         },
         {
             title: 'GDPR / CCPA Compliance (if applicable)',
-            text: `Rehoboth Wealth Group Ltd is registered with the infromation Commissioner in the UK as a *data Controller*, the registration reference number is ZB807386. Full details of the registration can be accessed on the ICO data controller register here - https://ico.org.uk/about-the-ico/what-we-do/register-of-data-controllers`,
+            text: `Rehoboth Wealth Group Ltd is registered with the infromation Commissioner in the UK as a *data Controller*, the registration reference number is ZB807386. Full details of the registration can be accessed on the ICO data controller register here - `,
+            link:true,
             id: 7
         },
 
@@ -63,7 +64,8 @@ const TermsAndPolicy = () => {
                         {item.id}. <Text>{item.title}</Text>
                     </Text>
                     <Text className="my-2 text-gray-900 font-inter-regular text-small">
-                        {item.text}
+                        {item.text} 
+                        {item?.link && <Text onPress={() => Linking.openURL("https://ico.org.uk/about-the-ico/what-we-do/register-of-data-controllers")} className="text-black font-archivo-semi-bold underline"> ICO Data Controller website</Text>}
                     </Text>
                 </View>
 
