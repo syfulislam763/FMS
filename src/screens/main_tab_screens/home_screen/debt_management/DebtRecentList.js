@@ -2,14 +2,31 @@ import React from 'react';
 import { View, Text, TouchableOpacity, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Card from './Card';
+import { useAuth } from '../../../../context/AuthProvider';
 
 const DebtRecentList = ({data}) => {
     const navigation = useNavigation()
+    const {isSubscribed} = useAuth();
+
   return (
     <View className="">
       {/* Header with Add New Debt Button */}
-      <View className="flex-row justify-end mb-4">
-        <TouchableOpacity onPress={()=>navigation.navigate("AddDebtScreen")} className="bg-orange-400 rounded-[5px] px-4 py-3 flex-row items-center">
+      <View className="flex-col justify-end items-end mb-4">
+
+        {isSubscribed?
+          <TouchableOpacity onPress={() => navigation.navigate("AISuggestionsComponent")} className="bg-orange-400 w-full rounded-[5px] py-3 px-6 shadow-sm">
+            <Text className="text-white text-lg font-semibold text-center">
+              Optimize debt with ReHo
+            </Text>
+        </TouchableOpacity>:
+        <TouchableOpacity onPress={() => navigation.navigate("PremiumFinancialAdvice")} className="bg-orange-400 rounded-[5px] py-3 px-6 shadow-sm">
+            <Text className="text-white text-lg font-semibold text-center">
+              Optimize debt with ReHo
+            </Text>
+        </TouchableOpacity>}
+
+
+        <TouchableOpacity onPress={()=>navigation.navigate("AddDebtScreen")} className="bg-orange-400 rounded-[5px] mt-5 px-4 py-3 flex-row items-center">
           <View className="w-5 h-5 bg-white rounded-full mr-2 items-center justify-center">
             <Text className="text-orange-400 text-lg font-bold h-7">+</Text>
           </View>

@@ -3,8 +3,13 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Lightbulb } from 'lucide-react-native';
 
 const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
+  const paymentSerial = {
+    1: 'First',
+    2: 'Second',
+    3: 'Third'
+  }
 
-  const PaymentOrderItem = ({ item, showPayFirst = false }) => (
+  const PaymentOrderItem = ({order, item, showPayFirst = false }) => (
     <View className="flex-row items-center justify-between py-4 px-4 border-b border-gray-100">
       <View className="flex-1">
         <Text className="text-gray-900 text-base font-semibold">
@@ -18,7 +23,7 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
       {showPayFirst && (
         <TouchableOpacity className="bg-orange-400 px-4 py-2 rounded-full">
           <Text className="text-white text-sm font-medium">
-            Pay First
+            Pay {paymentSerial[order]}
           </Text>
         </TouchableOpacity>
       )}
@@ -37,7 +42,7 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
       </Text>
     </View>
   );
-
+  
   return (
     <View className="">
       {/* Suggested Payment Order Card */}
@@ -56,7 +61,8 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
             <PaymentOrderItem 
               key={item.id} 
               item={item} 
-              showPayFirst={false}
+              showPayFirst={true}
+              order={item.id}
             />
           ))}
         </View>
@@ -91,20 +97,36 @@ const DebtSummaryComponent = ({paymentOrder, debtSummary}) => {
         </View>
 
         {/* Summary Details */}
+
+
         <View>
           <SummaryRow 
             label="Total Debt" 
-            value={debtSummary?.totalDebt}
+            value={Number(debtSummary?.totalDebt).toFixed(2)}
+          />
+          <SummaryRow 
+            label="Total Capital Repayment" 
+            value={Number(debtSummary?.totalCapitalRepayment).toFixed(2)}
+          />
+
+          <SummaryRow 
+            label="Total Interest Repayment" 
+            value={Number(debtSummary?.totalInterestRepayment).toFixed(2)}
+          />
+          <SummaryRow 
+            label="Interest Payment" 
+            value={Number(debtSummary?.interestPayment).toFixed(2)}
           />
           
-          <SummaryRow 
+          
+          {/* <SummaryRow 
             label="Average Interest Rate" 
             value={debtSummary?.avgInterestRate}
-          />
+          /> */}
           
           <SummaryRow 
             label="Monthly Payment" 
-            value={debtSummary?.monthlyPayment}
+            value={Number(debtSummary?.monthlyPayment).toFixed(2)}
             isHighlighted={true}
           />
         </View>

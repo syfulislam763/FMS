@@ -25,7 +25,14 @@ const DebtManagement = () => {
 
 
   const [suggestedRate, setSuggestedRate]  = useState([]);
-  const [debtSummary, setDebtSummary] = useState({});
+  const [debtSummary, setDebtSummary] = useState({
+            "totalDebt": 0,
+            "totalCapitalRepayment":0,
+            "totalInterestRepayment": 0,
+            "interestPayment": 0,
+            "avgInterestRate": 0,
+            "monthlyPayment": 0
+        });
   const [recentDebt, setRecentDebt] = useState([]);
   const [visible,setVisible] = useState(false);
 
@@ -43,18 +50,19 @@ const DebtManagement = () => {
 
           const temp1 = res.data.suggestedOrder.map((item, idx) => {
             return {
-              id: idx,
+              id: idx+1,
               name: item.name,
-              interestRate: item.interestRate,
+              interestRate: Number(item.interestRate).toFixed(2),
               isPriority: false
             }
-          })
+          }).sort((a,b) => b.interestRate-a.interestRate)
 
           
 
             const temp = res.data.debts.map(item => {
               const d = get_formated_time(item.payDueDate)
               return {
+                  ...item,
                   name:  item.name,
                   id: item._id,
                   amount: item.amount,
@@ -68,7 +76,7 @@ const DebtManagement = () => {
             });
             
             setRecentDebt(temp)
-            setDebtSummary(res.data.summary);
+            setDebtSummary(res?.data?.summary);
             setSuggestedRate(temp1);
 
         }else{
