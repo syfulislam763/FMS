@@ -82,9 +82,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const tempVideo1 = "https://rehoapp.lon1.cdn.digitaloceanspaces.com/others/How_to_create_a_budget_v3_1_1_.mp4";
-    const tempVideo2 = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-    const tempVideo3 = "https://rehoapp.lon1.cdn.digitaloceanspaces.com/others/How%20to%20create%20a%20budget%20v3%20(1).mp4"
-
+    
     const handleLogin = (data) => {
 
         setTokens(data.accessToken, data.refreshToken, ()=>{

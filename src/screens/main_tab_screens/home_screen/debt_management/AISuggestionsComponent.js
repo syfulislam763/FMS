@@ -44,7 +44,7 @@ const AISuggestionsComponent = () => {
 
   return (
     <ComponentWrapper title='Reho Suggestions' bg_color='bg-[#FFA950]'>
-        <ScrollView className="flex-1">
+        <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         {/* Header */}
         <Text className="text-gray-900 text-xl font-bold mb-8">
             Reho Suggestions to Pay Off Faster

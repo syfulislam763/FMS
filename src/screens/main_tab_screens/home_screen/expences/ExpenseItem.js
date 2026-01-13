@@ -134,7 +134,7 @@ export default function ExpenseItem() {
       setActiveTab(tab)
     }
 
-    const tabs = ['All', 'Monthly', 'Yearly', 'On-off'];
+    const tabs = ['All', 'Monthly', 'Yearly', 'One-off'];
 
     return (
       <SafeAreaView className="flex-1 bg-red-500 ">

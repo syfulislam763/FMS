@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		31EDFC9994D1DD975671951F /* libPods-ReHo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C364009459BC673C60EA769 /* libPods-ReHo.a */; };
+		3C7D4E650B94649B45EEA6ED /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B3FF6434DA69827D9FE4C8 /* ExpoModulesProvider.swift */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		6344623DA3EB035D0FC0D1B9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 45F6CD52C83003377140D958 /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C60209E917D442FC42F180B5 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6168BC1852811118208F8DE5 /* ExpoModulesProvider.swift */; };
-		CB88D6AEED3F652568AA7D45 /* libPods-ReHo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA023BAA4EB80F45644EB61 /* libPods-ReHo.a */; };
-		E4062F5D159B5DDC4BF1D867 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C4935861F247D6CE61EEB42F /* PrivacyInfo.xcprivacy */; };
-		EE8307F626134E829251498D /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4F16BCDC74DB08B3D3004 /* noop-file.swift */; };
+		D415E0732AE844B3A0E3B394 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989E56DA5A484911940E3F7D /* noop-file.swift */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -21,15 +21,14 @@
 		13B07F961A680F5B00A75B9A /* ReHo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReHo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ReHo/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ReHo/Info.plist; sourceTree = "<group>"; };
-		23DC75DD252A1EBFB4C6032C /* Pods-ReHo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReHo.debug.xcconfig"; path = "Target Support Files/Pods-ReHo/Pods-ReHo.debug.xcconfig"; sourceTree = "<group>"; };
-		6168BC1852811118208F8DE5 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ReHo/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		6DC4F16BCDC74DB08B3D3004 /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "ReHo/noop-file.swift"; sourceTree = "<group>"; };
-		9EA023BAA4EB80F45644EB61 /* libPods-ReHo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReHo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45F6CD52C83003377140D958 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = ReHo/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		46EF632E47151F806BC34741 /* Pods-ReHo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReHo.release.xcconfig"; path = "Target Support Files/Pods-ReHo/Pods-ReHo.release.xcconfig"; sourceTree = "<group>"; };
+		5340B4A9A168BFFBD9698CA7 /* Pods-ReHo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReHo.debug.xcconfig"; path = "Target Support Files/Pods-ReHo/Pods-ReHo.debug.xcconfig"; sourceTree = "<group>"; };
+		61B3FF6434DA69827D9FE4C8 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ReHo/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		6C364009459BC673C60EA769 /* libPods-ReHo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReHo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		989E56DA5A484911940E3F7D /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "ReHo/noop-file.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = ReHo/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		BF977AE52EC93C5000191A52 /* RehoStoreKit.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = RehoStoreKit.storekit; sourceTree = "<group>"; };
-		C4935861F247D6CE61EEB42F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ReHo/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		D589600052C6E994A0F9B1F1 /* Pods-ReHo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReHo.release.xcconfig"; path = "Target Support Files/Pods-ReHo/Pods-ReHo.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ReHo/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* ReHo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ReHo-Bridging-Header.h"; path = "ReHo/ReHo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -40,13 +39,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB88D6AEED3F652568AA7D45 /* libPods-ReHo.a in Frameworks */,
+				31EDFC9994D1DD975671951F /* libPods-ReHo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0577322F8E1E8D6C43890DF8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5340B4A9A168BFFBD9698CA7 /* Pods-ReHo.debug.xcconfig */,
+				46EF632E47151F806BC34741 /* Pods-ReHo.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* ReHo */ = {
 			isa = PBXGroup;
 			children = (
@@ -56,8 +65,16 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				6DC4F16BCDC74DB08B3D3004 /* noop-file.swift */,
-				C4935861F247D6CE61EEB42F /* PrivacyInfo.xcprivacy */,
+				989E56DA5A484911940E3F7D /* noop-file.swift */,
+				45F6CD52C83003377140D958 /* PrivacyInfo.xcprivacy */,
+			);
+			name = ReHo;
+			sourceTree = "<group>";
+		};
+		2808626D317A764FBBFBB8D3 /* ReHo */ = {
+			isa = PBXGroup;
+			children = (
+				61B3FF6434DA69827D9FE4C8 /* ExpoModulesProvider.swift */,
 			);
 			name = ReHo;
 			sourceTree = "<group>";
@@ -66,9 +83,17 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				9EA023BAA4EB80F45644EB61 /* libPods-ReHo.a */,
+				6C364009459BC673C60EA769 /* libPods-ReHo.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		48DEEDE259A3CD0961699241 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				2808626D317A764FBBFBB8D3 /* ReHo */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -81,13 +106,12 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				BF977AE52EC93C5000191A52 /* RehoStoreKit.storekit */,
 				13B07FAE1A68108700A75B9A /* ReHo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				E06CD25EB84BC7D323130B9B /* Pods */,
-				B7314A53CB2470D7175AAB3C /* ExpoModulesProviders */,
+				0577322F8E1E8D6C43890DF8 /* Pods */,
+				48DEEDE259A3CD0961699241 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -102,14 +126,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B7314A53CB2470D7175AAB3C /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				EFA4157F1E1BE607A7C3487E /* ReHo */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,23 +135,6 @@
 			path = ReHo/Supporting;
 			sourceTree = "<group>";
 		};
-		E06CD25EB84BC7D323130B9B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				23DC75DD252A1EBFB4C6032C /* Pods-ReHo.debug.xcconfig */,
-				D589600052C6E994A0F9B1F1 /* Pods-ReHo.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		EFA4157F1E1BE607A7C3487E /* ReHo */ = {
-			isa = PBXGroup;
-			children = (
-				6168BC1852811118208F8DE5 /* ExpoModulesProvider.swift */,
-			);
-			name = ReHo;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,14 +142,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ReHo" */;
 			buildPhases = (
-				640E5B9F86EAD46ACC2B8B6C /* [CP] Check Pods Manifest.lock */,
-				6E2F59A47D3BEFA4DAE1769B /* [Expo] Configure project */,
+				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
+				886BF10BF7C755C8EB32131C /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				DE24DE79CB580AD2ADBDE8EA /* [CP] Embed Pods Frameworks */,
-				7D3E9471079969C4849ED222 /* [CP] Copy Pods Resources */,
+				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
+				6C352ADB79818C3F8FE1F78E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -200,7 +199,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				E4062F5D159B5DDC4BF1D867 /* PrivacyInfo.xcprivacy in Resources */,
+				6344623DA3EB035D0FC0D1B9 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +221,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
 		};
-		640E5B9F86EAD46ACC2B8B6C /* [CP] Check Pods Manifest.lock */ = {
+		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -244,26 +243,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6E2F59A47D3BEFA4DAE1769B /* [Expo] Configure project */ = {
+		6C352ADB79818C3F8FE1F78E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ReHo/Pods-ReHo-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-ReHo/expo-configure-project.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReHo/Pods-ReHo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
-		7D3E9471079969C4849ED222 /* [CP] Copy Pods Resources */ = {
+		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -369,23 +367,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReHo/Pods-ReHo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DE24DE79CB580AD2ADBDE8EA /* [CP] Embed Pods Frameworks */ = {
+		886BF10BF7C755C8EB32131C /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReHo/Pods-ReHo-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReHo/Pods-ReHo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-ReHo/expo-configure-project.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -395,8 +394,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				EE8307F626134E829251498D /* noop-file.swift in Sources */,
-				C60209E917D442FC42F180B5 /* ExpoModulesProvider.swift in Sources */,
+				D415E0732AE844B3A0E3B394 /* noop-file.swift in Sources */,
+				3C7D4E650B94649B45EEA6ED /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,13 +404,13 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 23DC75DD252A1EBFB4C6032C /* Pods-ReHo.debug.xcconfig */;
+			baseConfigurationReference = 5340B4A9A168BFFBD9698CA7 /* Pods-ReHo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ReHo/ReHo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 265634VPX2;
+				DEVELOPMENT_TEAM = 24GRJVWX53;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -442,13 +441,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D589600052C6E994A0F9B1F1 /* Pods-ReHo.release.xcconfig */;
+			baseConfigurationReference = 46EF632E47151F806BC34741 /* Pods-ReHo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ReHo/ReHo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 265634VPX2;
+				DEVELOPMENT_TEAM = 24GRJVWX53;
 				INFOPLIST_FILE = ReHo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (

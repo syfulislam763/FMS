@@ -25,6 +25,7 @@ const LoanResultComponent = ({
     const handleGetAdData = () => {
         get_ad(res => {
             if(res){
+                console.log(JSON.stringify(res, null, 2), "ad data")
                 setAdData(res?.data);
             }
         })

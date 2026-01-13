@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import { Lightbulb } from 'lucide-react-native';
 import CommponentWrapper from '../../../../components/ComponentWrapper';
 import { useRoute } from '@react-navigation/native';
@@ -36,7 +36,7 @@ const FutureValueProjection = () => {
 
   return (
     <CommponentWrapper container_bg='bg-white' title='Inflation Calculator Results'>
-        <View className="flex-1">
+        <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
         
             <View className="bg-gray-50 rounded-[5px] border border-gray-200 p-6 mb-4 ">
      
@@ -45,17 +45,22 @@ const FutureValueProjection = () => {
                 </Text>}
                 
            
-                {!(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6">
+                {!(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6 w-auto border border-red-400 rounded-[5px] py-5">
                     £{params?.futureValue}
                 </Text>}
+
+
                 {(params.flag) && <Text className=" text-2xl font-bold text-center mb-6">
-                    Value in {params?.fromYear}
+                    Value in {params?.toYear}
                 </Text>}
-                {(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6">
+                {(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6 w-auto border border-red-400 rounded-[5px] py-5">
                     £{params?.valueInFromYear}
                 </Text>}
-                {(params.flag) && <Text className=" font-bold text-center mb-6">
-                    Total Inflation
+                {(params.flag) && <Text className=" font-bold text-center mb-2">
+                    The Cost of Inflation
+                </Text>}
+                {(params.flag) && <Text className=" text-center mb-2">
+                    The percentage fall in the value of money
                 </Text>}
                 {(params.flag) && <Text className=" font-bold text-center mb-6">
                     £{params?.totalInflation}
@@ -101,7 +106,7 @@ const FutureValueProjection = () => {
                    <Lightbulb size={18} color="#ef4444" fill="#ef4444" />
                     <Text className="text-red-500 text-base font-semibold ml-2">
                         Understanding Inflation
-                    </Text>`
+                    </Text>
                 </View>
                 
                 {/* Description */}
@@ -112,7 +117,7 @@ const FutureValueProjection = () => {
                     }
                 </Text>
             </View>
-            </View>
+            </ScrollView>
     </CommponentWrapper>
   );
 };

@@ -42,6 +42,7 @@ const BudgetFormComponent = () => {
     'TV Licence',
     'Council Tax',
     'Subscription i.e. TV packages, netflix',
+    'Savings',
     'Other'
   ];
 

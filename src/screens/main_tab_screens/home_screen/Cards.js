@@ -49,7 +49,7 @@ const Cards = () => {
       img: busket
     },
     {
-      title: 'Disposable',
+      title: 'Amount Left',
       amount:  "£"+value,
       icon: PoundSterling,
       iconColor: '#6366F1',

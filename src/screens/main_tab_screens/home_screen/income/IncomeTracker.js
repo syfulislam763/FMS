@@ -130,7 +130,7 @@ const IncomeTracker = () => {
     );
   };
 
-  const tabs = ['All', 'Monthly', 'Yearly', 'On-off'];
+  const tabs = ['All', 'Monthly', 'Yearly', 'One-off'];
    
   return (
     <SafeAreaView className="flex-1 bg-[#2E7D32]">

@@ -47,7 +47,7 @@ const AddIncomeForm = () => {
   const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
   const navigation = useNavigation();
 
-  const frequencies = ['Monthly', 'Yearly', 'On-off'];
+  const frequencies = ['Monthly', 'Yearly', 'One-off'];
   
   const incomeSources = [
     'Salary',

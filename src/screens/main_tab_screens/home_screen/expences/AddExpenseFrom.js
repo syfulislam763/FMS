@@ -46,7 +46,7 @@ const AddExpenseForm = () => {
 
   const navigation = useNavigation();
 
-  const frequencies = ['Monthly', 'Yearly', 'On-off'];
+  const frequencies = ['Monthly', 'Yearly', 'One-off'];
   
   const expenseNames = [
     'Mortgage or Rent',
@@ -73,6 +73,7 @@ const AddExpenseForm = () => {
     'TV Licence',
     'Council Tax',
     'Subscription i.e. TV packages, netflix',
+    'Savings',
     'Other'
   ];
 
