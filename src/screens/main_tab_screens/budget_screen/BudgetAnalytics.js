@@ -8,6 +8,7 @@ import { ActivityIndicator } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useAuth } from '../../../context/AuthProvider';
+import { highlightKeywords } from '../../../utils/utils';
 
 const formatNumber = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -372,9 +373,11 @@ const BarChart = ({budgetDataFromAPI}) => {
 // };
 
 const AIsuggestion = ({ number, text }) => (
-  <View className="flex-row mb-3">
-    <Text className="text-gray-700 font-medium text-base mr-2">{number}.</Text>
-    <Text className="text-gray-700 text-base flex-1">{text}</Text>
+  <View className="flex-row mb-3 items-center">
+    <View className="h-2 w-2 rounded-full bg-black mr-3"/>
+    <View>
+      <Text className="text-gray-700 text-base">{highlightKeywords(text)}</Text>
+    </View>
   </View>
 );
 
@@ -447,10 +450,10 @@ export default function BudgetAnalytics() {
                 ))
               }
 
+              {rehoSuggestions?.summary && <Text className="text-gray-600 text-base mb-4 border border-[#1976D2] p-4 rounded-sm mt-5">
+                    {highlightKeywords(rehoSuggestions?.summary)}
+                </Text>}
               
-              <Text className="text-gray-900 text-lg mb-4">
-                    {rehoSuggestions?.summary}
-                </Text>
 
 
               </View>:

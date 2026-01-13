@@ -10,6 +10,7 @@ import { useAuth } from '../../../../context/AuthProvider';
 import { ActivityIndicator } from 'react-native';
 import { get_expense_analysis, get_expence_suggestions, get_budget_suggestions } from '../../ScreensAPI';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
+import { highlightKeywords } from '../../../../utils/utils';
 
 const formatNumber = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -153,12 +154,13 @@ const BarChart = ({budgetDataFromAPI}) => {
 };
 
 const AIsuggestion = ({ number, text }) => (
-  <View className="flex-row mb-3">
-    <Text className="text-gray-700 font-archivo-regular text-base mr-2">{number}.</Text>
-    <Text className="text-gray-700 text-base flex-1">{text}</Text>
+  <View className="flex-row mb-3 items-center">
+    <View className="h-2 w-2 rounded-full bg-black mr-3"/>
+    <View>
+      <Text className="text-gray-700 text-base">{highlightKeywords(text)}</Text>
+    </View>
   </View>
 );
-
 export default function ExpenseAnalytics() {
 
 
@@ -233,9 +235,9 @@ export default function ExpenseAnalytics() {
               ))
             }
 
-            <Text className="text-gray-900 text-lg mb-4">
-                {rehoSuggestions?.summary}
-            </Text>
+            {rehoSuggestions?.summary && <Text className="text-gray-600 text-base mb-4 border border-red-500 p-4 rounded-sm mt-5">
+                {highlightKeywords(rehoSuggestions?.summary)}
+            </Text>}
 
 
             </View>:

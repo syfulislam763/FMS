@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import ToastMessage from '../../../../constants/ToastMessage';
 import ComponentWrapper from '../../../../components/ComponentWrapper';
 import { useRoute } from '@react-navigation/native';
+import { ChevronDown } from 'lucide-react-native';
 
 function convertToISO(dateStr) {
   const months = {
@@ -37,6 +38,11 @@ const AddExpenseForm = () => {
   const [expenseName, setExpenseName] = useState('Mortgage or Rent');
   const [otherExpenseName, setOtherExpenseName] = useState("")
   const [amount, setAmount] = useState('5000');
+
+  const [budgetType, setBudgetType] = useState('Personal');
+  const [category, setCategory] = useState('Essential(Needs)');
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+
   const [frequency, setFrequency] = useState('Monthly');
   const [date, setDate] = useState(dayjs());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -78,6 +84,7 @@ const AddExpenseForm = () => {
   ];
 
   const [visible, setVisible] = useState(false);
+  const categories = ['Essential(Needs)', 'Discretionary(Wants)', 'Savings'];
 
   // Format date to YYYY-MM-DD for payload
   const formatDateForPayload = (date) => {
@@ -168,7 +175,7 @@ const AddExpenseForm = () => {
     <ComponentWrapper bg_color="bg-red-500" title= {route?.params?.type == "edit"?"Edit Expense":'Add Expense'} >
     
 
-      <View className="flex-1 py-2 bg-[##e7eaef]">
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:20}} className="flex-1 py-2 bg-[##e7eaef]">
         {/* Expense Name Dropdown */}
         <View className="mb-6">
           <Text className="text-gray-900 text-base font-archivo-semi-bold mb-3">
@@ -195,6 +202,62 @@ const AddExpenseForm = () => {
 
           />
         </View>}
+
+        <View className="mb-8">
+            <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-3">
+                Category
+            </Text>
+            <TouchableOpacity
+                className="bg-white rounded-[5px] px-4 py-4 flex-row items-center justify-between"
+                onPress={() => setShowCategoryDropdown(!showCategoryDropdown)}
+            >
+                <Text className="text-base text-gray-900">{category}</Text>
+                <ChevronDown size={20} color="#6B7280" />
+            </TouchableOpacity>
+            
+            {showCategoryDropdown && (
+                <View className="bg-white rounded-[7px] mt-2 shadow-sm">
+                {categories.map((cat, index) => (
+                    <TouchableOpacity
+                    key={index}
+                    className={`px-4 py-3 border-b border-gray-100 ${
+                      category === cat ? 'bg-blue-50' : ''
+                    }`}
+                    onPress={() => {
+                        setCategory(cat);
+                        setShowCategoryDropdown(false);
+                    }}
+                    >
+                    <Text className={`text-base ${
+                      category === cat ? 'text-[#1976D2] font-semibold' : 'text-gray-900'
+                    }`}>
+                      {cat}
+                    </Text>
+                    </TouchableOpacity>
+                ))}
+                </View>
+            )}
+            </View>
+
+
+
+            <View className="mb-6">
+              <Text className="text-lg font-archivo-semi-bold text-gray-900 mb-4">
+                  Budget Type
+              </Text>
+              <View className="flex-row">
+                  <RadioButton
+                  selected={budgetType.toLowerCase() === 'personal'}
+                  onPress={() => setBudgetType('Personal')}
+                  label="Personal"
+                  />
+                  <RadioButton
+                  selected={budgetType.toLowerCase() === 'household'}
+                  onPress={() => setBudgetType('Household')}
+                  label="Household"
+                  />
+              </View>
+            </View>
 
         {/* Amount */}
         <View className="mb-6">
@@ -252,7 +315,7 @@ const AddExpenseForm = () => {
           text='Save'
           onPress={handleCreateExpense}
         />
-      </View>
+      </ScrollView>
 
       {/* Expense Name Dropdown Modal */}
       {showExpenseDropdown && (

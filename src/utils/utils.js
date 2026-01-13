@@ -1,3 +1,4 @@
+import { Text } from "react-native";
 export const convertToISO = (dateStr) => {
   const months = {
     January: 0, February: 1, March: 2, April: 3,
@@ -46,3 +47,43 @@ export const toISOStringFromDateTime = (dateStr, timeStr) => {
 
   return date.toISOString();
 }
+
+
+export const highlightKeywords = (text) => {
+  const redKeywords = ['income', 'debts', 'debt', 'expense', 'expenses'];
+  const greenKeywords = ['savings goal', 'savings goals', 'saving goal'];
+
+  const allKeywords = [
+    ...greenKeywords.map(k => ({ word: k, color: '#22C55E' })),
+    ...redKeywords.map(k => ({ word: k, color: '#EF4444' }))
+  ].sort((a, b) => b.word.length - a.word.length);
+
+  const pattern = new RegExp(
+    `(${allKeywords.map(k => k.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'gi'
+  );
+
+  const parts = text.split(pattern);
+
+  return (
+    <Text>
+      {parts.map((part, index) => {
+        if (!part) return null;
+
+        const keyword = allKeywords.find(
+          k => k.word.toLowerCase() === part.toLowerCase()
+        );
+
+        if (keyword) {
+          return (
+            <Text key={index} style={{ color: keyword.color, fontWeight: '600' }}>
+              {part}
+            </Text>
+          );
+        }
+
+        return <Text key={index}>{part}</Text>;
+      })}
+    </Text>
+  );
+};

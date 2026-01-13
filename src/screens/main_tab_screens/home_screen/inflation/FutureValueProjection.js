@@ -51,10 +51,22 @@ const FutureValueProjection = () => {
 
 
                 {(params.flag) && <Text className=" text-2xl font-bold text-center mb-6">
-                    Value in {params?.toYear}
+                    Value in {params?.fromYear}
                 </Text>}
                 {(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6 w-auto border border-red-400 rounded-[5px] py-5">
-                    £{params?.valueInFromYear}
+                    £{params?.amount}
+                </Text>}
+
+                {(params.flag) && <Text className=" font-bold text-center mb-2">
+                    To buy same amount of item for £{params?.amount} in {params?.toYear} will cost you £{"correct value cooking"}
+                </Text>}
+
+                {(params.flag) && <Text className=" text-2xl font-bold text-center mb-6">
+                    Value in {params?.toYear}
+                </Text>}
+
+                {(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6 w-auto border border-red-400 rounded-[5px] py-5">
+                    £{"correct value cooking" || params?.valueInFromYear}
                 </Text>}
                 {(params.flag) && <Text className=" font-bold text-center mb-2">
                     The Cost of Inflation
@@ -113,7 +125,7 @@ const FutureValueProjection = () => {
                 <Text className="text-gray-700 text-sm leading-5">
                     {tips?
                         <Text>{params?.flag?tips?.historicalTip:tips?.futureValueTip}</Text>
-                        :null
+                        : ' '
                     }
                 </Text>
             </View>

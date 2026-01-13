@@ -7,6 +7,7 @@ import { ActivityIndicator } from 'react-native';
 import { useCallback } from 'react';
 import { get_debt_suggestions } from '../../ScreensAPI';
 import { useAuth } from '../../../../context/AuthProvider';
+import { highlightKeywords } from '../../../../utils/utils';
 
 
 const AIsuggestion = ({ number, text }) => (
@@ -57,19 +58,21 @@ const AISuggestionsComponent = () => {
             {
                 rehoSuggestions?.insights?.map((item, idx) => {
                     return <View key={idx}>
-                        <Text className="text-gray-900 text-lg font-semibold mb-3">
-                            {idx+1}. <Text>{item?.insight}</Text>
+                        <Text className="text-gray-900 text-lg font-semibold flex-row items-center">
+                            <View className="h-2 w-2 rounded-full bg-black mr-1"/> <Text>{item?.insight}</Text>
                         </Text>
-                        <Text className="text-gray-600 text-base leading-6">
-                            {item?.suggestion}
+                        <Text className="text-gray-600 text-base p-4">
+                            {highlightKeywords(item?.suggestion)}
                         </Text>
                     </View>
                 })
             }
-
-            <Text className="text-gray-900 text-lg mb-4">
+            {
+                rehoSuggestions?.summary && <Text className="text-gray-600 text-base mb-4 border border-[#FFA950] p-4 rounded-sm mt-5">
                 {rehoSuggestions?.summary}
             </Text>
+            }
+            
 
         </View>
         </ScrollView>
