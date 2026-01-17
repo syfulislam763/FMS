@@ -7,6 +7,7 @@ import { get_savings_tips } from '../../ScreensAPI';
 import { useAuth } from '../../../../context/AuthProvider';
 import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { highlightKeywords } from '../../../../utils/utils';
 
 const coin = require("../../../../../assets/img/coin.png")
 
@@ -34,6 +35,8 @@ const FutureValueProjection = () => {
 
 
 
+    console.log("inflation -> ", JSON.stringify(params, null, 2))
+
   return (
     <CommponentWrapper container_bg='bg-white' title='Inflation Calculator Results'>
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
@@ -58,7 +61,7 @@ const FutureValueProjection = () => {
                 </Text>}
 
                 {(params.flag) && <Text className=" font-bold text-center mb-2">
-                    To buy same amount of item for £{params?.amount} in {params?.toYear} will cost you £{"correct value cooking"}
+                    To buy same amount of item for £{params?.amount} in {params?.toYear} will cost you £{params?.equivalentAmountInToYear}
                 </Text>}
 
                 {(params.flag) && <Text className=" text-2xl font-bold text-center mb-6">
@@ -66,7 +69,7 @@ const FutureValueProjection = () => {
                 </Text>}
 
                 {(params.flag) && <Text className="text-red-500 text-4xl font-bold text-center mb-6 w-auto border border-red-400 rounded-[5px] py-5">
-                    £{"correct value cooking" || params?.valueInFromYear}
+                    £{params?.equivalentAmountInToYear}
                 </Text>}
                 {(params.flag) && <Text className=" font-bold text-center mb-2">
                     The Cost of Inflation
@@ -75,7 +78,7 @@ const FutureValueProjection = () => {
                     The percentage fall in the value of money
                 </Text>}
                 {(params.flag) && <Text className=" font-bold text-center mb-6">
-                    £{params?.totalInflation}
+                    £{params?.purchasingPowerLossPercent}
                 </Text>}
                 
           
@@ -124,7 +127,7 @@ const FutureValueProjection = () => {
                 {/* Description */}
                 <Text className="text-gray-700 text-sm leading-5">
                     {tips?
-                        <Text>{params?.flag?tips?.historicalTip:tips?.futureValueTip}</Text>
+                        <Text>{params?.flag?highlightKeywords(tips?.historicalTip):highlightKeywords(tips?.futureValueTip)}</Text>
                         : ' '
                     }
                 </Text>

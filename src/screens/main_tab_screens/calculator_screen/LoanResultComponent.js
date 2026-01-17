@@ -8,6 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { get_ad, get_savings_tips } from '../ScreensAPI';
 import { useAuth } from '../../../context/AuthProvider';
+import { highlightKeywords } from '../../../utils/utils';
 
 
 const LoanResultComponent = ({ 
@@ -87,9 +88,9 @@ const LoanResultComponent = ({
                 Financial Tip
                 </Text>
             </View>
-            <Text className="text-gray-600 text-sm leading-5">
-                {tips && tips?.loanTip}
-            </Text>
+                <Text className="text-gray-600 text-sm leading-5">
+                    {tips && highlightKeywords(tips?.loanTip)}
+                </Text>
             </View>
 
             {/* Ads Section */}

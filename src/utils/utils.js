@@ -50,8 +50,8 @@ export const toISOStringFromDateTime = (dateStr, timeStr) => {
 
 
 export const highlightKeywords = (text) => {
-  const redKeywords = ['income', 'debts', 'debt', 'expense', 'expenses'];
-  const greenKeywords = ['savings goal', 'savings goals', 'saving goal'];
+  const redKeywords = ['income', 'incomes', 'debts', 'debt', 'expense', 'expenses', 'loss', 'inflation', 'decreased', ];
+  const greenKeywords = ['savings goal', 'savings goals', 'saving goal', 'savings', 'budget', 'budgets', 'saving goals'];
 
   const allKeywords = [
     ...greenKeywords.map(k => ({ word: k, color: '#22C55E' })),

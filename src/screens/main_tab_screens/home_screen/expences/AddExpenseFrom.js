@@ -111,7 +111,9 @@ const AddExpenseForm = () => {
       name: expenseName == "Other"?otherExpenseName:expenseName,
       amount: Number(amount),
       endDate: formatDateForPayload(date),
-      frequency: frequency.toLowerCase()
+      frequency: frequency.toLowerCase(),
+      type: budgetType.toLowerCase(),
+      category: category
     }
 
     console.log(payload);
@@ -156,7 +158,11 @@ const AddExpenseForm = () => {
       setAmount(route?.params?.amount+"");
       
       setDate(dayjs(iso))
+      setBudgetType(route?.params?.type);
+      setCategory(route?.params?.category)
       
+
+      console.log("ex", JSON.stringify(route.params, null, 2))
     }
   }, [route?.params])
 
