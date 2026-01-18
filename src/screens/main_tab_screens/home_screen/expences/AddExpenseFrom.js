@@ -158,8 +158,8 @@ const AddExpenseForm = () => {
       setAmount(route?.params?.amount+"");
       
       setDate(dayjs(iso))
-      setBudgetType(route?.params?.type);
-      setCategory(route?.params?.category)
+      setBudgetType(route?.params?.budgetId?.type);
+      setCategory(route?.params?.budgetId?.category)
       
 
       console.log("ex", JSON.stringify(route.params, null, 2))

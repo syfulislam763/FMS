@@ -68,7 +68,8 @@ export default function ExpenseItem() {
               amount: Number(item.amount),
               icon: icons[item.name] ? icons[item.name] : '',
               iconBg: 'bg-pink-100',
-              frequency: item?.frequency
+              frequency: item?.frequency,
+              budgetId: item?.budgetId
             }
           });
 
