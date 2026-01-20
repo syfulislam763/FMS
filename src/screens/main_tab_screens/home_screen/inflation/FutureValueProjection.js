@@ -78,7 +78,7 @@ const FutureValueProjection = () => {
                     The percentage fall in the value of money
                 </Text>}
                 {(params.flag) && <Text className=" font-bold text-center mb-6">
-                    £{params?.purchasingPowerLossPercent}
+                    {params?.purchasingPowerLossPercent}%
                 </Text>}
                 
           

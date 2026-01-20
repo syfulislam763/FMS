@@ -8,7 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { get_ad, get_savings_tips } from '../ScreensAPI';
 import { useAuth } from '../../../context/AuthProvider';
-import { highlightKeywords } from '../../../utils/utils';
+import { highlightKeywords, formatLoanImpactText } from '../../../utils/utils';
 
 
 const LoanResultComponent = ({ 
@@ -34,6 +34,7 @@ const LoanResultComponent = ({
     const handleGetTips = () => {
         get_savings_tips(authToken.accessToken, res => {
           if(res){
+            console.log(JSON.stringify(res, null, 2), "tips")
             setTips(res);
           }
         })
@@ -88,9 +89,10 @@ const LoanResultComponent = ({
                 Financial Tip
                 </Text>
             </View>
-                <Text className="text-gray-600 text-sm leading-5">
-                    {tips && highlightKeywords(tips?.loanTip)}
-                </Text>
+                {/* <Text className="text-gray-600 text-sm leading-5">
+                    {tips && formatLoanImpactText(tips?.loanTip)}
+                </Text> */}
+                {tips && formatLoanImpactText(tips?.loanTip)}
             </View>
 
             {/* Ads Section */}
